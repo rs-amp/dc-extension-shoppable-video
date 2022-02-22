@@ -22,7 +22,7 @@
 					"items": {
 						"type": "object",
 						"properties": {
-							"points": {
+							"timeline": {
 								"title": "Timeline",
 								"description": "A timeline containing locations for the hotspot at different time points.",
 								"type": "object",

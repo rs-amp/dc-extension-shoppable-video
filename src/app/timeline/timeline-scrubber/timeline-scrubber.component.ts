@@ -86,7 +86,7 @@ export class TimelineScrubberComponent implements OnInit {
 
   setRange(event: PointerEvent, mode: DragTarget) {
     const pct = this.getBarPct(event);
-    const maxZoom = 0.05;
+    const maxZoom = 0.02;
 
     switch (mode) {
       case DragTarget.ZoomStart:

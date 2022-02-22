@@ -29,6 +29,7 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
   @Input('hotspot') hotspot!: ShoppableVideoHotspot;
 
   renderablePoints: ShoppableVideoTimePoint[] = [];
+  startIndex = 0;
   totalPoints = 0;
   clickedKeyframe: number = -1;
   clickedOffset: number = 0;
@@ -101,11 +102,13 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
 
       this.renderablePoints = points.slice(startIndex, endIndex + 1);
     } else if (points.length > 0) {
+      startIndex = points.length - 1;
       this.renderablePoints = [points[points.length - 1]];
     } else {
       this.renderablePoints = [];
     }
 
+    this.startIndex = startIndex;
     this.totalPoints = points.length;
   }
 
