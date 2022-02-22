@@ -100,8 +100,10 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
       startIndex = Math.max(0, startIndex - 1);
 
       this.renderablePoints = points.slice(startIndex, endIndex + 1);
-    } else {
+    } else if (points.length > 0) {
       this.renderablePoints = [points[points.length - 1]];
+    } else {
+      this.renderablePoints = [];
     }
 
     this.totalPoints = points.length;
