@@ -6,12 +6,14 @@ const newHotspot: ShoppableVideoHotspot = {
   selector: '.example',
   timeline: {
     points: [
+      /*
       { t: 0, p: { x: 0.5, y: 0.5 }, cta: { x: 0.1, y: 0.1 } },
       { t: 2, p: { x: 0.6, y: 0.3 } },
       { t: 3, p: { x: 0.7, y: 0.7 }, e: true },
 
       { t: 6, p: { x: 0.1, y: 0.5 }, cta: { x: 0.5, y: 0.8 } },
       { t: 9, p: { x: 0.9, y: 0.5 }, e: true },
+      */
     ],
   },
 };
