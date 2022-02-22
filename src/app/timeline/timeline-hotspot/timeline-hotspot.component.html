@@ -1,0 +1,17 @@
+<ng-container *ngFor="let point of renderablePoints; index as i">
+  <div
+    class="app-timeline-hotspot__keyframe"
+    [ngClass]="{'app-timeline-hotspot__keyframe--selected': selected(i)}"
+    [style.transform]="getPointTranslation(point)"
+    (pointerdown)="keyframeDown($event, i)"
+    (pointermove)="keyframeMove($event, i)"
+    (pointerup)="keyframeUp($event, i)"
+  ></div>
+  <div
+    class="app-timeline-hotspot__line"
+    [ngClass]="{'app-timeline-hotspot__line--invisible': point.e, 'app-timeline-hotspot__line--visible': !point.e}"
+    [style.transform]="getLineTranslation(point, i)"
+    (click)="lineClick(i)"
+    *ngIf="i !== renderablePoints.length - 1"
+  ></div>
+</ng-container>

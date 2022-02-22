@@ -1,0 +1,33 @@
+@import "./core/core.scss";
+
+:host {
+  width: 100%;
+  background-color: $color-lightest-grey;
+}
+
+.app-root {
+  &__title {
+    color: #666;
+    font-size: 13px;
+    margin: 5px 0;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__video {
+  }
+
+  &__canvas {
+    margin-top: -500px;
+  }
+
+  &__mode {
+    position: absolute;
+  }
+}

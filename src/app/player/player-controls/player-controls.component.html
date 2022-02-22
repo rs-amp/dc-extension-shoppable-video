@@ -1,0 +1,37 @@
+<button mat-stroked-button class="app-player-controls__button" (click)="skipPrevious()">
+  <mat-icon>skip_previous</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="frameAdvance(-1)"
+>
+  <mat-icon>navigate_before</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="togglePlay()"
+  [ngClass]="{ 'app-player-controls__button--active': !paused }"
+>
+  <mat-icon>{{ paused ? "play_arrow" : "pause" }}</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="frameAdvance(1)"
+>
+  <mat-icon>navigate_next</mat-icon>
+</button>
+<button mat-stroked-button class="app-player-controls__button" (click)="skipNext()">
+  <mat-icon>skip_next</mat-icon>
+</button>
+<mat-slider
+  class="app-player-controls__slider"
+  min="0"
+  max="1"
+  step="0.01"
+  [value]="volume"
+  thumbLabel
+  (input)="setVolume($event.value)"
+></mat-slider>

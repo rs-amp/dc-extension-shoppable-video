@@ -1,0 +1,26 @@
+<svg viewBox="0 0 20 20" *ngIf="ghost" class="app-canvas-hotspot__icon">
+  <defs>
+    <mask id="plus-mask">
+      <rect x="0" y="0" width="20" height="20" fill="white"></rect>
+      <circle cx="10" cy="10" r="8.3" fill="black"></circle>
+    </mask>
+  </defs>
+  <circle cx="10" cy="10" r="10" mask="url(#plus-mask)" fill="white"></circle>
+
+  <rect x="9.15" y="0" width="1.7" height="4" fill="white"></rect>
+  <rect y="9.15" x="0" width="4" height="1.7" fill="white"></rect>
+
+  <rect x="9.15" y="16" width="1.7" height="4" fill="white"></rect>
+  <rect y="9.15" x="16" width="4" height="1.7" fill="white"></rect>
+</svg>
+
+<svg viewBox="0 0 20 20" *ngIf="!ghost" class="app-canvas-hotspot__icon">
+  <defs>
+    <mask id="plus-mask">
+      <rect x="0" y="0" width="20" height="20" fill="white"></rect>
+      <rect x="9.15" y="3.5" width="1.7" height="13" fill="black"></rect>
+      <rect y="9.15" x="3.5" width="13" height="1.7" fill="black"></rect>
+    </mask>
+  </defs>
+  <circle cx="10" cy="10" r="10" mask="url(#plus-mask)" fill="white"></circle>
+</svg>

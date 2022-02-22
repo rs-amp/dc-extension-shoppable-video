@@ -1,0 +1,16 @@
+<div
+  class="app-player-canvas__container"
+  #container
+  [style.width]="videoWidth + 'px'"
+  [style.height]="videoHeight + 'px'"
+  (pointerdown)="pointerDown($event)"
+  (pointermove)="pointerMove($event)"
+  (pointerup)="pointerUp($event)"
+>
+  <app-canvas-hotspot
+    class="app-player-canvas__hotspot"
+    *ngFor="let hotspot of hotspotTransforms; index as i"
+    [style.transform]="hotspot.transform"
+    [style.display]="hotspot.visible ? 'block' : 'none'"
+  ></app-canvas-hotspot>
+</div>

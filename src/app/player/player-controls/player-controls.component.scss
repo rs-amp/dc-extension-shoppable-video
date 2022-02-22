@@ -1,0 +1,24 @@
+@import "../../core/core.scss";
+
+:host {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.app-player-controls {
+  &__button {
+    padding: 0;
+    min-width: 26px;
+    height: 26px;
+    line-height: 26px;
+    margin: 2px;
+
+    &--active {
+      border-color: $color-primary;
+    }
+  }
+
+  &__slider {
+    min-width: 96px;
+  }
+}

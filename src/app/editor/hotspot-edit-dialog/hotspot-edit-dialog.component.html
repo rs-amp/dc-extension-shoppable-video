@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Edit Hotspot</h1>
+<div mat-dialog-content class="app-hotspot-edit-dialog__body">
+  <p>Choose a target and selector for this hotspot.</p>
+
+  <mat-form-field>
+    <mat-label>Target</mat-label>
+    <input matInput [(ngModel)]="hotspot.target" cdkFocusInitial />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Selector</mat-label>
+    <input matInput [(ngModel)]="hotspot.selector" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="hotspot" color="primary">Save</button>
+</div>

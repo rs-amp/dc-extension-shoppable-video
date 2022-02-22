@@ -1,0 +1,40 @@
+@import "../core/core.scss";
+
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-timeline {
+  &__hotspots {
+    width: 100%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  &__marker {
+    width: 14px;
+    margin-left: -7px;
+    margin-right: -7px;
+    position: absolute;
+    z-index: 2;
+
+    &__head {
+      display: block;
+      fill: $color-primary;
+      width: 14px;
+      height: 26px;
+      margin-right: -14px;
+      margin-bottom: -26px;
+    }
+
+    &__line {
+      margin: 6px;
+      width: 2px;
+      background-color: $color-primary;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  mix-blend-mode: exclusion;
+  margin: -16px;
+  width: 32px;
+  height: 32px;
+}
+
+.app-canvas-hotspot {
+  &__icon {
+    width: 32px;
+    height: 32px;
+  }
+}

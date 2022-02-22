@@ -1,0 +1,26 @@
+@import "../../core/core.scss";
+
+:host {
+  display: flex;
+  height: 32px;
+  border: 1px solid $color-lighter-grey;
+}
+
+.app-hotspot {
+  &__name {
+    flex: 1;
+    height: 32px;
+    padding: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  &__buttons {
+    button {
+      height: 32px;
+      width: 32px;
+      line-height: 32px;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@import "../../core/core.scss";
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.app-hotspot-list {
+  &__addhotspot {
+    display: block;
+    margin: 10px;
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+
+  &__hotspot {
+    &--selected {
+      border-color: $color-primary;
+      background-color: $color-primary-lightest;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@import "../core/core.scss";
+
+:host {
+  display: flex;
+  width: 100%;
+}
+
+.app-editor {
+  &__hotspotcolumn {
+
+  }
+
+  &__timelinecolumn {
+    flex: 1;
+  }
+
+  &__controlrow {
+    display: flex;
+    height: 48px;
+    border: 1px solid $color-lightest-grey;
+  }
+
+  &__timelinerow {
+    border: 1px solid $color-lightest-grey;
+  }
+
+  &__addhotspot {
+    display: block;
+    margin: 10px;
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+}
