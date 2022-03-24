@@ -11,6 +11,20 @@
     <mat-label>Selector</mat-label>
     <input matInput [(ngModel)]="hotspot.selector" />
   </mat-form-field>
+
+  <mat-slide-toggle [checked]="hotspot.cta != null" (toggleChange)="ctaToggle()">Use Call-To-Action</mat-slide-toggle>
+
+  <mat-form-field>
+    <mat-label>Caption</mat-label>
+    <input matInput *ngIf="!hotspot.cta" disabled="true" />
+    <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.caption" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Value</mat-label>
+    <input matInput *ngIf="!hotspot.cta" disabled="true" />
+    <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" />
+  </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>

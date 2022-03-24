@@ -1,0 +1,15 @@
+:host {
+  width: 0px;
+  height: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-canvas-cta {
+  &__button {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+  }
+}

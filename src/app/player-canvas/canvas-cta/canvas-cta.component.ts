@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ShoppableVideoCallToAction } from 'src/app/field/model/shoppable-video-data';
 
 @Component({
   selector: 'app-canvas-cta',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CanvasCtaComponent implements OnInit {
 
-  constructor() { }
+  @Input() cta!: ShoppableVideoCallToAction;
+
+  constructor(public ref: ElementRef) { }
 
   ngOnInit(): void {
   }

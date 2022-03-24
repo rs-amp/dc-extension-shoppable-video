@@ -13,7 +13,7 @@ export class PlayerControlsComponent implements OnInit {
   }
 
   get volume(): number {
-    return (this.video.video && this.video.video.volume) || 1;
+    return (this.video.video && this.video.video.volume) || 0;
   }
 
   constructor(private video: VideoService) { }
@@ -35,6 +35,22 @@ export class PlayerControlsComponent implements OnInit {
     if (this.video.video && value !== null) {
       this.video.video.volume = value;
     }
+  }
+
+  getVolumeIcon(): string {
+    if (this.video.video) {
+      if (this.video.video.muted) {
+        return 'volume_off';
+      } else if (this.volume == 0) {
+        return 'volume_mute'
+      } else if (this.volume < 0.5) {
+        return 'volume_down'
+      } else {
+        return 'volume_up';
+      }
+    }
+
+    return 'volume_up';
   }
 
   frameAdvance(frames: number) {

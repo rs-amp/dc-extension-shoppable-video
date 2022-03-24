@@ -1,6 +1,8 @@
+@import "../../core/core.scss";
+
 :host {
   display: block;
-  mix-blend-mode: exclusion;
+  fill: $color-primary-light;
   margin: -16px;
   width: 32px;
   height: 32px;

@@ -36,4 +36,8 @@ export class HotspotListComponent implements OnInit {
     return this.editor.selectedHotspot === hotspot;
   }
 
+  trackHotspot(index: number, hotspot: ShoppableVideoHotspot): number {
+    return index;
+  }
+
 }

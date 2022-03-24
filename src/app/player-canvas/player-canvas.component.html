@@ -3,14 +3,45 @@
   #container
   [style.width]="videoWidth + 'px'"
   [style.height]="videoHeight + 'px'"
+  [style.cursor]="cursor"
   (pointerdown)="pointerDown($event)"
   (pointermove)="pointerMove($event)"
   (pointerup)="pointerUp($event)"
 >
-  <app-canvas-hotspot
-    class="app-player-canvas__hotspot"
-    *ngFor="let hotspot of hotspotTransforms; index as i"
-    [style.transform]="hotspot.transform"
-    [style.display]="hotspot.visible ? 'block' : 'none'"
-  ></app-canvas-hotspot>
+  <ng-container *ngFor="let keyframe of keyframeTransforms; index as i">
+    <div
+      *ngIf="keyframe.line"
+      class="app-player-canvas__keyframeline"
+      [style.transform]="keyframe.line.lineTransform"
+      [style.width]="keyframe.line.width"
+      [style.opacity]="getKeyframeOpacity(i, true)"
+    ></div>
+    <div
+      class="app-player-canvas__keyframe"
+      [style.transform]="keyframe.transform"
+      [style.opacity]="getKeyframeOpacity(i)"
+    ></div>
+  </ng-container>
+  <ng-container *ngFor="let hotspot of hotspotTransforms; index as i; trackBy: trackTransform">
+    <div
+      class="app-player-canvas__ctaline"
+      *ngIf="hotspot.cta"
+      [style.width]="hotspot.cta.width"
+      [style.transform]="hotspot.cta.lineTransform"
+    ></div>
+    <app-canvas-hotspot
+      class="app-player-canvas__hotspot"
+      [style.transform]="hotspot.transform"
+      [style.display]="hotspot.visible ? 'block' : 'none'"
+    ></app-canvas-hotspot>
+    <app-canvas-cta
+      #ctaElem
+      *ngIf="hotspot.cta"
+      [cta]="hotspot.cta.entity"
+      class="app-player-canvas__cta"
+      [style.transform]="hotspot.cta.transform"
+      [style.display]="hotspot.visible ? 'flex' : 'none'"
+      (pointerdown)="ctaDown(ctaElem, i, $event)"
+    ></app-canvas-cta>
+  </ng-container>
 </div>

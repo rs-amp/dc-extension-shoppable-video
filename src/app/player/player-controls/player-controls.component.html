@@ -26,12 +26,16 @@
 <button mat-stroked-button class="app-player-controls__button" (click)="skipNext()">
   <mat-icon>skip_next</mat-icon>
 </button>
-<mat-slider
-  class="app-player-controls__slider"
-  min="0"
-  max="1"
-  step="0.01"
-  [value]="volume"
-  thumbLabel
-  (input)="setVolume($event.value)"
-></mat-slider>
+
+<div class="app-player-controls__volume">
+  <mat-icon class="app-player-controls__volumeicon">{{ getVolumeIcon() }}</mat-icon>
+  <mat-slider
+    class="app-player-controls__slider"
+    min="0"
+    max="1"
+    step="0.01"
+    [value]="volume"
+    thumbLabel
+    (input)="setVolume($event.value)"
+  ></mat-slider>
+</div>

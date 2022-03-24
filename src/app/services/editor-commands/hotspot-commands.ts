@@ -1,4 +1,4 @@
-import { ShoppableVideoData, ShoppableVideoHotspot } from "src/app/field/model/shoppable-video-data";
+import { ShoppableVideoCallToAction, ShoppableVideoData, ShoppableVideoHotspot } from "src/app/field/model/shoppable-video-data";
 import { EditorCommand, EditorCommandType } from "./editor-command";
 
 const newHotspot: ShoppableVideoHotspot = {
@@ -66,19 +66,22 @@ export class SetHotspotInfoCommand implements EditorCommand {
 
   oldSelector?: string;
   oldTarget?: string;
+  oldCallToAction?: ShoppableVideoCallToAction;
 
   cancelled = false;
 
-  constructor(private hotspot: ShoppableVideoHotspot, public selector: string, public target: string) {
+  constructor(private hotspot: ShoppableVideoHotspot, public selector: string, public target: string, public cta?: ShoppableVideoCallToAction) {
 
   }
 
   apply(data: ShoppableVideoData): boolean {
     this.oldTarget = this.hotspot.target;
     this.oldSelector = this.hotspot.selector;
+    this.oldCallToAction = this.hotspot.cta;
 
     this.hotspot.target = this.target;
     this.hotspot.selector = this.selector;
+    this.hotspot.cta = this.cta;
 
     return true;
   }
@@ -86,6 +89,7 @@ export class SetHotspotInfoCommand implements EditorCommand {
   revert(data: ShoppableVideoData): boolean {
     this.hotspot.target = this.oldTarget as string;
     this.hotspot.selector = this.oldSelector as string;
+    this.hotspot.cta = this.oldCallToAction;
 
     return true;
   }

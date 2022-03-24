@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EditorCommandsService } from '../services/editor-commands.service';
 import { AddHotspotCommand } from '../services/editor-commands/hotspot-commands';
+import { KeyboardService } from '../services/keyboard.service';
 
 @Component({
   selector: 'app-editor',
@@ -9,7 +10,7 @@ import { AddHotspotCommand } from '../services/editor-commands/hotspot-commands'
 })
 export class EditorComponent implements OnInit {
 
-  constructor(private commands: EditorCommandsService) { }
+  constructor(private commands: EditorCommandsService, private keyboard: KeyboardService) { }
 
   ngOnInit(): void {
   }

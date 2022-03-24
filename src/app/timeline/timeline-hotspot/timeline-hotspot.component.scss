@@ -23,9 +23,9 @@
   &__keyframe {
     width: 14px;
     height: 14px;
-    border: 1px solid $color-grey;
+    border: 1px solid $color-ext-hotspot-line;
     margin: -8px;
-    background-color: white;
+    background-color: $color-ext-hotspot-fill;
     transform: rotate(45deg);
     position: absolute;
     z-index: 4;
@@ -57,7 +57,7 @@
     }
 
     &--visible {
-      background-color: $color-grey;
+      background-color: $color-ext-hotspot-line;
 
       &:hover {
         background-color: $color-primary-lighter;
@@ -65,7 +65,7 @@
     }
 
     &--invisible {
-      background: linear-gradient(to right, transparent 50%, $color-light-grey 50%);
+      background: linear-gradient(to right, transparent 50%, $color-ext-hotspot-line 50%);
       background-size: 8px 3px;
       animation: dash 0.33s linear infinite;
       opacity: 0;

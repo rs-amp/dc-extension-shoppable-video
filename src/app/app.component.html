@@ -1,7 +1,15 @@
-<div class="app-root__title" *ngIf="title">{{title}}</div>
+<div class="app-root__title" *ngIf="title">{{ title }}</div>
 <div class="app-root__main">
   <app-mode-buttons class="app-root__mode"></app-mode-buttons>
-  <app-video-player class="app-root__video"></app-video-player>
-  <app-player-canvas class="app-root__canvas"></app-player-canvas>
+  <div class="app-root__videogroup">
+    <app-toolbar
+      class="app-root__toolbar"
+      [ngClass]="{ 'app-root__toolbar--hide': !active }"
+    ></app-toolbar>
+    <div class="app-root__videofill">
+      <app-video-player class="app-root__video"></app-video-player>
+      <app-player-canvas class="app-root__canvas"></app-player-canvas>
+    </div>
+  </div>
   <app-editor></app-editor>
 </div>

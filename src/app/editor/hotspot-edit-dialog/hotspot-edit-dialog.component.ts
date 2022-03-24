@@ -21,4 +21,15 @@ export class HotspotEditDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  ctaToggle(): void {
+    if (this.hotspot.cta == null) {
+      this.hotspot.cta = {
+        caption: "",
+        value: ""
+      };
+    } else {
+      this.hotspot.cta = undefined;
+    }
+  }
+
 }

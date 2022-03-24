@@ -7,7 +7,8 @@
 
 .app-editor {
   &__hotspotcolumn {
-
+    width: 270px;
+    background-color: $color-ext-editor-1;
   }
 
   &__timelinecolumn {
@@ -17,11 +18,11 @@
   &__controlrow {
     display: flex;
     height: 48px;
-    border: 1px solid $color-lightest-grey;
+    border: 1px solid $color-ext-control-border;
   }
 
   &__timelinerow {
-    border: 1px solid $color-lightest-grey;
+    border: 1px solid $color-ext-control-border;
   }
 
   &__addhotspot {

@@ -17,10 +17,16 @@
   }
 
   &__buttons {
+    display: flex;
+    align-items: center;
+
     button {
-      height: 32px;
-      width: 32px;
-      line-height: 32px;
+      height: 28px;
+      width: 28px;
+      line-height: 24px;
+      mat-icon {
+        font-size: 20px;
+      }
     }
   }
 }

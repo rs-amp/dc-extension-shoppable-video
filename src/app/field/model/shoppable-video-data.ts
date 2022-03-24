@@ -34,10 +34,24 @@ export interface ShoppableVideoTimeline {
   points: ShoppableVideoTimePoint[];
 }
 
+export interface ShoppableVideoCallToAction {
+  /**
+   * String caption for the call-to-action.
+   * Behaviour within the editor is for the caption to appear as a button centered on the CTA position.
+   */
+  caption: string;
+
+  /**
+   * CTA value. Example: URL for when CTA is clicked.
+   */
+  value: string;
+}
+
 export interface ShoppableVideoHotspot {
   target: string;
   selector: string;
   timeline: ShoppableVideoTimeline;
+  cta?: ShoppableVideoCallToAction;
 }
 
 export interface ShoppableVideoData {

@@ -24,6 +24,7 @@ export enum EditorMode {
 export class EditorService {
   editorMode: EditorMode = EditorMode.View;
   modeChange: EventEmitter<EditorMode> = new EventEmitter();
+  selectionChanged: EventEmitter<ShoppableVideoHotspot | undefined> = new EventEmitter();
 
   selectedHotspot: ShoppableVideoHotspot | undefined;
   selectedTimepoint = -1;
@@ -83,6 +84,8 @@ export class EditorService {
   select(hotspot: ShoppableVideoHotspot, index = -1) {
     this.selectedHotspot = hotspot;
     this.selectedTimepoint = index;
+
+    this.selectionChanged.emit(this.selectedHotspot);
   }
 
   checkSelectedTimepoint() {
@@ -173,8 +176,8 @@ export class EditorService {
   }
 
   openHotspotDialog(hotspot: ShoppableVideoHotspot) {
-    const cmd = new SetHotspotInfoCommand(hotspot, hotspot.selector, hotspot.target);
-    const dialogRef = this.dialog.open(HotspotEditDialogComponent, { width: '300px', data: cmd });
+    const cmd = new SetHotspotInfoCommand(hotspot, hotspot.selector, hotspot.target, hotspot.cta);
+    const dialogRef = this.dialog.open(HotspotEditDialogComponent, { width: '500px', data: cmd });
 
     dialogRef.afterClosed().subscribe(result => {
       if (!cmd.cancelled) {

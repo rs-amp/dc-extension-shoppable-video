@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,6 +26,7 @@ import { PlayerCanvasComponent } from './player-canvas/player-canvas.component';
 import { CanvasHotspotComponent } from './player-canvas/canvas-hotspot/canvas-hotspot.component';
 import { CanvasCtaComponent } from './player-canvas/canvas-cta/canvas-cta.component';
 import { HotspotEditDialogComponent } from './editor/hotspot-edit-dialog/hotspot-edit-dialog.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { HotspotEditDialogComponent } from './editor/hotspot-edit-dialog/hotspot
     PlayerCanvasComponent,
     CanvasHotspotComponent,
     CanvasCtaComponent,
-    HotspotEditDialogComponent
+    HotspotEditDialogComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { HotspotEditDialogComponent } from './editor/hotspot-edit-dialog/hotspot
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
+    MatSlideToggleModule,
     MatSliderModule,
     MatTooltipModule,
     HttpClientModule

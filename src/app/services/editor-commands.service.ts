@@ -7,21 +7,25 @@ import { FieldService } from './field.service';
 })
 export class EditorCommandsService {
 
-  undoQueue: EditorCommand[] = [];
-  redoQueue: EditorCommand[] = [];
+  undoStack: EditorCommand[] = [];
+  redoStack: EditorCommand[] = [];
 
   get hasUndo(): boolean {
-    return this.undoQueue.length > 0;
+    return this.undoStack.length > 0;
+  }
+
+  get hasRedo(): boolean {
+    return this.redoStack.length > 0;
   }
 
   constructor(private field: FieldService) { }
 
   runCommand(command: EditorCommand): void {
     const commit = command.apply(this.field.data);
-    this.undoQueue.push(command);
+    this.undoStack.push(command);
 
-    if (this.redoQueue.length > 0) {
-      this.redoQueue = [];
+    if (this.redoStack.length > 0) {
+      this.redoStack = [];
     }
 
     if (commit) {
@@ -31,9 +35,25 @@ export class EditorCommandsService {
 
   undo(): boolean {
     if (this.hasUndo) {
-      this.redoQueue.push(this.undoQueue[0]);
-      this.undoQueue[0].revert(this.field.data);
-      this.undoQueue.splice(0, 1);
+      const undoCommand = this.undoStack.pop() as EditorCommand;
+      this.redoStack.push(undoCommand);
+      if (undoCommand.revert(this.field.data)) {
+        this.field.updateField();
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  redo(): boolean {
+    if (this.hasRedo) {
+      const redoCommand = this.redoStack.pop() as EditorCommand;
+      this.undoStack.push(redoCommand);
+      if (redoCommand.apply(this.field.data)) {
+        this.field.updateField();
+      }
 
       return true;
     }
