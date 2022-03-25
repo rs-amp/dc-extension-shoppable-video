@@ -1,4 +1,6 @@
-import { Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Point } from '../field/model/shoppable-video-data';
+import { EditorService } from '../services/editor.service';
 import { FieldService } from '../services/field.service';
 import { VideoService } from '../services/video.service';
 
@@ -20,6 +22,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   markerInset = 2;
 
   draggingMarker = false;
+  draggingBackground = false;
+  private lastPos?: number;
 
   get hotspotCount(): number {
     return this.field.data.hotspots.length;
@@ -45,9 +49,17 @@ export class TimelineComponent implements OnInit, OnDestroy {
     return this.editorHeight - this.markerPos;
   }
 
+  get backgroundCursor(): string {
+    if (this.draggingBackground) {
+      return 'grabbing';
+    } else {
+      return this.rangeWidth < 1 ? 'grab' : 'auto';
+    }
+  }
+
   private resizeBound!: () => void;
 
-  constructor(private video: VideoService, public field: FieldService, private elementRef: ElementRef) { }
+  constructor(private video: VideoService, public field: FieldService, private elementRef: ElementRef, public editor: EditorService) { }
 
   ngOnInit(): void {
     this.resizeBound = this.updateWidth.bind(this);
@@ -98,6 +110,83 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.setMarker(event);
 
       this.draggingMarker = false;
+    }
+  }
+
+  backgroundGrab(event: PointerEvent) {
+    if (this.rangeWidth < 1) {
+      this.draggingBackground = true;
+      (event.currentTarget as Element).setPointerCapture(event.pointerId);
+
+      this.lastPos = this.getMarkerPct(event);
+    }
+  }
+
+  backgroundDrag(event: PointerEvent) {
+    if (this.draggingBackground) {
+      const pos = this.getMarkerPct(event);
+
+      if (this.lastPos) {
+        const diff = pos - this.lastPos;
+
+        this.rangeOffset -= diff * this.rangeWidth;
+
+        if (this.rangeOffset < 0) { this.rangeOffset = 0; }
+        if (this.rangeOffset + this.rangeWidth > 1) { this.rangeOffset = 1 - this.rangeWidth; }
+      }
+
+      this.lastPos = pos;
+    }
+  }
+
+  backgroundRelease(event: PointerEvent) {
+    if (this.draggingBackground) {
+      if (this.lastPos) {
+        const pos = this.getMarkerPct(event);
+        const diff = pos - this.lastPos;
+
+        this.rangeOffset -= diff * this.rangeWidth;
+
+        if (this.rangeOffset < 0) { this.rangeOffset = 0; }
+        if (this.rangeOffset + this.rangeWidth > 1) { this.rangeOffset = 1 - this.rangeWidth; }
+      }
+
+      this.draggingBackground = false;
+    }
+  }
+
+  @HostListener('wheel', ['$event'])
+  wheel(event: WheelEvent) {
+    const maxZoom = 0.02;
+
+    if (event.ctrlKey) {
+      const factor = event.deltaY * 0.01;
+      let newWidth = this.rangeWidth * (1 + factor);
+
+      if (newWidth < maxZoom) { newWidth = maxZoom; }
+      if (newWidth > 1) { newWidth = 1; }
+
+      // Recenter the offset using the new width.
+      const widthDiff = newWidth - this.rangeWidth;
+      this.rangeWidth = newWidth;
+      this.rangeOffset = this.rangeOffset - widthDiff / 2;
+      if (this.rangeOffset < 0) { this.rangeOffset = 0; }
+      if (this.rangeOffset + newWidth > 1) { this.rangeOffset = 1 - newWidth; }
+
+      event.preventDefault();
+    } else {
+      // Disabled due to macOS page change nonsense.
+      /*
+      // Capture Delta X and translate into timeline scrolling.
+      const pixelWidth = this.rangeWidth / this.width;
+
+      this.rangeOffset += event.deltaX * pixelWidth;
+
+      if (this.rangeOffset < 0) { this.rangeOffset = 0; }
+      if (this.rangeOffset + this.rangeWidth > 1) { this.rangeOffset = 1 - this.rangeWidth; }
+
+      event.preventDefault();
+      */
     }
   }
 }

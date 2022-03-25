@@ -26,7 +26,7 @@
     margin-top: -1px;
     height: 2px;
     position: absolute;
-    transform-origin: left top;
+    transform-origin: left;
 
     background: linear-gradient(to right, transparent 50%, $color-light-grey 50%);
     background-size: 8px 2px;
@@ -36,7 +36,7 @@
     margin-top: -1px;
     height: 2px;
     position: absolute;
-    transform-origin: left top;
+    transform-origin: left;
 
     background: linear-gradient(to right, $color-lighter-grey 50%, $color-dark-grey 50%);
     background-size: 16px 2px;

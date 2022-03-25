@@ -7,6 +7,11 @@
   [rangeWidth]="rangeWidth"
   [width]="width"
   [style.height]="backgroundHeight + 'px'"
+  [style.cursor]="backgroundCursor"
+
+  (pointerdown)="backgroundGrab($event)"
+  (pointermove)="backgroundDrag($event)"
+  (pointerup)="backgroundRelease($event)"
 ></app-timeline-background>
 <div
   class="app-timeline__marker"
@@ -30,6 +35,8 @@
   [style.top]="barHeight + 'px'"
 >
   <app-timeline-hotspot
+    class="app-timeline__hotspot"
+    [ngClass]="{'app-timeline__hotspot--selected': editor.selectedHotspot == hotspot }"
     [rangeOffset]="rangeOffset"
     [rangeWidth]="rangeWidth"
     [width]="width"

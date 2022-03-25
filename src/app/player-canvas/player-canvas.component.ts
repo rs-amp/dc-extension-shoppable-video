@@ -1,5 +1,11 @@
 import { ContentObserver } from '@angular/cdk/observers';
-import { Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   Point,
   ShoppableVideoCallToAction,
@@ -28,8 +34,9 @@ interface TransformedCta {
 
 interface TransformedHotspot {
   visible: boolean;
+  selected: boolean;
   transform: string;
-  cta?: TransformedCta
+  cta?: TransformedCta;
 }
 
 interface TransformedLine {
@@ -40,7 +47,7 @@ interface TransformedLine {
 interface TransformedKeyframe {
   visible: boolean;
   transform: string;
-  line?: TransformedLine
+  line?: TransformedLine;
 }
 
 @Component({
@@ -73,7 +80,7 @@ export class PlayerCanvasComponent implements OnInit {
     public field: FieldService,
     public video: VideoService,
     public screen: ScreenService,
-    private editor: EditorService,
+    public editor: EditorService,
     private commands: EditorCommandsService,
     private host: ElementRef
   ) {
@@ -104,9 +111,12 @@ export class PlayerCanvasComponent implements OnInit {
       }
 
       this.sizeAdjusting = true;
-      this.sizeAdjustTimeout = window.setTimeout(this.clearSizeAdjust.bind(this), 1000);
+      this.sizeAdjustTimeout = window.setTimeout(
+        this.clearSizeAdjust.bind(this),
+        1000
+      );
       this.sizeAdjust();
-    })
+    });
 
     this.updateVideoSize();
     this.updateTransforms(field.data, true);
@@ -254,10 +264,11 @@ export class PlayerCanvasComponent implements OnInit {
     const point = this.getHotspotPoint(hotspot);
 
     if (point === undefined) {
-      return { visible: false, transform: '' };
+      return { visible: false, selected: false, transform: '' };
     } else {
       const ctaEntity = hotspot.cta;
       const transform = this.transformFromPoint(point);
+      const selected = this.editor.selectedHotspot == hotspot;
 
       let cta: TransformedCta | undefined;
       if (ctaEntity) {
@@ -266,7 +277,7 @@ export class PlayerCanvasComponent implements OnInit {
 
         const vec = {
           x: (ctaPoint.x - point.x) * this.videoWidth,
-          y: (ctaPoint.y - point.y) * this.videoHeight
+          y: (ctaPoint.y - point.y) * this.videoHeight,
         };
 
         const width = Math.sqrt(vec.x * vec.x + vec.y * vec.y);
@@ -276,11 +287,11 @@ export class PlayerCanvasComponent implements OnInit {
           entity: ctaEntity,
           transform: ctaTransform,
           lineTransform: transform + ` rotate(${rotate}rad)`,
-          width: width + 'px'
-        }
+          width: width + 'px',
+        };
       }
 
-      return { visible: true, transform, cta };
+      return { visible: true, selected, transform, cta };
     }
   }
 
@@ -293,8 +304,8 @@ export class PlayerCanvasComponent implements OnInit {
       const hotspot = this.editor.selectedHotspot;
       const points = hotspot.timeline.points;
 
-      const result: TransformedKeyframe[] = []
-      for (let i=0; i<points.length; i++) {
+      const result: TransformedKeyframe[] = [];
+      for (let i = 0; i < points.length; i++) {
         const point = points[i];
         const transform = this.transformFromPoint(point.p);
 
@@ -304,7 +315,7 @@ export class PlayerCanvasComponent implements OnInit {
 
           const vec = {
             x: (point2.p.x - point.p.x) * this.videoWidth,
-            y: (point2.p.y - point.p.y) * this.videoHeight
+            y: (point2.p.y - point.p.y) * this.videoHeight,
           };
 
           const width = Math.sqrt(vec.x * vec.x + vec.y * vec.y);
@@ -312,15 +323,15 @@ export class PlayerCanvasComponent implements OnInit {
 
           line = {
             lineTransform: transform + ` rotate(${rotate}rad)`,
-            width: width + 'px'
-          }
+            width: width + 'px',
+          };
         }
 
         result.push({
           visible: true,
           transform: transform + ' rotate(45deg)',
-          line
-        })
+          line,
+        });
       }
 
       this.keyframeTransforms = result;
@@ -345,7 +356,7 @@ export class PlayerCanvasComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  pointNearMouse(mousePos: Point, point: Point): boolean {
+  pointNearMouse(mousePos: Point, point: Point): number {
     const aspect = this.videoWidth / this.videoHeight;
 
     const diffX = (mousePos.x - point.x) * aspect;
@@ -354,22 +365,45 @@ export class PlayerCanvasComponent implements OnInit {
     const distanceSquared = diffX * diffX + diffY * diffY;
     const pointDistance = 32 / this.videoHeight;
 
-    return distanceSquared < pointDistance * pointDistance;
+    return distanceSquared < pointDistance * pointDistance
+      ? distanceSquared
+      : Infinity;
   }
 
   pointerDown(event: PointerEvent) {
-    // If there's no active selected hotspot, do nothing. (?)
+    // Determine what point we're near. Prefer the currently selected one.
+
+    let nearest: ShoppableVideoHotspot | undefined;
+    let nearestDist = Infinity;
+
+    const mousePos = this.getMouse(event);
+
+    const hotspots = this.field.data.hotspots;
+    for (let i = 0; i < hotspots.length; i++) {
+      const point = this.getHotspotPoint(hotspots[i]);
+      if (point) {
+        const dist = this.pointNearMouse(mousePos, point);
+
+        if (dist < nearestDist) {
+          nearest = hotspots[i];
+        }
+      }
+    }
+
+    if (nearest !== undefined && nearest !== this.editor.selectedHotspot) {
+      this.editor.select(nearest);
+    }
+
+    // If there's no active selected hotspot, do nothing.
     if (this.editor.selectedHotspot === undefined) {
       return;
     }
 
     const hotspot = this.editor.selectedHotspot;
-    const mousePos = this.getMouse(event);
-
     const point = this.getHotspotPoint(hotspot);
 
     // If the hotspot is invisible at the current point, or the mouse is clicked nearby, begin dragging.
-    if (point === undefined || this.pointNearMouse(mousePos, point)) {
+    if (point === undefined || nearest == hotspot) {
       // Set relative dragging position.
       this.relativeDrag =
         point == undefined
@@ -418,8 +452,8 @@ export class PlayerCanvasComponent implements OnInit {
 
       point.p = {
         x: Math.max(0, Math.min(1, mousePos.x + this.relativeDrag.x)),
-        y: Math.max(0, Math.min(1, mousePos.y + this.relativeDrag.y))
-      }
+        y: Math.max(0, Math.min(1, mousePos.y + this.relativeDrag.y)),
+      };
 
       this.updateTransforms(this.field.data, true);
     }
@@ -435,7 +469,10 @@ export class PlayerCanvasComponent implements OnInit {
       const position = this.getMouse(pointer);
       const hotspot = this.field.data.hotspots[this.ctaDragIndex];
 
-      const delta = { x: position.x - this.ctaDragRelative.x, y: position.y - this.ctaDragRelative.y };
+      const delta = {
+        x: position.x - this.ctaDragRelative.x,
+        y: position.y - this.ctaDragRelative.y,
+      };
 
       if (delta.x !== 0 || delta.y !== 0) {
         // Move the cta by the relative position
@@ -450,18 +487,30 @@ export class PlayerCanvasComponent implements OnInit {
 
       this.ctaDragRelative = position;
     } else {
-      if (this.editor.selectedHotspot !== undefined) {
-        const hotspot = this.editor.selectedHotspot;
-        const mousePos = this.getMouse(pointer);
+      const mousePos = this.getMouse(pointer);
 
-        const point = this.getHotspotPoint(hotspot);
+      // If the hotspot is invisible at the current point, or the mouse is clicked near any hotspot, begin dragging.
+      let nearMouse = false;
+      const hotspots = this.field.data.hotspots;
 
-        // If the hotspot is invisible at the current point, or the mouse is clicked nearby, begin dragging.
-        if (point !== undefined && this.pointNearMouse(mousePos, point)) {
-          newCursor = 'grab';
-        } else if (point === undefined) {
-          newCursor = 'copy';
+      for (let i = 0; i < hotspots.length; i++) {
+        const point = this.getHotspotPoint(hotspots[i]);
+        if (
+          point !== undefined &&
+          this.pointNearMouse(mousePos, point) < Infinity
+        ) {
+          nearMouse = true;
+          break;
         }
+      }
+
+      if (nearMouse) {
+        newCursor = 'grab';
+      } else if (
+        this.editor.selectedHotspot !== undefined &&
+        this.getHotspotPoint(this.editor.selectedHotspot) === undefined
+      ) {
+        newCursor = 'copy';
       }
     }
 

@@ -2,6 +2,7 @@
 
 :host {
   width: 100%;
+  cursor: pointer;
 }
 
 .app-timeline-scrubber {
@@ -64,7 +65,7 @@
   }
 
   &__marker {
-    fill: black;
+    fill: $color-ext-timeline-marker;
     width: 10px;
     height: 10px;
     min-width: 0px;

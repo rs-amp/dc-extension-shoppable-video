@@ -13,9 +13,9 @@ interface KeyboardBinding {
   providedIn: 'root'
 })
 export class KeyboardService implements OnInit, OnDestroy {
-
   keyDownBind: (event: KeyboardEvent) => void;
   keyUpBind: (event: KeyboardEvent) => void;
+  ignoreShortcuts = false;
 
   private actions: Map<string, KeyboardBinding[]>;
 
@@ -146,6 +146,10 @@ export class KeyboardService implements OnInit, OnDestroy {
   }
 
   keyDown(event: KeyboardEvent) {
+    if (this.ignoreShortcuts) {
+      return;
+    }
+
     const matches = this.actions.get(event.code);
 
     if (matches) {

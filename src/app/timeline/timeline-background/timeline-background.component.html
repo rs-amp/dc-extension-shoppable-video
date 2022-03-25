@@ -1,4 +1,8 @@
-<div class="app-timeline-background__topbar">
+<div class="app-timeline-background__topbar"
+  (pointerdown)="topGrab($event)"
+  (pointermove)="topDrag($event)"
+  (pointerup)="topRelease($event)"
+  >
   <div
     class="app-timeline-background__title"
     *ngFor="let line of mainLines; index as i"

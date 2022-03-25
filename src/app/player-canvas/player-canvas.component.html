@@ -31,6 +31,7 @@
     ></div>
     <app-canvas-hotspot
       class="app-player-canvas__hotspot"
+      [selected]="hotspot.selected"
       [style.transform]="hotspot.transform"
       [style.display]="hotspot.visible ? 'block' : 'none'"
     ></app-canvas-hotspot>

@@ -7,6 +7,7 @@ import { Point, ShoppableVideoHotspot, ShoppableVideoTimePoint } from '../field/
 import { EditorCommandsService } from './editor-commands.service';
 import { SetHotspotInfoCommand } from './editor-commands/hotspot-commands';
 import { FieldService } from './field.service';
+import { KeyboardService } from './keyboard.service';
 import { VideoService } from './video.service';
 
 export enum EditorMode {
@@ -34,7 +35,8 @@ export class EditorService {
     private sdkService: ExtensionSdkService,
     private video: VideoService,
     private commands: EditorCommandsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private keyboard: KeyboardService
   ) {
     video.videoProgress.subscribe(() => {
       this.checkSelectedTimepoint();
@@ -178,8 +180,10 @@ export class EditorService {
   openHotspotDialog(hotspot: ShoppableVideoHotspot) {
     const cmd = new SetHotspotInfoCommand(hotspot, hotspot.selector, hotspot.target, hotspot.cta);
     const dialogRef = this.dialog.open(HotspotEditDialogComponent, { width: '500px', data: cmd });
+    this.keyboard.ignoreShortcuts = true;
 
     dialogRef.afterClosed().subscribe(result => {
+      this.keyboard.ignoreShortcuts = false;
       if (!cmd.cancelled) {
         this.commands.runCommand(cmd);
       }

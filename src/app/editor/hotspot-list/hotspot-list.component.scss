@@ -20,7 +20,7 @@
   &__hotspot {
     &--selected {
       border-color: $color-primary;
-      background-color: $color-primary-lightest;
+      background-color: $color-ext-selectbg;
     }
   }
 }

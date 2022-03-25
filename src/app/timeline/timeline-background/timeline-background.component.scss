@@ -4,7 +4,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: $color-light-grey;
+  background-color: $color-ext-timelinebg;
+  user-select: none;
 }
 
 .app-timeline-background {
@@ -16,6 +17,8 @@
     background-color: white;
     overflow: hidden;
     position: relative;
+    pointer-events: auto;
+    cursor: pointer;
   }
 
   &__lines {

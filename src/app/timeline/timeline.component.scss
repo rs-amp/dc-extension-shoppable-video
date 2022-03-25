@@ -6,13 +6,21 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 .app-timeline {
   &__hotspots {
     width: 100%;
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: $color-ext-timeline-hotspots;
+    pointer-events: none;
+  }
+
+  &__hotspot {
+    &--selected {
+      background-color: $color-primary-10p;
+    }
   }
 
   &__marker {

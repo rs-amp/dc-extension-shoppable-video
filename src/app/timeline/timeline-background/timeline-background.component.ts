@@ -33,8 +33,9 @@ export class TimelineBackgroundComponent implements OnInit, OnChanges {
   mainLines: TimelineLine[] = [];
   subLines: number[] = [];
   private decimalTitles = false;
+  private dragTopBar = false;
 
-  constructor(private video: VideoService) {
+  constructor(private video: VideoService, private ref: ElementRef) {
     this.video.videoChanged.subscribe(() => {
       this.updateZoom();
     });
@@ -117,6 +118,35 @@ export class TimelineBackgroundComponent implements OnInit, OnChanges {
   getSubTranslation(line: number) {
     const clientWidth = this.width;
     return `translate(${line * clientWidth}px, 0)`;
+  }
+
+  getMarkerPct(event: PointerEvent): number {
+    const rect = this.ref.nativeElement.getBoundingClientRect();
+
+    return Math.max(0, Math.min(1, (event.clientX - rect.x) / rect.width));
+  }
+
+  setVideoTime(event: PointerEvent) {
+    this.video.setCurrentTime((this.rangeOffset + this.getMarkerPct(event) * this.rangeWidth) * this.video.duration);
+  }
+
+  topGrab(event: PointerEvent) {
+    this.dragTopBar = true;
+
+    this.setVideoTime(event);
+
+    (event.currentTarget as Element).setPointerCapture(event.pointerId);
+    event.stopPropagation();
+  }
+
+  topDrag(event: PointerEvent) {
+    if (this.dragTopBar) {
+      this.setVideoTime(event);
+    }
+  }
+
+  topRelease(event: PointerEvent) {
+    this.dragTopBar = false;
   }
 
 }

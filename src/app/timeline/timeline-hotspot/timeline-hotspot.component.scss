@@ -8,6 +8,8 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
 }
 
 @keyframes dash {
@@ -30,9 +32,10 @@
     position: absolute;
     z-index: 4;
     transition: background-color 0.25s, border-color 0.25s;
+    pointer-events: auto;
 
     &:hover {
-      background-color: $color-primary-lightest;
+      background-color: $color-ext-selectbg;
       border-color: $color-primary-lighter;
     }
 
@@ -46,6 +49,7 @@
     height: 3px;
     position: absolute;
     opacity: 1;
+    pointer-events: auto;
 
     transition: background-color 0.25s, opacity 0.25s;
 

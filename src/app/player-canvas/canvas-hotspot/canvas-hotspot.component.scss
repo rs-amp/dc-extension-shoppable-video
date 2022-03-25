@@ -2,7 +2,6 @@
 
 :host {
   display: block;
-  fill: $color-primary-light;
   margin: -16px;
   width: 32px;
   height: 32px;
@@ -12,5 +11,11 @@
   &__icon {
     width: 32px;
     height: 32px;
+
+    fill: $color-grey;
+
+    &--selected {
+      fill: $color-primary-light;
+    }
   }
 }
