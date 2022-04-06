@@ -5,6 +5,7 @@ import { FieldService } from './field.service';
 import { ShoppableVideoData } from '../field/model/shoppable-video-data';
 import { DiVideoMedia, DiVideoMetadata } from '../field/model/di-video-metadata';
 import { lastValueFrom } from 'rxjs';
+import { VisualizationSdkService } from './visualization-sdk.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,8 @@ export class VideoService {
 
   private hasLoop = false;
   playing = false;
+  private hasSeekLoop = false;
+  seeking = false;
   currentTime = 0;
 
   videoUIProvider?: () => Promise<HTMLVideoElement>;
@@ -28,8 +31,9 @@ export class VideoService {
   videoProgress: EventEmitter<number> = new EventEmitter();
 
   boundLoop: () => void;
+  seekLoop: () => void;
 
-  constructor(private field: FieldService, private http: HttpClient) {
+  constructor(private field: FieldService, private http: HttpClient, private vis: VisualizationSdkService) {
     if (field.data != null) {
       this.parseDataChange(field.data);
     }
@@ -38,6 +42,7 @@ export class VideoService {
     });
 
     this.boundLoop = this.videoPlayingLoop.bind(this);
+    this.seekLoop = this.videoSeekingLoop.bind(this);
   }
 
   buildImageSrc(video: MediaImageLink): string {
@@ -59,6 +64,16 @@ export class VideoService {
       requestAnimationFrame(this.boundLoop);
     } else {
       this.hasLoop = false;
+    }
+  }
+
+  videoSeekingLoop() {
+    this.currentTime = this.video?.currentTime || 0;
+    this.videoProgress.emit(this.currentTime);
+    if (this.seeking) {
+      requestAnimationFrame(this.seekLoop);
+    } else {
+      this.hasSeekLoop = false;
     }
   }
 
@@ -86,7 +101,6 @@ export class VideoService {
     if (data.video != null) {
       try {
         this.videoMeta = (await lastValueFrom(this.http.get(this.buildImageSrc(data.video as MediaImageLink) + '.json?metadata=true'))) as DiVideoMetadata;
-        console.log(this.videoMeta);
         /*
         if (this.videoMeta.status === 'error') {
           throw new Error(this.videoMeta.errorMsg);
@@ -141,6 +155,11 @@ export class VideoService {
           }
           video.poster = this.buildImageSrc(data.video as MediaImageLink);
           video.load();
+
+          if (this.vis.active) {
+            this.registerExtraEvents(video);
+          }
+
           this.video = video;
         } else {
           this.videoError = 'Couldn\'t find video - make sure it has been transcoded.';
@@ -157,47 +176,22 @@ export class VideoService {
     }
   }
 
-  /*
-  private calculateFramerate(): Promise<number> {
-    // Browsers don't provide the video framerate by default.
-    // More recent browsers provide a VideoPlaybackQuality object, which we can use to count elapsed frames.
-    // One way to test the video framerate is to play the video for a few frames and try to determine the framerate from that.
-    const video = this.video as HTMLVideoElement;
-    video.oncanplay = null;
-    const baseFrames = video.getVideoPlaybackQuality().totalVideoFrames;
-    const oldMuted = video.muted;
-    const averageFrames = 60;
+  // These video events are for the visualization,
+  // or any other attempt to use the video element with its
+  // default controls.
+  registerExtraEvents(video: HTMLVideoElement) {
+    video.addEventListener('seeking', () => {
+      this.seeking = true;
 
-    video.currentTime = 0;
-    video.muted = true;
-    video.playbackRate = 1;
-    video.play();
-
-    return new Promise((resolve, reject) => {
-      let continueFunc: () => void;
-      continueFunc = () => {
-        const frames = video.getVideoPlaybackQuality().totalVideoFrames;
-        const dframes = frames - baseFrames;
-
-        if (dframes < averageFrames && !video.ended) {
-          requestAnimationFrame(continueFunc);
-        } else {
-          console.log('frames: ' + dframes);
-          console.log('dropped: ' + video.getVideoPlaybackQuality().droppedVideoFrames);
-          console.log('time: ' + video.currentTime);
-          const framerateAvg = dframes / video.currentTime;
-
-          video.muted = oldMuted;
-          video.playbackRate = 1;
-          video.currentTime = 0;
-          video.pause();
-          resolve(framerateAvg);
-        }
-      };
-      requestAnimationFrame(continueFunc);
+      if (!this.hasSeekLoop) {
+        requestAnimationFrame(this.seekLoop);
+        this.hasSeekLoop = true;
+      }
+    });
+    video.addEventListener('seeked', () => {
+      this.seeking = false;
     });
   }
-  */
 
   selectHQMediaSubset(media: DiVideoMedia[]): DiVideoMedia[] {
     // Select the media entries with the highest bitrate for their given format.
@@ -223,8 +217,27 @@ export class VideoService {
     this.videoChanged.emit(this.video as HTMLVideoElement);
   }
 
+  videoEqual(now: MediaVideoLink | null, then: MediaVideoLink | null) {
+    if ((now == null) !== (then == null)) {
+      return false;
+    }
+
+    if (now == null) {
+      return true;
+    }
+
+    const nowAny = now as any;
+    const thenAny = then as any;
+
+    return nowAny.id === thenAny.id &&
+      nowAny.name === thenAny.name &&
+      nowAny.endpoint === thenAny.endpoint &&
+      nowAny.defaultHost === thenAny.defaultHost &&
+      nowAny.mediaType === thenAny.mediaType;
+  }
+
   parseDataChange(data: ShoppableVideoData): void {
-    if (this.lastVideo !== data.video) {
+    if (!this.videoEqual(data.video, this.lastVideo)) {
       if (this.lastVideo != null) {
         // clear data from the last video.
         // none yet

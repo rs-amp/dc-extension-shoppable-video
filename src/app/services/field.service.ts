@@ -4,6 +4,7 @@ import { Subject, interval } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ExtensionSdkService } from '../field/extension-sdk.service';
 import { ShoppableVideoData } from '../field/model/shoppable-video-data';
+import { VisualizationSdkService } from './visualization-sdk.service';
 
 const baseVideo: ShoppableVideoData = {
   video: { _meta: { schema: 'http://bigcontent.io/cms/schema/v1/core#/definitions/video-link' }, _empty: true } as any,
@@ -21,22 +22,35 @@ export class FieldService {
   private updateInProgress = false;
   private updated = new Subject();
 
-  constructor(private sdk: ExtensionSdkService) {
-    const db = this.updated.pipe(debounce(() => interval(100)));
-    db.subscribe(async () => {
-      console.log('debounced');
-      const sdkInstance = await this.sdk.getSDK();
-      sdkInstance.field.setValue(this.data);
-    });
+  constructor(private sdk: ExtensionSdkService, private vis: VisualizationSdkService) {
+    if (vis.active) {
+      vis.getSDK().then(async () => {
+        this.stagingEnvironment = vis.vse || '';
+        if (vis.model != null) {
+          this.data = vis.model;
+          this.updateField();
+        }
+        vis.changed.subscribe(model => {
+          this.data = vis.model as ShoppableVideoData;
+          this.updateField();
+        });
+      });
+    } else {
+      const db = this.updated.pipe(debounce(() => interval(100)));
+      db.subscribe(async () => {
+        const sdkInstance = await this.sdk.getSDK();
+        sdkInstance.field.setValue(this.data);
+      });
 
-    sdk.getSDK().then(async (sdkInstance) => {
-      //sdkInstance.frame.startAutoResizer();
-      sdkInstance.frame.setHeight(800);
-      this.stagingEnvironment = sdkInstance.stagingEnvironment;
-      this.loadParams(sdkInstance.params.instance);
-      this.data = await sdkInstance.field.getValue();
-      this.updateField();
-    });
+      sdk.getSDK().then(async (sdkInstance) => {
+        //sdkInstance.frame.startAutoResizer();
+        sdkInstance.frame.setHeight(800);
+        this.stagingEnvironment = sdkInstance.stagingEnvironment;
+        this.loadParams(sdkInstance.params.instance);
+        this.data = await sdkInstance.field.getValue();
+        this.updateField();
+      });
+    }
   }
 
   getVideoHost(): string | null {

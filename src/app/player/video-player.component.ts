@@ -7,7 +7,7 @@ import { VideoService } from '../services/video.service';
   styleUrls: ['./video-player.component.scss']
 })
 export class VideoPlayerComponent implements OnInit {
-  @Input('enabled') enabled!: boolean;
+  @Input('controls') controls!: boolean;
   @ViewChild('video', {static: false}) videoElem!: ElementRef<HTMLVideoElement>;
 
   constructor(private dvideo: VideoService) { }

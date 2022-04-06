@@ -1,8 +1,11 @@
 import { ContentObserver } from '@angular/cdk/observers';
 import {
+  ApplicationRef,
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -56,6 +59,9 @@ interface TransformedKeyframe {
   styleUrls: ['./player-canvas.component.scss'],
 })
 export class PlayerCanvasComponent implements OnInit {
+
+  @Input('vis') vis?: boolean;
+
   hotspotTransforms: TransformedHotspot[] = [];
   keyframeTransforms: TransformedKeyframe[] = [];
   videoWidth!: number;
@@ -82,7 +88,8 @@ export class PlayerCanvasComponent implements OnInit {
     public screen: ScreenService,
     public editor: EditorService,
     private commands: EditorCommandsService,
-    private host: ElementRef
+    private host: ElementRef,
+    private ref: ApplicationRef
   ) {
     field.fieldUpdated.subscribe((data) => {
       this.updateTransforms(data, true);
@@ -138,13 +145,13 @@ export class PlayerCanvasComponent implements OnInit {
   }
 
   updateVideoSize() {
+    const vidHeight = this.host.nativeElement.clientHeight;
+
     const videoWidth = this.video.video?.videoWidth ?? 500;
     const videoHeight = this.video.video?.videoHeight ?? 500;
 
     const videoAspect = videoWidth / videoHeight;
-    const canvasAspect = this.host.nativeElement.clientWidth / 500;
-
-    console.log(`${this.host.nativeElement.clientWidth} ${videoWidth}`);
+    const canvasAspect = this.host.nativeElement.clientWidth / vidHeight;
 
     if (videoAspect > canvasAspect) {
       // Constrained by width.
@@ -154,8 +161,8 @@ export class PlayerCanvasComponent implements OnInit {
     } else {
       // Constrained by height.
 
-      this.videoWidth = 500 * videoAspect;
-      this.videoHeight = 500;
+      this.videoWidth = vidHeight * videoAspect;
+      this.videoHeight = vidHeight;
     }
   }
 
@@ -336,6 +343,8 @@ export class PlayerCanvasComponent implements OnInit {
 
       this.keyframeTransforms = result;
     }
+
+    setTimeout(() => this.ref.tick(), 0);
   }
 
   getKeyframeOpacity(index: number, line = false) {
@@ -371,6 +380,11 @@ export class PlayerCanvasComponent implements OnInit {
   }
 
   pointerDown(event: PointerEvent) {
+    if (this.vis) {
+      // Don't do anything if this is the visualization.
+      return;
+    }
+
     // Determine what point we're near. Prefer the currently selected one.
 
     let nearest: ShoppableVideoHotspot | undefined;
@@ -541,10 +555,6 @@ export class PlayerCanvasComponent implements OnInit {
 
         this.dragIndex = -1;
       } else if (this.ctaDragIndex !== -1) {
-        // TODO: send command to do this.
-
-        console.log('scuse me');
-
         this.commands.runCommand(
           new MoveKeyframeCtaCommand(
             hotspot,
@@ -560,6 +570,11 @@ export class PlayerCanvasComponent implements OnInit {
   }
 
   ctaDown(element: CanvasCtaComponent, index: number, pointer: PointerEvent) {
+    if (this.vis) {
+      // Can't drag cta from the vis.
+      return;
+    }
+
     this.ctaDragIndex = index;
     this.ctaDragRelative = this.getMouse(pointer);
 

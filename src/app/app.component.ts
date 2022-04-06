@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { EditorMode, EditorService } from './services/editor.service';
+import { VisualizationSdkService } from './services/visualization-sdk.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,6 @@ export class AppComponent {
     return this.editor.editorMode == EditorMode.Edit;
   }
 
-  constructor(private editor: EditorService) {
-
+  constructor(private editor: EditorService, public vis: VisualizationSdkService) {
   }
 }

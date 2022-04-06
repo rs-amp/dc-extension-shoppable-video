@@ -1,15 +1,24 @@
-<div class="app-root__title" *ngIf="title">{{ title }}</div>
-<div class="app-root__main">
-  <app-mode-buttons class="app-root__mode"></app-mode-buttons>
-  <div class="app-root__videogroup">
-    <app-toolbar
-      class="app-root__toolbar"
-      [ngClass]="{ 'app-root__toolbar--hide': !active }"
-    ></app-toolbar>
-    <div class="app-root__videofill">
-      <app-video-player class="app-root__video"></app-video-player>
-      <app-player-canvas class="app-root__canvas"></app-player-canvas>
+<ng-container *ngIf="!vis.active">
+  <div class="app-root__title" *ngIf="title">{{ title }}</div>
+  <div class="app-root__main">
+    <app-mode-buttons class="app-root__mode"></app-mode-buttons>
+    <div class="app-root__videogroup">
+      <app-toolbar
+        class="app-root__toolbar"
+        [ngClass]="{ 'app-root__toolbar--hide': !active }"
+      ></app-toolbar>
+      <div class="app-root__videofill">
+        <app-video-player class="app-root__video"></app-video-player>
+        <app-player-canvas class="app-root__canvas"></app-player-canvas>
+      </div>
     </div>
+    <app-editor></app-editor>
   </div>
-  <app-editor></app-editor>
-</div>
+</ng-container>
+<ng-container *ngIf="vis.active">
+  <div class="app-root__vis">
+    <app-video-player class="app-root__video" [style.height]="'100%'" [style.position]="'absolute'" [controls]="true"></app-video-player>
+    <app-player-canvas class="app-root__canvas" [style.height]="'100%'" [style.margin-top]="0" [vis]="true"></app-player-canvas>
+  </div>
+</ng-container>
+
