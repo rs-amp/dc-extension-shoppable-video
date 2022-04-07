@@ -1,8 +1,11 @@
 @import "../../core/core.scss";
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 98.5%, rgba(0,0,0,0.05) 98.7%);
 }
 
 .app-hotspot-list {
