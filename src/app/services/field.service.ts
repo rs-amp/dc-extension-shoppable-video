@@ -21,6 +21,7 @@ export class FieldService {
 
   private updateInProgress = false;
   private updated = new Subject();
+  private extensionSize = 0;
 
   constructor(private sdk: ExtensionSdkService, private vis: VisualizationSdkService) {
     if (vis.active) {
@@ -44,7 +45,7 @@ export class FieldService {
 
       sdk.getSDK().then(async (sdkInstance) => {
         //sdkInstance.frame.startAutoResizer();
-        sdkInstance.frame.setHeight(800);
+        this.calculateExtensionSize();
         this.stagingEnvironment = sdkInstance.stagingEnvironment;
         this.loadParams(sdkInstance.params.instance);
         this.data = await sdkInstance.field.getValue();
@@ -66,7 +67,27 @@ export class FieldService {
     }
   }
 
+  private async calculateExtensionSize(): Promise<void> {
+    const titleSize = 30;
+    const videoSize = 500;
+    const controlsSize = 48;
+    const hotspotSize = 34;
+    const addSizeExtra = 40;
+
+    const size = titleSize + videoSize + controlsSize + hotspotSize * this.data.hotspots.length + addSizeExtra;
+
+    if (size != this.extensionSize) {
+      this.extensionSize = size;
+
+      const sdk = await this.sdk.getSDK();
+
+      sdk.frame.setHeight(size);
+    }
+  }
+
   async updateField() {
+    this.calculateExtensionSize();
+
     if (this.updateInProgress) {
       return;
     }
