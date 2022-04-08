@@ -29,6 +29,7 @@ export class EditorService {
 
   selectedHotspot: ShoppableVideoHotspot | undefined;
   selectedTimepoint = -1;
+  dialogOpen = false;
 
   constructor(
     private field: FieldService,
@@ -180,15 +181,15 @@ export class EditorService {
   openHotspotDialog(hotspot: ShoppableVideoHotspot) {
     const cmd = new SetHotspotInfoCommand(hotspot, hotspot.selector, hotspot.target, hotspot.cta);
     const dialogRef = this.dialog.open(HotspotEditDialogComponent, { width: '500px', data: cmd });
+    this.dialogOpen = true;
     this.keyboard.ignoreShortcuts = true;
 
     dialogRef.afterClosed().subscribe(result => {
+      this.dialogOpen = false;
       this.keyboard.ignoreShortcuts = false;
       if (!cmd.cancelled) {
         this.commands.runCommand(cmd);
       }
     });
   }
-
-
 }

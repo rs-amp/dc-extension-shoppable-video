@@ -46,3 +46,14 @@
     ></app-canvas-cta>
   </ng-container>
 </div>
+<div
+  class="app-player-canvas__tooltip"
+  #tooltip="matTooltip"
+  *ngIf="!vis"
+  [style.width]="videoWidth + 'px'"
+  [style.height]="(videoHeight / 3) + 'px'"
+  [matTooltip]="getHelpTooltip()"
+  matTooltipHideDelay="Infinity"
+  matTooltipPosition="below"
+>
+</div>

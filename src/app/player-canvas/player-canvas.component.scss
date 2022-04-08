@@ -14,6 +14,13 @@
     display: block;
   }
 
+  &__tooltip {
+    position: absolute;
+    display: block;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   &__hotspot {
     position: absolute;
   }

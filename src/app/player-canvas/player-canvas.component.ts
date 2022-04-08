@@ -9,6 +9,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
 import {
   Point,
   ShoppableVideoCallToAction,
@@ -22,7 +23,7 @@ import {
   MoveKeyframeCtaCommand,
   MoveKeyframePositionCommand,
 } from '../services/editor-commands/keyframe-commands';
-import { EditorService } from '../services/editor.service';
+import { EditorMode, EditorService } from '../services/editor.service';
 import { FieldService } from '../services/field.service';
 import { ScreenService } from '../services/screen.service';
 import { VideoService } from '../services/video.service';
@@ -79,8 +80,15 @@ export class PlayerCanvasComponent implements OnInit {
   private sizeAdjusting = false;
   private sizeAdjustTimeout = -1;
 
+  private tooltipShow = false;
+  private firstPlaceTooltip = false;
+  private lastTooltip = '';
+
   @ViewChild('container', { static: false })
   containerElem!: ElementRef<HTMLDivElement>;
+
+  @ViewChild('tooltip', { static: false })
+  tooltip!: MatTooltip;
 
   constructor(
     public field: FieldService,
@@ -109,6 +117,7 @@ export class PlayerCanvasComponent implements OnInit {
     });
 
     editor.selectionChanged.subscribe((_) => {
+      this.firstPlaceTooltip = false;
       this.updateTransforms(field.data, true);
     });
 
@@ -223,7 +232,7 @@ export class PlayerCanvasComponent implements OnInit {
       previous = point;
     }
 
-    if (previous.e) {
+    if (previous.e && time > previous.t) {
       return undefined;
     } else {
       return previous.p;
@@ -302,6 +311,35 @@ export class PlayerCanvasComponent implements OnInit {
     }
   }
 
+  shouldShowTooltip() : boolean {
+    return this.editor.editorMode === EditorMode.Edit && !this.editor.dialogOpen && (
+           this.firstPlaceTooltip ||
+           this.field.data.hotspots.length == 0 ||
+           this.editor.selectedHotspot == null ||
+           this.editor.selectedHotspot.timeline.points.length == 0);
+  }
+
+  getHelpTooltip() : string {
+    let tooltip: string;
+    if (this.field.data.hotspots.length == 0) {
+      tooltip = 'Add a hotspot below to get started.';
+    } else if (this.editor.selectedHotspot == null) {
+      tooltip = 'Select any hotspot to place on the canvas.';
+    } else if (this.editor.selectedHotspot.timeline.points.length == 0) {
+      tooltip = 'Click anywhere on the canvas to place the hotspot at the current point in time.';
+    } else {
+      tooltip = this.lastTooltip;
+    }
+
+    if (tooltip !== this.lastTooltip) {
+      this.tooltipShow = false;
+
+      this.lastTooltip = tooltip;
+    }
+
+    return this.lastTooltip;
+  }
+
   updateTransforms(data: ShoppableVideoData, keyframes = false) {
     this.hotspotTransforms = data.hotspots.map((hotspot) =>
       this.getTransform(hotspot)
@@ -345,6 +383,22 @@ export class PlayerCanvasComponent implements OnInit {
     }
 
     setTimeout(() => this.ref.tick(), 0);
+
+    this.updateTooltip();
+  }
+
+  updateTooltip() {
+    const tooltipShow = this.shouldShowTooltip();
+
+    if (this.tooltipShow !== tooltipShow && this.tooltip) {
+      this.tooltipShow = tooltipShow;
+
+      if (this.tooltipShow) {
+        this.tooltip.show();
+      } else {
+        this.tooltip.hide();
+      }
+    }
   }
 
   getKeyframeOpacity(index: number, line = false) {
@@ -364,6 +418,22 @@ export class PlayerCanvasComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  setFirstPlaceHint(): void {
+    // This tooltip needs to show after a mouse up.
+    const action = (() => {
+      setTimeout(() => {
+        this.lastTooltip = 'To record motion, move the video scrubber then click and drag the hotspot to create additional keyframes at other points in time.';
+
+        this.firstPlaceTooltip = true;
+        this.tooltipShow = false;
+        this.updateTooltip();
+      }, 100);
+      window.removeEventListener('mouseup', action);
+    }).bind(this);
+
+    window.addEventListener('mouseup', action);
+  }
 
   pointNearMouse(mousePos: Point, point: Point): number {
     const aspect = this.videoWidth / this.videoHeight;
@@ -432,6 +502,8 @@ export class PlayerCanvasComponent implements OnInit {
 
       // TODO: quantize current time?
 
+      this.firstPlaceTooltip = false;
+
       if (!exact) {
         // Place a new timepoint with the interpolated position or mouse position.
         const newPoint: ShoppableVideoTimePoint = {
@@ -441,6 +513,11 @@ export class PlayerCanvasComponent implements OnInit {
 
         if (timepoint == hotspot.timeline.points.length - 1) {
           newPoint.e = true;
+        }
+
+        if (hotspot.timeline.points.length == 0) {
+          this.setFirstPlaceHint();
+        } else {
         }
 
         this.commands.runCommand(
