@@ -84,6 +84,8 @@ export class PlayerCanvasComponent implements OnInit {
   private firstPlaceTooltip = false;
   private lastTooltip = '';
 
+  private timelineFadeScale = 1;
+
   @ViewChild('container', { static: false })
   containerElem!: ElementRef<HTMLDivElement>;
 
@@ -384,6 +386,33 @@ export class PlayerCanvasComponent implements OnInit {
 
     setTimeout(() => this.ref.tick(), 0);
 
+    if (this.editor.selectedHotspot == null) {
+      this.timelineFadeScale = 1;
+    } else {
+      const hotspot = this.editor.selectedHotspot;
+      const points = hotspot.timeline.points;
+
+      let totalDistance = 0;
+      let totalRanges = 0;
+      let lastT = 0;
+      let lastEnd = true;
+
+      for (let i = 0; i < points.length; i++) {
+        if (!lastEnd) {
+          totalDistance += points[i].t - lastT;
+          totalRanges++;
+        }
+
+        lastT = points[i].t;
+        lastEnd = points[i].e || false;
+      }
+
+      const averageDistance = totalDistance / totalRanges;
+
+      this.timelineFadeScale = Math.min(1, 0.33 / averageDistance);
+    }
+
+
     this.updateTooltip();
   }
 
@@ -412,7 +441,7 @@ export class PlayerCanvasComponent implements OnInit {
       pos = points[index].t;
     }
 
-    const dist = Math.abs(this.video.currentTime - pos);
+    const dist = Math.abs(this.video.currentTime - pos) * this.timelineFadeScale;
 
     return Math.max(0, Math.min(0.75, 1 - dist));
   }
