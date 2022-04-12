@@ -48,7 +48,21 @@
     margin-top: -500px;
   }
 
+  &__error {
+    margin-top: -500px;
+  }
+
   &__mode {
     position: absolute;
+  }
+
+  &__editor {
+    transition: opacity 0.3s;
+
+    &--inactive {
+      opacity: 50%;
+      pointer-events: none;
+      user-select: none;
+    }
   }
 }

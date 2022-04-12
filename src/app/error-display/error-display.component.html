@@ -1,0 +1,14 @@
+<ng-container *ngIf="type == VideoErrorType.Publish">
+  <div class="app-error-display__title">Could not load Video.</div>
+
+  <div class="app-error-display__body">Find the video in Content Hub and publish it.</div>
+</ng-container>
+<ng-container *ngIf="type == VideoErrorType.Metadata">
+  <div class="app-error-display__title">Could not load Video Metadata.</div>
+
+  <div class="app-error-display__body">You may need to configure your VSE to provide metadata for videos. Please see <a href="https://github.com/rs-amp/dc-extension-shoppable-video/blob/main/README.md">these instructions</a> for further information.</div>
+</ng-container>
+<div class="app-error-display__buttons">
+  <button mat-raised-button (click)="swap()" [disabled]="loading"><mat-icon>swap_horiz</mat-icon> Swap Video</button>
+  <button mat-raised-button color="primary" (click)="retry()" [disabled]="loading"><mat-icon>refresh</mat-icon> Retry</button>
+</div>

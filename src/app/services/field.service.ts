@@ -47,15 +47,16 @@ export class FieldService {
         //sdkInstance.frame.startAutoResizer();
         this.calculateExtensionSize();
         this.stagingEnvironment = sdkInstance.stagingEnvironment;
-        this.loadParams(sdkInstance.params.instance);
+        this.loadParams({ ...sdkInstance.params.installation, ...sdkInstance.params.instance });
         this.data = await sdkInstance.field.getValue();
         this.updateField();
       });
     }
   }
 
-  getVideoHost(): string | null {
-    return this.stagingEnvironment || ((this.data && this.data.video) ? (this.data.video as MediaImageLink).defaultHost : null);
+  getVideoHost(forcePublished = false): string | null {
+    const stagingEnvironment = forcePublished ? null : this.stagingEnvironment;
+    return stagingEnvironment || ((this.data && this.data.video) ? (this.data.video as MediaImageLink).defaultHost : null);
   }
 
   private loadParams(params: any) {

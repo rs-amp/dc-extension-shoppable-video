@@ -1,5 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
 import { EditorMode, EditorService } from './services/editor.service';
+import { VideoErrorType, VideoService } from './services/video.service';
 import { VisualizationSdkService } from './services/visualization-sdk.service';
 
 @Component({
@@ -11,9 +12,17 @@ export class AppComponent {
   title = 'Shoppabble Video';
 
   get active(): boolean {
-    return this.editor.editorMode == EditorMode.Edit;
+    return this.editor.editorMode == EditorMode.Edit && this.video.videoReady && !this.videoError;
   }
 
-  constructor(private editor: EditorService, public vis: VisualizationSdkService) {
+  get disableEditor(): boolean {
+    return this.editor.editorMode == EditorMode.Edit && (!this.video.videoReady || this.videoError);
+  }
+
+  get videoError(): boolean {
+    return this.video.videoError !== VideoErrorType.None;
+  }
+
+  constructor(private editor: EditorService, public vis: VisualizationSdkService, private video: VideoService) {
   }
 }

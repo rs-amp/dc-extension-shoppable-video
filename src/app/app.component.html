@@ -10,9 +10,10 @@
       <div class="app-root__videofill">
         <app-video-player class="app-root__video"></app-video-player>
         <app-player-canvas class="app-root__canvas"></app-player-canvas>
+        <app-error-display class="app-root__error" *ngIf="videoError"></app-error-display>
       </div>
     </div>
-    <app-editor></app-editor>
+    <app-editor class="app-root__editor" [ngClass]="{'app-root__editor--inactive': disableEditor}"></app-editor>
   </div>
 </ng-container>
 <ng-container *ngIf="vis.active">

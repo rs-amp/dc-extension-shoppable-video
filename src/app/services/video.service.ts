@@ -7,13 +7,19 @@ import { DiVideoMedia, DiVideoMetadata } from '../field/model/di-video-metadata'
 import { lastValueFrom } from 'rxjs';
 import { VisualizationSdkService } from './visualization-sdk.service';
 
+export enum VideoErrorType {
+  None,
+  Metadata,
+  Publish
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class VideoService {
   videoMeta: DiVideoMetadata | null = null;
   videoReady = false;
-  videoError: string | null = null;
+  videoError: VideoErrorType = VideoErrorType.None;
 
   lastVideo: MediaVideoLink | null = null;
   video: HTMLVideoElement | null = null;
@@ -45,8 +51,8 @@ export class VideoService {
     this.seekLoop = this.videoSeekingLoop.bind(this);
   }
 
-  buildImageSrc(video: MediaImageLink): string {
-    return `https://${this.field.getVideoHost()}/v/${video.endpoint}/${encodeURIComponent(video.name)}`;
+  buildImageSrc(video: MediaImageLink, forcePublished = false): string {
+    return `https://${this.field.getVideoHost(forcePublished)}/v/${video.endpoint}/${encodeURIComponent(video.name)}`;
   }
 
   private formatToHtml(format: string): string {
@@ -97,38 +103,32 @@ export class VideoService {
 
   async loadImage(data: ShoppableVideoData) {
     this.videoReady = false;
-    this.videoError = null;
-    if (data.video != null) {
+    this.videoError = VideoErrorType.None;
+    if (data.video != null && (data.video as MediaImageLink).name != null) {
       try {
         this.videoMeta = (await lastValueFrom(this.http.get(this.buildImageSrc(data.video as MediaImageLink) + '.json?metadata=true'))) as DiVideoMetadata;
-        /*
-        if (this.videoMeta.status === 'error') {
-          throw new Error(this.videoMeta.errorMsg);
-        }
-        */
-       /*
-        this.imageSizeMultiplier = [this.videoMeta.width / this.imageWidth, this.videoMeta.height / this.imageHeight];
-        this.imageWidth = this.videoMeta.width;
-        this.imageHeight = this.videoMeta.height;
 
-        // limit size of preview image to a reasonable scale
-        if (!this.field.fullRes) {
-          if (this.imageWidth > this.imageHeight) {
-            if (this.imageWidth > this.imageSizeLimit) {
-              defaultParams = `?w=${this.imageSizeLimit}`;
-            }
-          } else {
-            if (this.imageHeight > this.imageSizeLimit) {
-              defaultParams = `?h=${this.imageSizeLimit}`;
-            }
-          }
+        if (this.videoMeta.meta.metadata == null || this.videoMeta.meta.metadata.video == null) {
+          console.log('Video metadata incomplete.');
+          this.videoError = VideoErrorType.Metadata;
+          this.videoMeta = null;
+          this.videoReady = true;
         }
-        */
       } catch {
-        console.log('Could not load video metadata...');
-        this.videoError = 'Video metadata missing - make sure the video is published in Content Hub.';
+        console.log('Could not load video metadata.');
+
+        // Determine if the video metadata could not be loaded due to not being published
+
+        let videoError = VideoErrorType.Metadata;
+        try {
+          const meta = (await lastValueFrom(this.http.get(this.buildImageSrc(data.video as MediaImageLink, true) + '.json'))) as DiVideoMetadata;
+        } catch {
+          videoError = VideoErrorType.Publish;
+        }
+
+        this.videoError = videoError;
         this.videoMeta = null;
-        //this.imageSizeMultiplier = [1, 1];
+        this.videoReady = true;
       }
 
       if (this.videoUIProvider && this.videoMeta) {
@@ -136,12 +136,14 @@ export class VideoService {
 
         if (subset.length > 0) {
           const video = await this.videoUIProvider();
+          video.style.visibility = '';
           video.oncanplay = this.videoLoaded.bind(this);
           video.onplay = this.videoPlayStart.bind(this);
           video.onpause = this.videoPause.bind(this);
           video.onended = this.videoPlayEnd.bind(this);
           video.onerror = (event: string | Event) => {
-            this.videoError = 'Could not load video!';
+            this.videoError = VideoErrorType.Publish;
+            this.videoReady = true;
           };
           while (video.firstChild) {
             video.removeChild(video.firstChild);
@@ -162,7 +164,9 @@ export class VideoService {
 
           this.video = video;
         } else {
-          this.videoError = 'Couldn\'t find video - make sure it has been transcoded.';
+          debugger;
+          this.videoError = VideoErrorType.Publish;
+          this.videoReady = true;
         }
 
         this.framerate = 60;
@@ -173,6 +177,10 @@ export class VideoService {
       }
     } else {
       this.video = null;
+      if (this.videoUIProvider) {
+        const video = await this.videoUIProvider();
+        video.style.visibility = 'hidden';
+      }
     }
   }
 
