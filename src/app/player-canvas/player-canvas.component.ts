@@ -26,7 +26,7 @@ import {
 import { EditorMode, EditorService } from '../services/editor.service';
 import { FieldService } from '../services/field.service';
 import { ScreenService } from '../services/screen.service';
-import { VideoService } from '../services/video.service';
+import { VideoErrorType, VideoService } from '../services/video.service';
 import { CanvasCtaComponent } from './canvas-cta/canvas-cta.component';
 
 interface TransformedCta {
@@ -314,7 +314,8 @@ export class PlayerCanvasComponent implements OnInit {
   }
 
   shouldShowTooltip() : boolean {
-    return this.editor.editorMode === EditorMode.Edit && !this.editor.dialogOpen && (
+    return this.editor.editorMode === EditorMode.Edit && this.video.videoError == VideoErrorType.None &&
+           !this.editor.dialogOpen && (
            this.firstPlaceTooltip ||
            this.field.data.hotspots.length == 0 ||
            this.editor.selectedHotspot == null ||
