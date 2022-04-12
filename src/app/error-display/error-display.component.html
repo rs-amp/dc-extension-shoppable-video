@@ -6,7 +6,7 @@
 <ng-container *ngIf="type == VideoErrorType.Metadata">
   <div class="app-error-display__title">Could not load Video Metadata.</div>
 
-  <div class="app-error-display__body">You may need to configure your VSE to provide metadata for videos. Please see <a href="https://github.com/rs-amp/dc-extension-shoppable-video/blob/main/README.md">these instructions</a> for further information.</div>
+  <div class="app-error-display__body">You may need to configure your VSE to provide metadata for videos. Please see <a href="https://github.com/rs-amp/dc-extension-shoppable-video/blob/main/README.md" target="_blank">these instructions</a> for further information.</div>
 </ng-container>
 <div class="app-error-display__buttons">
   <button mat-raised-button (click)="swap()" [disabled]="loading"><mat-icon>swap_horiz</mat-icon> Swap Video</button>
