@@ -42,6 +42,10 @@ export class EditorService {
     video.videoProgress.subscribe(() => {
       this.checkSelectedTimepoint();
     });
+
+    commands.commandRun.subscribe(() => {
+      this.validateSelection();
+    })
   }
 
   async modeRequest(mode: EditorMode) {
@@ -85,10 +89,28 @@ export class EditorService {
   }
 
   select(hotspot: ShoppableVideoHotspot, index = -1) {
+    if (this.field.data.hotspots.indexOf(hotspot) === -1) {
+      return;
+    }
+
     this.selectedHotspot = hotspot;
     this.selectedTimepoint = index;
 
     this.selectionChanged.emit(this.selectedHotspot);
+  }
+
+  validateSelection() {
+    // Make sure the selected hotspot/timepoint still exists.
+    if (this.selectedHotspot) {
+      const index = this.field.data.hotspots.indexOf(this.selectedHotspot);
+      if (index === -1) {
+        this.selectedHotspot = undefined;
+        this.selectedTimepoint = -1;
+        this.selectionChanged.emit(this.selectedHotspot);
+      } else if (this.selectedTimepoint !== -1) {
+        this.checkSelectedTimepoint();
+      }
+    }
   }
 
   checkSelectedTimepoint() {

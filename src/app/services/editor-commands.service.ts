@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { EditorCommand } from './editor-commands/editor-command';
 import { FieldService } from './field.service';
 
@@ -9,6 +9,7 @@ export class EditorCommandsService {
 
   undoStack: EditorCommand[] = [];
   redoStack: EditorCommand[] = [];
+  commandRun: EventEmitter<void>;
 
   get hasUndo(): boolean {
     return this.undoStack.length > 0;
@@ -18,7 +19,9 @@ export class EditorCommandsService {
     return this.redoStack.length > 0;
   }
 
-  constructor(private field: FieldService) { }
+  constructor(private field: FieldService) {
+    this.commandRun = new EventEmitter();
+  }
 
   runCommand(command: EditorCommand): void {
     const commit = command.apply(this.field.data);
@@ -30,6 +33,8 @@ export class EditorCommandsService {
 
     if (commit) {
       this.field.updateField();
+
+      this.commandRun.emit();
     }
   }
 
@@ -39,6 +44,8 @@ export class EditorCommandsService {
       this.redoStack.push(undoCommand);
       if (undoCommand.revert(this.field.data)) {
         this.field.updateField();
+
+        this.commandRun.emit();
       }
 
       return true;
@@ -53,6 +60,8 @@ export class EditorCommandsService {
       this.undoStack.push(redoCommand);
       if (redoCommand.apply(this.field.data)) {
         this.field.updateField();
+
+        this.commandRun.emit();
       }
 
       return true;

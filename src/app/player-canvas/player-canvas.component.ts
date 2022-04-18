@@ -385,6 +385,10 @@ export class PlayerCanvasComponent implements OnInit {
       this.keyframeTransforms = result;
     }
 
+    if (this.editor.selectedHotspot == null) {
+      this.keyframeTransforms = [];
+    }
+
     setTimeout(() => this.ref.tick(), 0);
 
     if (this.editor.selectedHotspot == null) {
