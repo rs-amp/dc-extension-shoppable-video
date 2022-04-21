@@ -64,11 +64,15 @@ export class VideoService {
   }
 
   videoPlayingLoop() {
-    this.currentTime = this.video?.currentTime || 0;
     this.videoProgress.emit(this.currentTime);
     if (this.playing) {
+      // Apply a bias of two frames to the video current time, so that the hotspots better line up with the content.
+      const delta = 2/60;
+
+      this.currentTime = Math.min(this.duration, (this.video?.currentTime || 0) + delta);
       requestAnimationFrame(this.boundLoop);
     } else {
+      this.currentTime = this.video?.currentTime || 0;
       this.hasLoop = false;
     }
   }
