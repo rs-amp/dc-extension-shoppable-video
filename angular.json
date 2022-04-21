@@ -31,8 +31,20 @@
               "src/assets"
             ],
             "styles": [
-              "src/amplienceTheme.scss",
-              "src/styles.scss"
+              {
+                "input": "src/styles.scss",
+                "bundleName": "styles"
+              },
+              {
+                "input": "src/amplienceTheme.scss",
+                "bundleName": "theme-light",
+                "inject": false
+              },
+              {
+                "input": "src/amplienceThemeDark.scss",
+                "bundleName": "theme-dark",
+                "inject": false
+              }
             ],
             "scripts": []
           },
@@ -46,8 +58,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [

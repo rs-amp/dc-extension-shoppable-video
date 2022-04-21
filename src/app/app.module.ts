@@ -27,7 +27,6 @@ import { CanvasHotspotComponent } from './player-canvas/canvas-hotspot/canvas-ho
 import { CanvasCtaComponent } from './player-canvas/canvas-cta/canvas-cta.component';
 import { HotspotEditDialogComponent } from './editor/hotspot-edit-dialog/hotspot-edit-dialog.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { VisualizationComponent } from './visualization/visualization.component';
 import { CanvasCtaDialogComponent } from './player-canvas/canvas-cta-dialog/canvas-cta-dialog.component';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 
@@ -49,7 +48,6 @@ import { ErrorDisplayComponent } from './error-display/error-display.component';
     CanvasCtaComponent,
     HotspotEditDialogComponent,
     ToolbarComponent,
-    VisualizationComponent,
     CanvasCtaDialogComponent,
     ErrorDisplayComponent
   ],
