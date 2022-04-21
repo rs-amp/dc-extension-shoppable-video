@@ -14,19 +14,27 @@
 
   <mat-slide-toggle [checked]="hotspot.cta != null" (toggleChange)="ctaToggle()">Use Call-To-Action</mat-slide-toggle>
 
-  <mat-form-field>
+  <mat-form-field *ngIf="!hotspot.cta">
     <mat-label>Caption</mat-label>
-    <input matInput *ngIf="!hotspot.cta" disabled="true" />
-    <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.caption" />
+    <input matInput disabled="true" required />
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field *ngIf="hotspot.cta">
+    <mat-label>Caption</mat-label>
+    <input matInput [(ngModel)]="hotspot.cta.caption" required />
+  </mat-form-field>
+
+  <mat-form-field *ngIf="!hotspot.cta">
     <mat-label>Value</mat-label>
-    <input matInput *ngIf="!hotspot.cta" disabled="true" />
-    <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" />
+    <input matInput disabled="true" required />
+  </mat-form-field>
+
+  <mat-form-field *ngIf="hotspot.cta">
+    <mat-label>Value</mat-label>
+    <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button [mat-dialog-close]="hotspot" color="primary">Save</button>
+  <button mat-button [mat-dialog-close]="hotspot" color="primary" [disabled]="!canSave">Save</button>
 </div>
