@@ -25,18 +25,23 @@
   &__keyframe {
     width: 14px;
     height: 14px;
-    border: 1px solid $color-ext-hotspot-line;
     margin: -8px;
-    background-color: $color-ext-hotspot-fill;
     transform: rotate(45deg);
     position: absolute;
     z-index: 4;
     transition: background-color 0.25s, border-color 0.25s;
     pointer-events: auto;
 
+    @include withTheme() {
+      border: 1px solid t($color-ext-hotspot-line);
+      background-color: t($color-ext-hotspot-fill);
+    }
+
     &:hover {
-      background-color: $color-ext-selectbg;
       border-color: $color-primary-lighter;
+      @include withTheme() {
+        background-color: t($color-ext-selectbg);
+      }
     }
 
     &--selected {
@@ -61,7 +66,9 @@
     }
 
     &--visible {
-      background-color: $color-ext-hotspot-line;
+      @include withTheme() {
+        background-color: t($color-ext-hotspot-line);
+      }
 
       &:hover {
         background-color: $color-primary-lighter;
@@ -69,7 +76,9 @@
     }
 
     &--invisible {
-      background: linear-gradient(to right, transparent 50%, $color-ext-hotspot-line 50%);
+      @include withTheme() {
+        background: linear-gradient(to right, transparent 50%, t($color-ext-hotspot-line) 50%);
+      }
       background-size: 8px 3px;
       animation: dash 0.33s linear infinite;
       opacity: 0;

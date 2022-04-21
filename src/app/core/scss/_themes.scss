@@ -1,0 +1,81 @@
+$themes: (
+  light: (
+    color-ext-text: black,
+    color-ext-videobg: white,
+    color-ext-toolbar: white,
+    color-ext-editor-1: white,
+    color-ext-editor-2: white,
+    color-ext-selectbg: #f2fafe,
+    color-ext-scrubberbg: #f2f2f2,
+    color-ext-timelinebg: #cccccc,
+    color-ext-timeline-hotspots: rgba(255, 255, 255, 0.8),
+    color-ext-timeline-marker: black,
+    color-ext-control-border: #f2f2f2,
+    color-ext-hotspot-line: #747980,
+    color-ext-hotspot-fill: white,
+    color-ext-icon-button: transparent,
+  ),
+  dark: (
+    color-ext-text: #CCCCCC,
+    color-ext-videobg: black,
+    color-ext-toolbar: #333333,
+    color-ext-editor-1: #333333,
+    color-ext-editor-2: #3D3D3D,
+    color-ext-selectbg: #2E3E44,
+    color-ext-scrubberbg: #3D3D3D,
+    color-ext-timelinebg: #3D3D3D,
+    color-ext-timeline-hotspots: rgba(0, 0, 0, 0.3),
+    color-ext-timeline-marker: rgba(255, 255, 255, 0.66),
+    color-ext-control-border: #262626,
+    color-ext-hotspot-line: #999999,
+    color-ext-hotspot-fill: #262626,
+    color-ext-icon-button: #262626,
+  )
+);
+
+@mixin withTheme() {
+  @each $theme, $data in $themes {
+    ::ng-deep .app-theme--#{$theme} & {
+      $theme-data: () !global;
+      @each $key, $unused in $data {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-data: map-merge($theme-data, ($key: $value)) !global;
+      }
+      @content;
+      $theme-data: null !global;
+    }
+  }
+}
+
+@mixin withThemeRoot() {
+  @each $theme, $data in $themes {
+    .app-theme--#{$theme} & {
+      $theme-data: () !global;
+      @each $key, $unused in $data {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-data: map-merge($theme-data, ($key: $value)) !global;
+      }
+      @content;
+      $theme-data: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-data, $key);
+}
+
+$color-ext-text: 'color-ext-text';
+$color-ext-videobg: 'color-ext-videobg';
+$color-ext-toolbar: 'color-ext-toolbar';
+$color-ext-editor-1: 'color-ext-editor-1';
+$color-ext-editor-2: 'color-ext-editor-2';
+$color-ext-selectbg: 'color-ext-selectbg';
+$color-ext-scrubberbg: 'color-ext-scrubberbg';
+$color-ext-timelinebg: 'color-ext-timelinebg';
+$color-ext-timeline-hotspots: 'color-ext-timeline-hotspots';
+$color-ext-timeline-marker: 'color-ext-timeline-marker';
+$color-ext-control-border: 'color-ext-control-border';
+$color-ext-hotspot-line: 'color-ext-hotspot-line';
+$color-ext-hotspot-fill: 'color-ext-hotspot-fill';
+$color-ext-icon-button: 'color-ext-icon-button';

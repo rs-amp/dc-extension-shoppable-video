@@ -1,6 +1,11 @@
-<button mat-stroked-button class="app-toolbar__button" (click)="swap()">
-  <mat-icon>swap_horiz</mat-icon>
-</button>
+<div class="app-toolbar__undogroup">
+  <button mat-stroked-button class="app-toolbar__button" (click)="swap()">
+    <mat-icon>swap_horiz</mat-icon>
+  </button>
+  <button mat-stroked-button class="app-toolbar__button" (click)="toggleDarkMode()">
+    <mat-icon>{{ themeIcon }}</mat-icon>
+  </button>
+</div>
 
 <div class="app-toolbar__undogroup">
   <button mat-stroked-button class="app-toolbar__button" (click)="undo()" [disabled]="!commands.hasUndo">

@@ -23,7 +23,10 @@
   &__hotspot {
     &--selected {
       border-color: $color-primary;
-      background-color: $color-ext-selectbg;
+
+      @include withTheme() {
+        background-color: t($color-ext-selectbg);
+      }
     }
   }
 }

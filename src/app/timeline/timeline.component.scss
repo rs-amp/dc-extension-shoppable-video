@@ -13,8 +13,11 @@
   &__hotspots {
     width: 100%;
     position: absolute;
-    background-color: $color-ext-timeline-hotspots;
     pointer-events: none;
+
+    @include withTheme() {
+      background-color: t($color-ext-timeline-hotspots);
+    }
   }
 
   &__hotspot {

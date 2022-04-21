@@ -12,7 +12,10 @@
     height: 28px;
     line-height: 20px;
     margin: 2px;
-    background-color: $color-ext-icon-button;
+
+    @include withTheme() {
+      background-color: t($color-ext-icon-button);
+    }
 
     &--active {
       border-color: $color-primary;

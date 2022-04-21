@@ -4,8 +4,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: $color-ext-timelinebg;
   user-select: none;
+  @include withThemeRoot() {
+    background-color: t($color-ext-timelinebg);
+  }
 }
 
 .app-timeline-background {

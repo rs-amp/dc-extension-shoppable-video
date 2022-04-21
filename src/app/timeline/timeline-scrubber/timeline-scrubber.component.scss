@@ -9,9 +9,12 @@
   &__bar {
     width: 100%;
     height: 10px;
-    background-color: $color-ext-scrubberbg;
     display: flex;
     position: relative;
+
+    @include withTheme() {
+      background-color: t($color-ext-scrubberbg);
+    }
   }
 
   &__progress {
@@ -65,11 +68,14 @@
   }
 
   &__marker {
-    fill: $color-ext-timeline-marker;
     width: 10px;
     height: 10px;
     min-width: 0px;
     flex-shrink: 1;
     vertical-align: top;
+
+    @include withTheme() {
+      fill: t($color-ext-timeline-marker);
+    }
   }
 }

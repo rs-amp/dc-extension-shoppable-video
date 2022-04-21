@@ -9,7 +9,9 @@
   box-sizing: border-box;
   padding: 4px;
 
-  background-color: $color-ext-toolbar;
+  @include withThemeRoot() {
+    background-color: t($color-ext-toolbar);
+  }
 }
 
 .app-toolbar {
@@ -25,7 +27,10 @@
     min-width: 32px;
     height: 32px;
     line-height: 32px;
-    background-color: $color-ext-icon-button;
+
+    @include withTheme() {
+      background-color: t($color-ext-icon-button);
+    }
 
     &--active {
       border-color: $color-primary;

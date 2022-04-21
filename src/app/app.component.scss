@@ -3,7 +3,6 @@
 :host {
   width: 100%;
   background-color: $color-lightest-grey;
-  color: $color-ext-text;
 }
 
 .app-root {
@@ -19,6 +18,10 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
+    @include withTheme() {
+      color: t($color-ext-text);
+    }
   }
 
   &__toolbar {
@@ -35,7 +38,9 @@
   }
 
   &__videofill {
-    background-color: $color-ext-videobg;
+    @include withTheme() {
+      background-color: t($color-ext-videobg);
+    }
     flex: 1;
   }
 
