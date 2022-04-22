@@ -19,6 +19,9 @@ export class KeyboardService implements OnInit, OnDestroy {
 
   private actions: Map<string, KeyboardBinding[]>;
 
+  nextKeyframeFunc?: () => void;
+  lastKeyframeFunc?: () => void;
+
   constructor(private commands: EditorCommandsService, private video: VideoService) {
     this.keyDownBind = this.keyDown.bind(this);
     this.keyUpBind = this.keyUp.bind(this);
@@ -59,6 +62,22 @@ export class KeyboardService implements OnInit, OnDestroy {
       {
         code: 'ArrowRight',
         action: this.right5Seconds.bind(this)
+      },
+      {
+        code: 'ArrowUp',
+        action: this.nextKeyframe.bind(this)
+      },
+      {
+        code: 'ArrowDown',
+        action: this.lastKeyframe.bind(this)
+      },
+      {
+        code: 'KeyK',
+        action: this.nextKeyframe.bind(this)
+      },
+      {
+        code: 'KeyJ',
+        action: this.lastKeyframe.bind(this)
       },
       {
         code: 'Comma',
@@ -125,6 +144,18 @@ export class KeyboardService implements OnInit, OnDestroy {
 
   right5Seconds(): void {
     this.video.changeCurrentTime(5);
+  }
+
+  lastKeyframe(): void {
+    if (this.lastKeyframeFunc) {
+      this.lastKeyframeFunc();
+    }
+  }
+
+  nextKeyframe(): void {
+    if (this.nextKeyframeFunc) {
+      this.nextKeyframeFunc();
+    }
   }
 
   frameRewind(): void {

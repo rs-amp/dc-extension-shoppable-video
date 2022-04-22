@@ -46,6 +46,9 @@ export class EditorService {
     commands.commandRun.subscribe(() => {
       this.validateSelection();
     })
+
+    keyboard.lastKeyframeFunc = this.seekLastKeyframe.bind(this);
+    keyboard.nextKeyframeFunc = this.seekNextKeyframe.bind(this);
   }
 
   async modeRequest(mode: EditorMode) {
@@ -197,6 +200,46 @@ export class EditorService {
       return undefined;
     } else {
       return previous.p;
+    }
+  }
+
+  seekLastKeyframe(): void {
+    if (this.selectedHotspot != null) {
+      // Find the last timepoint with t < the current time, and skip to it.
+      const hotspot = this.selectedHotspot;
+      const timeline = hotspot.timeline.points;
+      const time = this.video.currentTime;
+
+      for (let i = timeline.length - 1; i >= 0; i--) {
+        const point = timeline[i];
+
+        if (time > point.t && !this.video.quantizeEqual(point.t, time)) {
+          this.video.setCurrentTime(point.t);
+          return;
+        }
+      }
+
+      this.video.setCurrentTime(0);
+    }
+  }
+
+  seekNextKeyframe() {
+    if (this.selectedHotspot != null) {
+      // Find the first timepoint with t > the current time, and skip to it.
+      const hotspot = this.selectedHotspot;
+      const timeline = hotspot.timeline.points;
+      const time = this.video.currentTime;
+
+      for (let i = 0; i < timeline.length; i++) {
+        const point = timeline[i];
+
+        if (time < point.t && !this.video.quantizeEqual(point.t, time)) {
+          this.video.setCurrentTime(point.t);
+          return;
+        }
+      }
+
+      this.video.setCurrentTime(this.video.duration);
     }
   }
 

@@ -77,7 +77,7 @@
 
     &--invisible {
       @include withTheme() {
-        background: linear-gradient(to right, transparent 50%, t($color-ext-hotspot-line) 50%);
+        background-image: linear-gradient(to right, transparent 50%, t($color-ext-hotspot-line) 50%);
       }
       background-size: 8px 3px;
       animation: dash 0.33s linear infinite;
