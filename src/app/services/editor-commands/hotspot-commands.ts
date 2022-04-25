@@ -16,6 +16,7 @@ const newHotspot: ShoppableVideoHotspot = {
       */
     ],
   },
+  cta: {} as ShoppableVideoCallToAction // Force the create dialog to have CTA enabled.
 };
 
 export class AddHotspotCommand implements EditorCommand {

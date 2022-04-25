@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppableVideoHotspot } from 'src/app/field/model/shoppable-video-data';
 import { EditorCommandsService } from 'src/app/services/editor-commands.service';
-import { AddHotspotCommand } from 'src/app/services/editor-commands/hotspot-commands';
+import { AddHotspotCommand, RemoveHotspotCommand } from 'src/app/services/editor-commands/hotspot-commands';
 import { EditorService } from 'src/app/services/editor.service';
 import { FieldService } from 'src/app/services/field.service';
 
@@ -21,7 +21,12 @@ export class HotspotListComponent implements OnInit {
     const cmd = new AddHotspotCommand();
     this.commands.runCommand(cmd);
 
-    this.editor.openHotspotDialog(cmd.addedHotspot as ShoppableVideoHotspot);
+    this.editor.openHotspotDialog(cmd.addedHotspot as ShoppableVideoHotspot, (cancelled: boolean) => {
+      if (cancelled) {
+        const cmd2 = new RemoveHotspotCommand(cmd.addedHotspot as ShoppableVideoHotspot);
+        this.commands.runCommand(cmd2);
+      }
+    });
     this.editor.select(cmd.addedHotspot as ShoppableVideoHotspot);
 
     event.preventDefault();

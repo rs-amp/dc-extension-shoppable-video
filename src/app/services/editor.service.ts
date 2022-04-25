@@ -303,12 +303,12 @@ export class EditorService {
     }
   }
 
-  openHotspotDialog(hotspot: ShoppableVideoHotspot) {
+  openHotspotDialog(hotspot: ShoppableVideoHotspot, callback?: (cancelled: boolean) => void) {
     const cmd = new SetHotspotInfoCommand(
       hotspot,
       hotspot.selector,
       hotspot.target,
-      hotspot !== undefined
+      hotspot.cta != null
         ? ({ ...hotspot.cta } as ShoppableVideoCallToAction)
         : undefined
     );
@@ -324,6 +324,10 @@ export class EditorService {
       this.keyboard.ignoreShortcuts = false;
       if (!cmd.cancelled) {
         this.commands.runCommand(cmd);
+      }
+
+      if (callback) {
+        callback(cmd.cancelled);
       }
     });
   }
