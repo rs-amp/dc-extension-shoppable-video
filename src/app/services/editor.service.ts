@@ -3,10 +3,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { MediaVideoLink } from 'dc-extensions-sdk/dist/types/lib/components/MediaLink';
 import { HotspotEditDialogComponent } from '../editor/hotspot-edit-dialog/hotspot-edit-dialog.component';
 import { ExtensionSdkService } from '../field/extension-sdk.service';
-import { Point, ShoppableVideoHotspot, ShoppableVideoTimePoint } from '../field/model/shoppable-video-data';
+import {
+  Point,
+  ShoppableVideoCallToAction,
+  ShoppableVideoHotspot,
+  ShoppableVideoTimePoint,
+} from '../field/model/shoppable-video-data';
 import { EditorCommandsService } from './editor-commands.service';
 import { SetHotspotInfoCommand } from './editor-commands/hotspot-commands';
-import { AddKeyframeCommand, RemoveKeyframeCommand } from './editor-commands/keyframe-commands';
+import {
+  AddKeyframeCommand,
+  RemoveKeyframeCommand,
+} from './editor-commands/keyframe-commands';
 import { FieldService } from './field.service';
 import { KeyboardService } from './keyboard.service';
 import { VideoService } from './video.service';
@@ -26,7 +34,8 @@ export enum EditorMode {
 export class EditorService {
   editorMode: EditorMode = EditorMode.View;
   modeChange: EventEmitter<EditorMode> = new EventEmitter();
-  selectionChanged: EventEmitter<ShoppableVideoHotspot | undefined> = new EventEmitter();
+  selectionChanged: EventEmitter<ShoppableVideoHotspot | undefined> =
+    new EventEmitter();
 
   selectedHotspot: ShoppableVideoHotspot | undefined;
   selectedTimepoint = -1;
@@ -46,7 +55,7 @@ export class EditorService {
 
     commands.commandRun.subscribe(() => {
       this.validateSelection();
-    })
+    });
 
     keyboard.lastKeyframeFunc = this.seekLastKeyframe.bind(this);
     keyboard.nextKeyframeFunc = this.seekNextKeyframe.bind(this);
@@ -248,10 +257,15 @@ export class EditorService {
 
   deleteActiveKeyframe() {
     if (this.selectedHotspot != null) {
-      let { timepoint, exact } = this.findNearestTimepoint(this.selectedHotspot, this.video.currentTime);
+      let { timepoint, exact } = this.findNearestTimepoint(
+        this.selectedHotspot,
+        this.video.currentTime
+      );
 
       if (exact) {
-        this.commands.runCommand(new RemoveKeyframeCommand(this.selectedHotspot, timepoint));
+        this.commands.runCommand(
+          new RemoveKeyframeCommand(this.selectedHotspot, timepoint)
+        );
       }
     }
   }
@@ -260,7 +274,10 @@ export class EditorService {
     if (this.selectedHotspot != null) {
       const hotspot = this.selectedHotspot;
 
-      let { timepoint, exact } = this.findNearestTimepoint(hotspot, this.video.currentTime);
+      let { timepoint, exact } = this.findNearestTimepoint(
+        hotspot,
+        this.video.currentTime
+      );
 
       if (!exact) {
         let currentPoint = this.getHotspotPoint(hotspot);
@@ -271,26 +288,38 @@ export class EditorService {
 
         const newPoint: ShoppableVideoTimePoint = {
           t: this.video.currentTime,
-          p: currentPoint
-        }
+          p: currentPoint,
+        };
 
         if (timepoint == hotspot.timeline.points.length - 1) {
           newPoint.e = true;
         }
 
-        this.commands.runCommand(new AddKeyframeCommand(hotspot, newPoint, ++timepoint));
+        this.commands.runCommand(
+          new AddKeyframeCommand(hotspot, newPoint, ++timepoint)
+        );
         this.select(hotspot, timepoint);
       }
     }
   }
 
   openHotspotDialog(hotspot: ShoppableVideoHotspot) {
-    const cmd = new SetHotspotInfoCommand(hotspot, hotspot.selector, hotspot.target, hotspot.cta);
-    const dialogRef = this.dialog.open(HotspotEditDialogComponent, { width: '500px', data: cmd });
+    const cmd = new SetHotspotInfoCommand(
+      hotspot,
+      hotspot.selector,
+      hotspot.target,
+      hotspot !== undefined
+        ? ({ ...hotspot.cta } as ShoppableVideoCallToAction)
+        : undefined
+    );
+    const dialogRef = this.dialog.open(HotspotEditDialogComponent, {
+      width: '500px',
+      data: cmd,
+    });
     this.dialogOpen = true;
     this.keyboard.ignoreShortcuts = true;
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.dialogOpen = false;
       this.keyboard.ignoreShortcuts = false;
       if (!cmd.cancelled) {
