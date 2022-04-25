@@ -21,27 +21,11 @@ export class HotspotComponent implements OnInit {
   }
 
   addKeyframe(): void {
-    let { timepoint, exact } = this.getKeyframeNearestNow();
-
-    if (!exact) {
-      let currentPoint = this.editor.getHotspotPoint(this.hotspot);
-
-      if (currentPoint == null) {
-        currentPoint = { x: 0.5, y: 0.5 };
-      }
-
-      const newPoint: ShoppableVideoTimePoint = {
-        t: this.video.currentTime,
-        p: currentPoint
-      }
-
-      if (timepoint == this.hotspot.timeline.points.length - 1) {
-        newPoint.e = true;
-      }
-
-      this.commands.runCommand(new AddKeyframeCommand(this.hotspot, newPoint, ++timepoint));
-      this.editor.select(this.hotspot, timepoint);
+    if (this.hotspot !== this.editor.selectedHotspot) {
+      this.editor.select(this.hotspot);
     }
+
+    this.editor.insertKeyframe();
   }
 
   removeKeyframe(): void {

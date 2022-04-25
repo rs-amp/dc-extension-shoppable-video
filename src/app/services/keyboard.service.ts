@@ -21,6 +21,8 @@ export class KeyboardService implements OnInit, OnDestroy {
 
   nextKeyframeFunc?: () => void;
   lastKeyframeFunc?: () => void;
+  deleteKeyframeFunc?: () => void;
+  insertKeyframeFunc?: () => void;
 
   constructor(private commands: EditorCommandsService, private video: VideoService) {
     this.keyDownBind = this.keyDown.bind(this);
@@ -50,6 +52,10 @@ export class KeyboardService implements OnInit, OnDestroy {
       {
         code: 'Delete',
         action: this.delete.bind(this)
+      },
+      {
+        code: 'KeyI',
+        action: this.insert.bind(this)
       },
       {
         code: 'Space',
@@ -125,7 +131,15 @@ export class KeyboardService implements OnInit, OnDestroy {
   }
 
   delete(): void {
+    if (this.deleteKeyframeFunc != null) {
+      this.deleteKeyframeFunc();
+    }
+  }
 
+  insert(): void {
+    if (this.insertKeyframeFunc != null) {
+      this.insertKeyframeFunc();
+    }
   }
 
   togglePause(): void {

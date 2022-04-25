@@ -6,6 +6,7 @@ import { ExtensionSdkService } from '../field/extension-sdk.service';
 import { Point, ShoppableVideoHotspot, ShoppableVideoTimePoint } from '../field/model/shoppable-video-data';
 import { EditorCommandsService } from './editor-commands.service';
 import { SetHotspotInfoCommand } from './editor-commands/hotspot-commands';
+import { AddKeyframeCommand, RemoveKeyframeCommand } from './editor-commands/keyframe-commands';
 import { FieldService } from './field.service';
 import { KeyboardService } from './keyboard.service';
 import { VideoService } from './video.service';
@@ -49,6 +50,8 @@ export class EditorService {
 
     keyboard.lastKeyframeFunc = this.seekLastKeyframe.bind(this);
     keyboard.nextKeyframeFunc = this.seekNextKeyframe.bind(this);
+    keyboard.deleteKeyframeFunc = this.deleteActiveKeyframe.bind(this);
+    keyboard.insertKeyframeFunc = this.insertKeyframe.bind(this);
   }
 
   async modeRequest(mode: EditorMode) {
@@ -240,6 +243,44 @@ export class EditorService {
       }
 
       this.video.setCurrentTime(this.video.duration);
+    }
+  }
+
+  deleteActiveKeyframe() {
+    if (this.selectedHotspot != null) {
+      let { timepoint, exact } = this.findNearestTimepoint(this.selectedHotspot, this.video.currentTime);
+
+      if (exact) {
+        this.commands.runCommand(new RemoveKeyframeCommand(this.selectedHotspot, timepoint));
+      }
+    }
+  }
+
+  insertKeyframe() {
+    if (this.selectedHotspot != null) {
+      const hotspot = this.selectedHotspot;
+
+      let { timepoint, exact } = this.findNearestTimepoint(hotspot, this.video.currentTime);
+
+      if (!exact) {
+        let currentPoint = this.getHotspotPoint(hotspot);
+
+        if (currentPoint == null) {
+          currentPoint = { x: 0.5, y: 0.5 };
+        }
+
+        const newPoint: ShoppableVideoTimePoint = {
+          t: this.video.currentTime,
+          p: currentPoint
+        }
+
+        if (timepoint == hotspot.timeline.points.length - 1) {
+          newPoint.e = true;
+        }
+
+        this.commands.runCommand(new AddKeyframeCommand(hotspot, newPoint, ++timepoint));
+        this.select(hotspot, timepoint);
+      }
     }
   }
 
