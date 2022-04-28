@@ -39,6 +39,7 @@
       #ctaElem
       *ngIf="hotspot.cta"
       [cta]="hotspot.cta.entity"
+      [vis]="vis"
       class="app-player-canvas__cta"
       [style.transform]="hotspot.cta.transform"
       [style.display]="hotspot.visible ? 'flex' : 'none'"

@@ -592,7 +592,12 @@ export class PlayerCanvasComponent implements OnInit {
     } else if (this.ctaDragIndex !== -1) {
       newCursor = 'grabbing';
       const position = this.getMouse(pointer);
-      const hotspot = this.field.data.hotspots[this.ctaDragIndex];
+      const hotspot = this.editor.selectedHotspot
+
+      if (!hotspot) {
+        this.ctaDragIndex = -1;
+        return;
+      }
 
       const delta = {
         x: position.x - this.ctaDragRelative.x,
@@ -678,6 +683,9 @@ export class PlayerCanvasComponent implements OnInit {
         this.ctaDragIndex = -1;
       }
     }
+
+    pointer.preventDefault();
+    pointer.stopImmediatePropagation();
   }
 
   ctaDown(element: CanvasCtaComponent, index: number, pointer: PointerEvent) {
@@ -686,7 +694,6 @@ export class PlayerCanvasComponent implements OnInit {
       return;
     }
 
-    this.ctaDragIndex = index;
     this.ctaDragRelative = this.getMouse(pointer);
 
     //debugger;
@@ -696,7 +703,16 @@ export class PlayerCanvasComponent implements OnInit {
     pointer.stopImmediatePropagation();
     pointer.preventDefault();
 
-    this.editor.select(this.field.data.hotspots[this.ctaDragIndex]);
+    this.editor.select(this.field.data.hotspots[index]);
+
+    const hotspot = this.field.data.hotspots[index];
+    let lastPoint = this.editor.findNearestTimepoint(hotspot, this.video.currentTime).timepoint;
+
+    // Try and find the point before lastPoint where the hotspot was last invisible.
+    // The point after this will be the cta definition point.
+    while (--lastPoint >= 0 && !hotspot.timeline.points[lastPoint].e) { }
+
+    this.ctaDragIndex = lastPoint + 1;
   }
 
   trackTransform(index: number, transform: TransformedHotspot): string {

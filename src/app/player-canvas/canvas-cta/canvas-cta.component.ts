@@ -11,6 +11,7 @@ import { CanvasCtaDialogComponent } from '../canvas-cta-dialog/canvas-cta-dialog
 export class CanvasCtaComponent implements OnInit {
 
   @Input() cta!: ShoppableVideoCallToAction;
+  @Input('vis') vis?: boolean;
 
   constructor(public ref: ElementRef, private dialog: MatDialog) { }
 
@@ -18,6 +19,10 @@ export class CanvasCtaComponent implements OnInit {
   }
 
   ctaClick() {
+    if (!this.vis) {
+      return;
+    }
+
     let url: URL;
 
     try {
