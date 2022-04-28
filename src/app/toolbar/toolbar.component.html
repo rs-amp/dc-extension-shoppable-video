@@ -1,18 +1,18 @@
 <div class="app-toolbar__undogroup">
-  <button mat-stroked-button class="app-toolbar__button" (click)="swap()">
+  <button mat-stroked-button class="app-toolbar__button" (click)="swap()" matTooltip="Swap video" matTooltipPosition="after">
     <mat-icon>swap_horiz</mat-icon>
   </button>
-  <button mat-stroked-button class="app-toolbar__button" (click)="toggleDarkMode()">
+  <button mat-stroked-button class="app-toolbar__button" (click)="toggleDarkMode()" matTooltip="Toggle dark mode" matTooltipPosition="after">
     <mat-icon>{{ themeIcon }}</mat-icon>
   </button>
 </div>
 
 <div class="app-toolbar__undogroup">
-  <button mat-stroked-button class="app-toolbar__button" (click)="undo()" [disabled]="!commands.hasUndo">
+  <button mat-stroked-button class="app-toolbar__button" (click)="undo()" [disabled]="!commands.hasUndo" matTooltip="Undo" matTooltipPosition="after">
     <mat-icon>undo</mat-icon>
   </button>
 
-  <button mat-stroked-button class="app-toolbar__button" (click)="redo()" [disabled]="!commands.hasRedo">
+  <button mat-stroked-button class="app-toolbar__button" (click)="redo()" [disabled]="!commands.hasRedo" matTooltip="Redo" matTooltipPosition="after">
     <mat-icon>redo</mat-icon>
   </button>
 </div>

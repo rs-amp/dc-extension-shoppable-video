@@ -3,4 +3,13 @@
     display: flex;
     flex-direction: column;
   }
+
+  &__buttongroup {
+    display: flex;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+  }
 }

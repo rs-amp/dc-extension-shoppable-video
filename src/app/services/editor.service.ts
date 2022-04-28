@@ -10,7 +10,7 @@ import {
   ShoppableVideoTimePoint,
 } from '../field/model/shoppable-video-data';
 import { EditorCommandsService } from './editor-commands.service';
-import { SetHotspotInfoCommand } from './editor-commands/hotspot-commands';
+import { RemoveHotspotCommand, SetHotspotInfoCommand } from './editor-commands/hotspot-commands';
 import {
   AddKeyframeCommand,
   RemoveKeyframeCommand,
@@ -312,6 +312,7 @@ export class EditorService {
         ? ({ ...hotspot.cta } as ShoppableVideoCallToAction)
         : undefined
     );
+    cmd.isNew = callback != null;
     const dialogRef = this.dialog.open(HotspotEditDialogComponent, {
       width: '500px',
       data: cmd,
@@ -324,6 +325,11 @@ export class EditorService {
       this.keyboard.ignoreShortcuts = false;
       if (!cmd.cancelled) {
         this.commands.runCommand(cmd);
+      }
+
+      if (cmd.deleted) {
+        const deleteCmd = new RemoveHotspotCommand(hotspot);
+        this.commands.runCommand(deleteCmd);
       }
 
       if (callback) {

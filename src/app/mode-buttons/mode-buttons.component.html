@@ -1,17 +1,17 @@
 <ng-container *ngIf="showButtons">
   <ng-container *ngIf="hasVideo">
-      <button mat-fab (click)="changeMode('edit')" matTooltip="Edit video" class="amp-fab">
+      <button mat-fab (click)="changeMode('edit')" matTooltip="Edit video hotspots" class="amp-fab">
         <mat-icon class="amp-icon-small">edit</mat-icon>
       </button>
-      <button mat-fab color="secondary" (click)="changeMode('swap')" matTooltip="Replace" class="amp-fab">
+      <button mat-fab color="secondary" (click)="changeMode('swap')" matTooltip="Replace video" class="amp-fab">
         <mat-icon class="amp-icon-small">swap_horiz</mat-icon>
       </button>
-    <button mat-fab color="secondary" (click)="changeMode('delete')" matTooltip="Remove" class="amp-fab">
+    <button mat-fab color="secondary" (click)="changeMode('delete')" matTooltip="Remove video" class="amp-fab">
       <mat-icon class="amp-icon-small">delete</mat-icon>
     </button>
   </ng-container>
   <ng-container *ngIf="!hasVideo">
-    <button mat-fab (click)="changeMode('swap')" matTooltip="Set video" class="amp-fab">
+    <button mat-fab (click)="changeMode('swap')" matTooltip="Add video" class="amp-fab">
       <mat-icon class="amp-icon-small">add</mat-icon>
     </button>
   </ng-container>

@@ -16,6 +16,10 @@ export class PlayerControlsComponent implements OnInit {
     return (this.video.video && this.video.video.volume) || 0;
   }
 
+  get muted(): boolean {
+    return (this.video.video && this.video.video.muted) || false;
+  }
+
   constructor(private video: VideoService) { }
 
   ngOnInit(): void {
@@ -51,6 +55,18 @@ export class PlayerControlsComponent implements OnInit {
     }
 
     return 'volume_up';
+  }
+
+  mute() {
+    if (this.video.video) {
+      this.video.video.muted = !this.video.video.muted;
+    }
+  }
+
+  muteKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.mute();
+    }
   }
 
   frameAdvance(frames: number) {

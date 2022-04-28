@@ -30,6 +30,12 @@ export class HotspotEditDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  onDelete(): void {
+    this.hotspot.cancelled = true;
+    this.hotspot.deleted = true;
+    this.dialogRef.close();
+  }
+
   ctaToggle(): void {
     if (this.hotspot.cta == null) {
       this.hotspot.cta = {

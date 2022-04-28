@@ -34,7 +34,13 @@
     <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button [mat-dialog-close]="hotspot" color="primary" [disabled]="!canSave">Save</button>
+<div mat-dialog-actions class="app-hotspot-edit-dialog__actions">
+  <div class="app-hotspot-edit-dialog__buttongroup">
+    <button mat-flat-button (click)="onDelete()" color="warn" *ngIf="!hotspot.isNew">Delete</button>
+  </div>
+
+  <div class="app-hotspot-edit-dialog__buttongroup">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button [mat-dialog-close]="hotspot" color="primary" [disabled]="!canSave">Save</button>
+  </div>
 </div>
