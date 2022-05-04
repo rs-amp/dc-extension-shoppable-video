@@ -14,6 +14,8 @@ $themes: (
     color-ext-hotspot-line: #747980,
     color-ext-hotspot-fill: white,
     color-ext-icon-button: transparent,
+    color-ext-hotspot-icon: #333333,
+    color-ext-hotspot-icon-bg: #747980,
   ),
   dark: (
     color-ext-text: #CCCCCC,
@@ -30,6 +32,8 @@ $themes: (
     color-ext-hotspot-line: #999999,
     color-ext-hotspot-fill: #262626,
     color-ext-icon-button: #262626,
+    color-ext-hotspot-icon: #CCCCCC,
+    color-ext-hotspot-icon-bg: #999999,
   )
 );
 
@@ -79,3 +83,5 @@ $color-ext-control-border: 'color-ext-control-border';
 $color-ext-hotspot-line: 'color-ext-hotspot-line';
 $color-ext-hotspot-fill: 'color-ext-hotspot-fill';
 $color-ext-icon-button: 'color-ext-icon-button';
+$color-ext-hotspot-icon: 'color-ext-hotspot-icon';
+$color-ext-hotspot-icon-bg: 'color-ext-hotspot-icon-bg';

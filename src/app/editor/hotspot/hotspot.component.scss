@@ -20,6 +20,10 @@
     display: flex;
     align-items: center;
 
+    @include withTheme() {
+      color: t($color-ext-hotspot-icon-bg);
+    }
+
     button {
       height: 28px;
       width: 28px;
@@ -27,6 +31,18 @@
       mat-icon {
         font-size: 20px;
       }
+    }
+  }
+
+  &__add {
+    @include withTheme() {
+      color: t($color-ext-hotspot-icon);
+    }
+  }
+
+  &__remove {
+    @include withTheme() {
+      color: t($color-ext-hotspot-icon);
     }
   }
 }
