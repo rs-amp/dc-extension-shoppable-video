@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { VideoService } from 'src/app/services/video.service';
 
+const advanceHoldDelay = 400;
+const advanceHoldInterval = 200;
+
 @Component({
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
@@ -20,7 +23,14 @@ export class PlayerControlsComponent implements OnInit {
     return (this.video.video && this.video.video.muted) || false;
   }
 
-  constructor(private video: VideoService) { }
+  advancing = false;
+  advanceDirection = false;
+  advanceInterval = -1;
+  advanceLoopBind: () => void;
+
+  constructor(private video: VideoService) {
+    this.advanceLoopBind = this.advanceLoop.bind(this);
+  }
 
   ngOnInit(): void {
   }
@@ -69,7 +79,11 @@ export class PlayerControlsComponent implements OnInit {
     }
   }
 
-  frameAdvance(frames: number) {
+  frameAdvance(frames: number, fromButton: boolean) {
+    if (fromButton && this.advancing) {
+      return;
+    }
+
     if (this.video.video && this.video.framerate) {
       if (!this.paused) {
         this.video.video.pause();
@@ -91,4 +105,35 @@ export class PlayerControlsComponent implements OnInit {
     }
   }
 
+  clearAdvanceInterval() {
+    if (this.advanceInterval !== -1) {
+      clearTimeout(this.advanceInterval);
+
+      this.advanceInterval = -1;
+    }
+  }
+
+  advanceButtonDown(event: PointerEvent, advance: boolean) {
+    this.advancing = false;
+    this.advanceDirection = advance;
+    this.clearAdvanceInterval();
+
+    this.advanceInterval = window.setTimeout(() => {
+      this.advancing = true;
+
+      this.advanceLoop();
+    }, advanceHoldDelay);
+
+    (event.currentTarget as Element).setPointerCapture(event.pointerId);
+  }
+
+  advanceButtonUp(event: PointerEvent, advance: boolean) {
+    this.clearAdvanceInterval();
+  }
+
+  advanceLoop() {
+    this.frameAdvance(this.advanceDirection ? 1 : -1, false);
+
+    this.advanceInterval = window.setTimeout(this.advanceLoopBind, advanceHoldInterval);
+  }
 }

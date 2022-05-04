@@ -2,15 +2,17 @@
   mat-stroked-button
   class="app-player-controls__button"
   (click)="skipPrevious()"
-  matTooltip="Skip to start"
+  matTooltip="First frame"
 >
   <mat-icon>skip_previous</mat-icon>
 </button>
 <button
   mat-stroked-button
   class="app-player-controls__button"
-  (click)="frameAdvance(-1)"
-  matTooltip="Frame rewind"
+  (click)="frameAdvance(-1, true)"
+  (pointerdown)="advanceButtonDown($event, false)"
+  (pointerup)="advanceButtonUp($event, false)"
+  matTooltip="Previous frame"
 >
   <mat-icon>navigate_before</mat-icon>
 </button>
@@ -26,8 +28,10 @@
 <button
   mat-stroked-button
   class="app-player-controls__button"
-  (click)="frameAdvance(1)"
-  matTooltip="Frame advance"
+  (click)="frameAdvance(1, true)"
+  (pointerdown)="advanceButtonDown($event, true)"
+  (pointerup)="advanceButtonUp($event, true)"
+  matTooltip="Next frame"
 >
   <mat-icon>navigate_next</mat-icon>
 </button>
@@ -35,7 +39,7 @@
   mat-stroked-button
   class="app-player-controls__button"
   (click)="skipNext()"
-  matTooltip="Skip to end"
+  matTooltip="Last frame"
 >
   <mat-icon>skip_next</mat-icon>
 </button>

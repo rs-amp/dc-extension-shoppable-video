@@ -12,4 +12,19 @@
     display: flex;
     justify-content: space-between;
   }
+
+  &__cta {
+    display: flex;
+    flex-direction: column;
+    height: 115px;
+    transition: height 0.5s, margin 0.5s;
+    margin: 5px 10px;
+    overflow: hidden;
+
+    &--hidden {
+      height: 0px;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
 }

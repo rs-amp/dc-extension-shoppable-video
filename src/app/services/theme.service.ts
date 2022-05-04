@@ -1,5 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
+const localStorageName = 'uiex-shoppable-video-theme'
+
 interface Theme {
   name: string;
   href: string;
@@ -27,7 +29,24 @@ export class ThemeService {
   constructor() {
     this.changed = new EventEmitter();
 
-    this.setTheme('light');
+    this.setTheme(this.getLocalStorageTheme(), false);
+  }
+
+  private getLocalStorageTheme(): string {
+    try {
+      return localStorage.getItem(localStorageName) || 'light';
+    } catch {
+      console.error('Could not get chosen theme from localStorage. Make sure the extension has Allow Same Origin permissions.');
+      return 'light';
+    }
+  }
+
+  private setLocalStorageTheme(value: string) {
+    try {
+      return localStorage.setItem(localStorageName, value);
+    } catch {
+      // Silently fail if the theme cannot be saved.
+    }
   }
 
   private getLinkElement(name: string): Element | null {
@@ -63,12 +82,14 @@ export class ThemeService {
     }
   }
 
-  async setTheme(name: string) {
+  async setTheme(name: string, save = true) {
     if (this.switchingTheme) return;
 
     const theme = this.themes.find(t => t.name === name);
 
     if (theme == null) return;
+
+    this.setLocalStorageTheme(name);
 
     this.switchingTheme = true;
     await this.setStyle(name, theme.href);
