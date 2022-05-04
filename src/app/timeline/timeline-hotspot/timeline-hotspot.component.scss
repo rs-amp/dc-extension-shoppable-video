@@ -29,7 +29,7 @@
     transform: rotate(45deg);
     position: absolute;
     z-index: 4;
-    transition: background-color 0.25s, border-color 0.25s;
+    transition: background-color 0.25s, border-color 0.25s, border-width 0.05s, margin 0.05s;
     pointer-events: auto;
 
     @include withTheme() {
@@ -45,7 +45,12 @@
     }
 
     &--selected {
+      border-width: 2px;
+      margin: -9px;
       border-color: $color-primary;
+      @include withTheme() {
+        background-color: t($color-ext-selectbg-dark);
+      }
     }
   }
 
