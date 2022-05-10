@@ -1,7 +1,9 @@
 <ng-container *ngFor="let point of renderablePoints; index as i">
   <div
     class="app-timeline-hotspot__keyframe"
-    [ngClass]="{'app-timeline-hotspot__keyframe--selected': selected(i + startIndex)}"
+    [ngClass]="{
+      'app-timeline-hotspot__keyframe--selected': selected(i + startIndex)
+    }"
     [style.transform]="getPointTranslation(point)"
     (pointerdown)="keyframeDown($event, i + startIndex)"
     (pointermove)="keyframeMove($event, i + startIndex)"
@@ -9,7 +11,10 @@
   ></div>
   <div
     class="app-timeline-hotspot__line"
-    [ngClass]="{'app-timeline-hotspot__line--invisible': point.e, 'app-timeline-hotspot__line--visible': !point.e}"
+    [ngClass]="{
+      'app-timeline-hotspot__line--invisible': point.e,
+      'app-timeline-hotspot__line--visible': !point.e
+    }"
     [style.transform]="getLineTranslation(point, i)"
     (click)="lineClick(i + startIndex)"
     (pointerover)="lineHover(i + startIndex)"
@@ -17,6 +22,19 @@
     *ngIf="i !== totalPoints - 1"
   ></div>
 </ng-container>
-<div class="app-timeline-hotspot__showhide" [ngClass]="{'app-timeline-hotspot__showhide--show': showLineTooltip}" [style.transform]="getShowHideTranslation()">
-  <mat-icon>{{ showLineVisible ? 'visibility' : 'visibility_off' }}</mat-icon>
+<div
+  class="app-timeline-hotspot__showhide"
+  [ngClass]="{ 'app-timeline-hotspot__showhide--show': showLineTooltip }"
+  [style.transform]="getShowHideTranslation()"
+>
+  <mat-icon>{{ showLineVisible ? "visibility" : "visibility_off" }}</mat-icon>
 </div>
+<div
+  class="app-timeline-hotspot__dragtooltip"
+  #tooltip="matTooltip"
+  [style.transform]="dragTooltipTranslation"
+  [matTooltip]="dragTooltipText"
+  matTooltipHideDelay="Infinity"
+  [matTooltipDisabled]="dragTooltipText === ''"
+  matTooltipPosition="above"
+></div>

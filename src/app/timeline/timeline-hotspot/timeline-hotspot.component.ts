@@ -6,7 +6,9 @@ import {
   OnDestroy,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
+import { MatTooltip } from '@angular/material/tooltip';
 import {
   ShoppableVideoHotspot,
   ShoppableVideoTimePoint,
@@ -31,6 +33,9 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
   @Input('width') width!: number;
   @Input('hotspot') hotspot!: ShoppableVideoHotspot;
 
+  @ViewChild('tooltip', { static: false })
+  tooltip!: MatTooltip;
+
   renderablePoints: ShoppableVideoTimePoint[] = [];
   startIndex = 0;
   totalPoints = 0;
@@ -43,6 +48,9 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
   showLineTooltip = false;
   showLineVisible = true;
   showLineIndex = -1;
+
+  dragTooltipTranslation = '';
+  dragTooltipText = '';
 
   constructor(
     private video: VideoService,
@@ -186,6 +194,15 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
     return Math.max(0, Math.min(event.clientX - rect.x, rect.width));
   }
 
+  printTime(point: ShoppableVideoTimePoint): string {
+    const timeInSeconds = point.t;
+    const minuteDiv = Math.floor(timeInSeconds / 60);
+    const secondDiv = timeInSeconds % 60;
+
+    const secondString = secondDiv.toFixed(3).padStart(5, '0');
+    return (minuteDiv == 0) ? `${secondString}s` : `${minuteDiv}:${secondString}s`;
+  }
+
   keyframeDown(event: PointerEvent, index: number) {
     const beginDragMs = 500;
     // Select the hotspot at the given time.
@@ -244,6 +261,10 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
       // Move the keyframe to the mouse.
 
       this.setPointX(point, mPos);
+
+      this.dragTooltipTranslation = this.getPointTranslation(point);
+      this.dragTooltipText = this.printTime(point);
+      this.tooltip.show();
     }
   }
 
@@ -269,6 +290,8 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
         this.video.setCurrentTime(point.t);
       }
       this.clickedKeyframe = -1;
+
+      this.tooltip.hide();
     }
 
     this.clearClickTimeout();

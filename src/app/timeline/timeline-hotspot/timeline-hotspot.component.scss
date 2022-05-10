@@ -125,4 +125,11 @@
       }
     }
   }
+
+  &__dragtooltip {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    pointer-events: none;
+  }
 }
