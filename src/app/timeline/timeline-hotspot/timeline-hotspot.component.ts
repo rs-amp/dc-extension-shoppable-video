@@ -294,15 +294,13 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
 
   getShowHideTranslation() {
     const points = this.hotspot.timeline.points;
-    if (this.showLineIndex == -1 || this.showLineIndex >= points.length) {
+    if (this.showLineIndex == -1 || this.showLineIndex >= points.length - 1) {
+      this.showLineTooltip = false;
       return `scale(0, 0)`;
     }
 
     const x1 = this.getPointX(points[this.showLineIndex]);
-    const x2 =
-      this.showLineIndex + 1 >= points.length
-        ? this.width
-        : this.getPointX(points[this.showLineIndex + 1]);
+    const x2 = this.getPointX(points[this.showLineIndex + 1]);
 
     return `translate(${(x1 + x2) / 2}px, 0)`;
   }
