@@ -12,6 +12,10 @@
   &__container {
     position: absolute;
     display: block;
+
+    &--vis {
+      pointer-events: none;
+    }
   }
 
   &__tooltip {
@@ -23,10 +27,12 @@
 
   &__hotspot {
     position: absolute;
+    pointer-events: auto;
   }
 
   &__cta {
     position: absolute;
+    pointer-events: auto;
   }
 
   &__ctaline {
