@@ -12,6 +12,11 @@
     [ngClass]="{'app-timeline-hotspot__line--invisible': point.e, 'app-timeline-hotspot__line--visible': !point.e}"
     [style.transform]="getLineTranslation(point, i)"
     (click)="lineClick(i + startIndex)"
+    (pointerover)="lineHover(i + startIndex)"
+    (pointerout)="lineOut(i + startIndex)"
     *ngIf="i !== totalPoints - 1"
   ></div>
 </ng-container>
+<div class="app-timeline-hotspot__showhide" [ngClass]="{'app-timeline-hotspot__showhide--show': showLineTooltip}" [style.transform]="getShowHideTranslation()">
+  <mat-icon>{{ showLineVisible ? 'visibility' : 'visibility_off' }}</mat-icon>
+</div>

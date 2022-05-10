@@ -89,4 +89,40 @@
       opacity: 0;
     }
   }
+
+  &__showhide {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    pointer-events: none;
+    z-index: 4;
+
+    mat-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      display: block;
+
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+
+      color: white;
+
+      margin: -12px;
+
+      background-color: $color-primary-lighter;
+      opacity: 0;
+      transform: scale(0.0, 0.0);
+
+      transition: transform 0.33s, opacity 0.33s;
+    }
+
+    &--show {
+      mat-icon {
+        opacity: 1;
+        transform: scale(1.0, 1.0);
+      }
+    }
+  }
 }

@@ -12,7 +12,10 @@ import {
   ShoppableVideoTimePoint,
 } from 'src/app/field/model/shoppable-video-data';
 import { EditorCommandsService } from 'src/app/services/editor-commands.service';
-import { MoveKeyframeCommand, ToggleKeyframeEndCommand } from 'src/app/services/editor-commands/keyframe-commands';
+import {
+  MoveKeyframeCommand,
+  ToggleKeyframeEndCommand,
+} from 'src/app/services/editor-commands/keyframe-commands';
 import { EditorService } from 'src/app/services/editor.service';
 import { FieldService } from 'src/app/services/field.service';
 import { VideoService } from 'src/app/services/video.service';
@@ -36,6 +39,10 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
   startTimepoint: number = 0;
   dragActive = false;
   clickTimeout?: number;
+
+  showLineTooltip = false;
+  showLineVisible = true;
+  showLineIndex = -1;
 
   constructor(
     private video: VideoService,
@@ -113,7 +120,10 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   selected(index: number): boolean {
-    return this.editor.selectedHotspot === this.hotspot && this.editor.selectedTimepoint === index;
+    return (
+      this.editor.selectedHotspot === this.hotspot &&
+      this.editor.selectedTimepoint === index
+    );
   }
 
   getPointX(point: ShoppableVideoTimePoint) {
@@ -148,8 +158,11 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
     // Get the min+max position for this point.
     const points = this.hotspot.timeline.points;
     const index = points.indexOf(point);
-    const min = index == 0 ? 0 : points[index - 1].t + 1/this.video.framerate;
-    const max = index == points.length - 1 ? this.video.duration : points[index + 1].t - 1/this.video.framerate;
+    const min = index == 0 ? 0 : points[index - 1].t + 1 / this.video.framerate;
+    const max =
+      index == points.length - 1
+        ? this.video.duration
+        : points[index + 1].t - 1 / this.video.framerate;
 
     // Convert xPos back into time.
 
@@ -157,7 +170,10 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
     const rangeOffsetS = this.rangeOffset * duration;
     const rangeWidthS = this.rangeWidth * duration;
 
-    point.t = Math.min(max, Math.max(min, (xPos / this.width) * rangeWidthS + rangeOffsetS));
+    point.t = Math.min(
+      max,
+      Math.max(min, (xPos / this.width) * rangeWidthS + rangeOffsetS)
+    );
 
     this.video.forceRedraw();
   }
@@ -189,7 +205,10 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
 
     this.clickedOffset = mPos - tPos;
 
-    this.clickTimeout = setTimeout(this.beginDrag.bind(this), beginDragMs) as any;
+    this.clickTimeout = setTimeout(
+      this.beginDrag.bind(this),
+      beginDragMs
+    ) as any;
 
     (event.target as Element).setPointerCapture(event.pointerId);
   }
@@ -236,7 +255,14 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
         // Send the new timepoint position as a command.
         this.setPointX(point, this.getMousePosition(event));
 
-        this.commands.runCommand(new MoveKeyframeCommand(this.hotspot, index, this.startTimepoint, point.t));
+        this.commands.runCommand(
+          new MoveKeyframeCommand(
+            this.hotspot,
+            index,
+            this.startTimepoint,
+            point.t
+          )
+        );
         this.dragActive = false;
       } else {
         // Quick click, just move the video currentTime to this position.
@@ -250,5 +276,34 @@ export class TimelineHotspotComponent implements OnInit, OnChanges, OnDestroy {
 
   lineClick(index: number) {
     this.commands.runCommand(new ToggleKeyframeEndCommand(this.hotspot, index));
+
+    if (index == this.showLineIndex) {
+      this.showLineVisible = !this.hotspot.timeline.points[index].e;
+    }
+  }
+
+  lineHover(index: number) {
+    this.showLineIndex = index;
+    this.showLineTooltip = true;
+    this.showLineVisible = !this.hotspot.timeline.points[index].e;
+  }
+
+  lineOut(index: number) {
+    this.showLineTooltip = false;
+  }
+
+  getShowHideTranslation() {
+    const points = this.hotspot.timeline.points;
+    if (this.showLineIndex == -1 || this.showLineIndex >= points.length) {
+      return `scale(0, 0)`;
+    }
+
+    const x1 = this.getPointX(points[this.showLineIndex]);
+    const x2 =
+      this.showLineIndex + 1 >= points.length
+        ? this.width
+        : this.getPointX(points[this.showLineIndex + 1]);
+
+    return `translate(${(x1 + x2) / 2}px, 0)`;
   }
 }
