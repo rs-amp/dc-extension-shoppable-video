@@ -16,8 +16,14 @@ const baseVideo: ShoppableVideoData = {
 })
 export class FieldService {
   fieldUpdated: EventEmitter<ShoppableVideoData> = new EventEmitter();
+  editorUpdated: EventEmitter<ShoppableVideoData> = new EventEmitter();
   data: ShoppableVideoData = JSON.parse(JSON.stringify(baseVideo));
   stagingEnvironment?: string;
+  isEditor = false;
+
+  get hasMultipleVideos(): boolean {
+    return this.sdk.hasMultipleVideos;
+  }
 
   private updateInProgress = false;
   private updated = new Subject();
@@ -39,17 +45,30 @@ export class FieldService {
     } else {
       const db = this.updated.pipe(debounce(() => interval(100)));
       db.subscribe(async () => {
-        const sdkInstance = await this.sdk.getSDK();
-        sdkInstance.field.setValue(this.data);
+        this.sdk.setValue(this.data);
       });
 
       sdk.getSDK().then(async (sdkInstance) => {
         //sdkInstance.frame.startAutoResizer();
+        this.isEditor = sdkInstance.field == null;
+
+        if (this.isEditor) {
+          this.data = JSON.parse(JSON.stringify(baseVideo));
+          this.updateField();
+        }
+
         this.calculateExtensionSize();
         this.stagingEnvironment = sdkInstance.stagingEnvironment;
         this.loadParams({ ...sdkInstance.params.installation, ...sdkInstance.params.instance });
-        this.data = await sdkInstance.field.getValue();
-        this.updateField();
+
+        this.sdk.registerValueListener((data, newField = false) => {
+          this.data = data || JSON.parse(JSON.stringify(baseVideo));
+          this.updateField();
+
+          if (newField) {
+            this.editorUpdated.emit(this.data);
+          }
+        })
       });
     }
   }
@@ -82,7 +101,9 @@ export class FieldService {
 
       const sdk = await this.sdk.getSDK();
 
-      sdk.frame.setHeight(size);
+      if (!this.sdk.isEditor) {
+        sdk.frame.setHeight(size);
+      }
     }
   }
 

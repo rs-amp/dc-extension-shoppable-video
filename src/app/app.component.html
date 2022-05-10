@@ -1,16 +1,16 @@
 <ng-container *ngIf="!vis.active">
-  <div class="app-root__title" *ngIf="title">{{ title }}</div>
-  <div class="app-root__main">
+  <div class="app-root__title" *ngIf="title && !fullscreen">{{ title }}</div>
+  <div class="app-root__main" [ngClass]="{'app-root__main--fullscreen': fullscreen}">
     <app-mode-buttons class="app-root__mode"></app-mode-buttons>
-    <div class="app-root__videogroup">
+    <div class="app-root__videogroup" [ngClass]="{'app-root__videogroup--fullscreen': fullscreen}">
       <app-toolbar
         class="app-root__toolbar"
         [ngClass]="{ 'app-root__toolbar--hide': !active }"
       ></app-toolbar>
       <div class="app-root__videofill">
-        <app-video-player class="app-root__video"></app-video-player>
-        <app-player-canvas class="app-root__canvas"></app-player-canvas>
-        <app-error-display class="app-root__error" *ngIf="videoError"></app-error-display>
+        <app-video-player class="app-root__video" [ngClass]="{'app-root__video--fullscreen': fullscreen}"></app-video-player>
+        <app-player-canvas class="app-root__canvas" [ngClass]="{'app-root__canvas--fullscreen': fullscreen}" [fullscreen]="fullscreen"></app-player-canvas>
+        <app-error-display class="app-root__error" [ngClass]="{'app-root__error--fullscreen': fullscreen}" *ngIf="videoError"></app-error-display>
       </div>
     </div>
     <app-editor class="app-root__editor" [ngClass]="{'app-root__editor--inactive': disableEditor}"></app-editor>

@@ -62,6 +62,7 @@ interface TransformedKeyframe {
 export class PlayerCanvasComponent implements OnInit {
 
   @Input('vis') vis?: boolean;
+  @Input('fullscreen') fullscreen?: boolean;
 
   hotspotTransforms: TransformedHotspot[] = [];
   keyframeTransforms: TransformedKeyframe[] = [];
@@ -102,6 +103,7 @@ export class PlayerCanvasComponent implements OnInit {
     private ref: ApplicationRef
   ) {
     field.fieldUpdated.subscribe((data) => {
+      this.updateVideoSize();
       this.updateTransforms(data, true);
     });
 
@@ -315,7 +317,7 @@ export class PlayerCanvasComponent implements OnInit {
 
   shouldShowTooltip() : boolean {
     return this.editor.editorMode === EditorMode.Edit && this.video.videoError == VideoErrorType.None &&
-           !this.editor.dialogOpen && (
+           this.field.data.hotspots != null && !this.editor.dialogOpen && (
            this.firstPlaceTooltip ||
            this.field.data.hotspots.length == 0 ||
            this.editor.selectedHotspot == null ||
@@ -696,9 +698,7 @@ export class PlayerCanvasComponent implements OnInit {
 
     this.ctaDragRelative = this.getMouse(pointer);
 
-    //debugger;
     element.ref.nativeElement.setPointerCapture(pointer.pointerId);
-    //(pointer.currentTarget as HTMLElement).setPointerCapture(pointer.pointerId);
 
     pointer.stopImmediatePropagation();
     pointer.preventDefault();

@@ -8,6 +8,7 @@ import { VideoPlayerComponent } from './player/video-player.component';
 import { ModeButtonsComponent } from './mode-buttons/mode-buttons.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -29,6 +30,8 @@ import { HotspotEditDialogComponent } from './editor/hotspot-edit-dialog/hotspot
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CanvasCtaDialogComponent } from './player-canvas/canvas-cta-dialog/canvas-cta-dialog.component';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
+import { VideoSelectDialogComponent } from './video-select-dialog/video-select-dialog.component';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { ErrorDisplayComponent } from './error-display/error-display.component';
     HotspotEditDialogComponent,
     ToolbarComponent,
     CanvasCtaDialogComponent,
-    ErrorDisplayComponent
+    ErrorDisplayComponent,
+    VideoSelectDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,8 +61,10 @@ import { ErrorDisplayComponent } from './error-display/error-display.component';
     FormsModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
     MatDialogModule,
     MatInputModule,
+    MatRippleModule,
     MatSlideToggleModule,
     MatSliderModule,
     MatTooltipModule,

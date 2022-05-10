@@ -22,6 +22,10 @@
     @include withTheme() {
       color: t($color-ext-text);
     }
+
+    &--fullscreen {
+      height: 100%;
+    }
   }
 
   &__toolbar {
@@ -35,6 +39,10 @@
     width: 100%;
     height: 500px;
     display: flex;
+
+    &--fullscreen {
+      flex: 1;
+    }
   }
 
   &__videofill {
@@ -42,6 +50,16 @@
       background-color: t($color-ext-videobg);
     }
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__video {
+    &--fullscreen {
+      height: 100%;
+      position: absolute;
+    }
   }
 
   &__vis {
@@ -51,10 +69,22 @@
 
   &__canvas {
     margin-top: -500px;
+
+    &--fullscreen {
+      margin-top: 0px;
+      position: absolute;
+      height: 100%;
+    }
   }
 
   &__error {
     margin-top: -500px;
+
+    &--fullscreen {
+      margin-top: 0px;
+      position: absolute;
+      height: 100%;
+    }
   }
 
   &__mode {

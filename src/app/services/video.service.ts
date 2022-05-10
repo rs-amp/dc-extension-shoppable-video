@@ -168,7 +168,6 @@ export class VideoService {
 
           this.video = video;
         } else {
-          debugger;
           this.videoError = VideoErrorType.Publish;
           this.videoReady = true;
         }

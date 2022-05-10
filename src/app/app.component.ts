@@ -38,6 +38,10 @@ export class AppComponent {
     return `app-theme--${this.theme.activeTheme}`;
   }
 
+  get fullscreen(): boolean {
+    return this.editor.fullscreen;
+  }
+
   constructor(
     private editor: EditorService,
     public vis: VisualizationSdkService,

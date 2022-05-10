@@ -1,0 +1,16 @@
+<h1 mat-dialog-title *ngIf="hasVideos">Select Shoppable Video</h1>
+<h1 mat-dialog-title *ngIf="!hasVideos">No Shoppable Videos</h1>
+<div mat-dialog-content class="app-video-select-dialog__body" [ngClass]="[themeName]">
+  <p *ngIf="hasVideos">Select a video in this content item to edit.</p>
+  <p *ngIf="!hasVideos">Couldn't find any shoppable videos in this content item to edit.</p>
+
+  <div class="app-video-select-dialog__list" *ngIf="hasVideos">
+    <mat-card class="app-video-select-dialog__listitem" *ngFor="let video of videos" matRipple (click)="selectVideo(video)">
+      <mat-card-title-group>
+        <img mat-card-sm-image [src]="generateVideoThumb(video)" class="app-video-select-dialog__thumbnail">
+        <mat-card-title>{{ getVideoTitle(video) }}</mat-card-title>
+        <mat-card-subtitle>{{ getVideoSubtitle(video) }}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+  </div>
+</div>

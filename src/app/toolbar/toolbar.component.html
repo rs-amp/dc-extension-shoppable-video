@@ -1,7 +1,17 @@
-<div class="app-toolbar__undogroup">
-  <button mat-stroked-button class="app-toolbar__button" (click)="swap()" matTooltip="Toggle edit mode" matTooltipPosition="after">
-    <mat-icon>swap_horiz</mat-icon>
-  </button>
+<div class="app-toolbar__topgroup" [style.height]="topButtonsSize">
+  <ng-container *ngIf="isEditor">
+    <button mat-stroked-button class="app-toolbar__button" (click)="swapField()" matTooltip="Edit another field" matTooltipPosition="after" *ngIf="hasMultipleVideos">
+      <mat-icon>folder_open</mat-icon>
+    </button>
+    <button mat-stroked-button class="app-toolbar__button" (click)="swapVideo()" matTooltip="Clear and change video" matTooltipPosition="after">
+      <mat-icon>switch_video</mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="!isEditor">
+    <button mat-stroked-button class="app-toolbar__button" (click)="swap()" matTooltip="Toggle edit mode" matTooltipPosition="after">
+      <mat-icon>swap_horiz</mat-icon>
+    </button>
+  </ng-container>
   <button mat-stroked-button class="app-toolbar__button" (click)="toggleDarkMode()" matTooltip="Toggle light/dark mode" matTooltipPosition="after">
     <mat-icon>{{ themeIcon }}</mat-icon>
   </button>

@@ -1,12 +1,13 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MediaVideoLink } from 'dc-extensions-sdk/dist/types/lib/components/MediaLink';
+import { MediaImageLink, MediaVideoLink } from 'dc-extensions-sdk/dist/types/lib/components/MediaLink';
 import { HotspotEditDialogComponent } from '../editor/hotspot-edit-dialog/hotspot-edit-dialog.component';
 import { ExtensionSdkService } from '../field/extension-sdk.service';
 import {
   Point,
   ShoppableVideoCallToAction,
   ShoppableVideoHotspot,
+  ShoppableVideoTimeline,
   ShoppableVideoTimePoint,
 } from '../field/model/shoppable-video-data';
 import { EditorCommandsService } from './editor-commands.service';
@@ -40,6 +41,8 @@ export class EditorService {
   selectedHotspot: ShoppableVideoHotspot | undefined;
   selectedTimepoint = -1;
   dialogOpen = false;
+  forcedFullscreen = false;
+  fullscreen = false;
 
   constructor(
     private field: FieldService,
@@ -55,6 +58,23 @@ export class EditorService {
 
     commands.commandRun.subscribe(() => {
       this.validateSelection();
+    });
+
+    field.fieldUpdated.subscribe(() => {
+      if (field.isEditor) {
+        this.forcedFullscreen = true;
+        if (!this.fullscreen) {
+          this.fullscreen = true;
+        }
+      }
+    });
+
+    field.editorUpdated.subscribe((data) => {
+      if ((data.video as MediaImageLink).name == null) {
+        this.modeRequest(EditorMode.Swap);
+      } else {
+        this.modeRequest(EditorMode.Edit);
+      }
     });
 
     keyboard.lastKeyframeFunc = this.seekLastKeyframe.bind(this);
@@ -336,5 +356,9 @@ export class EditorService {
         callback(cmd.cancelled);
       }
     });
+  }
+
+  changeVideo() {
+    this.sdkService.changeVideo();
   }
 }
