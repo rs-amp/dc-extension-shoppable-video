@@ -10,7 +10,7 @@ import { VisualizationSdkService } from './services/visualization-sdk.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'Shoppabble Video';
+  title = 'Shoppable Video';
   dark = true;
 
   @HostBinding('class') class = '';
