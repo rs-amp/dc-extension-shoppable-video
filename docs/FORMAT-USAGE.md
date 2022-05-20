@@ -8,7 +8,7 @@ The Shoppable Video data format is rather simple in structure, but may need some
 
 In the example video above, a single hotspot called "Line" has been created, which moves from left to right (with a CTA below), disappears for a short time, then re-appears at the top and moves to the bottom (with a CTA to the right). Four keyframes are placed to achieve this, where the time between the 2nd and 3rd keyframes has the hotspot invisible as it prepares for the vertical motion.
 
-Here it the JSON for this Shoppable Video:
+Here is the JSON for this Shoppable Video:
 
 ```json
 {
