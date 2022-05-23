@@ -78,7 +78,7 @@ Here is the JSON for this Shoppable Video:
 }
 ```
 
-The `video` field is a normal amplience media link. You can use the provided information to request video metadata, which will give you links to your transcoded videos which you can provide to your video player. You can find more information [here.](TODO)
+The `video` field is a normal amplience media link. You can use the provided information to request video metadata, which will give you links to your transcoded videos which you can provide to your video player. You can find more information [here.](https://amplience.com/docs/contenthub/videotranscodeprofiles.html)
 
 The `hotspots` field is an array of hotspot objects, where each represents a hotspot created in the editor. All hotspots have a string `target` and `selector`, and a `timeline` object. A hotspot optionally has a `cta` field, which contains the CTA `caption` and `value`. These fields can all be configured by using the "Edit hotspot info" button in the editor.
 
