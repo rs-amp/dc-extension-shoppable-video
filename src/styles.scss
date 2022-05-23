@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; overscroll-behavior-x: contain; overflow: hidden !important; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  overscroll-behavior-x: contain;
+  min-width: 560px;
+  overflow-x: auto;
+  overflow-y: hidden !important;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
