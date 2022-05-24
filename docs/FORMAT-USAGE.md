@@ -4,7 +4,7 @@ The Shoppable Video data format is rather simple in structure, but may need some
 
 ## Example
 
-![Example of a video enriched with the Shoppable Video Extension](media/format-example.png)
+![Example of a video enriched with the Shoppable Video Extension](../media/format-example.png)
 
 In the example video above, a single hotspot called "Line" has been created, which moves from left to right (with a CTA below), disappears for a short time, then re-appears at the top and moves to the bottom (with a CTA to the right). Four keyframes are placed to achieve this, where the time between the 2nd and 3rd keyframes has the hotspot invisible as it prepares for the vertical motion.
 
@@ -93,7 +93,7 @@ Note that all (x, y) positions in the format are normalized; varying from 0 to 1
 
 ## Drawing Hotspots over a Video
 
-![Example structure of a hotspot overlay](media/layout-example.png)
+![Example structure of a hotspot overlay](../media/layout-example.png)
 
 The typical approach you might want to take is to place a canvas div on top of the video container. In the extension and visualization, this is a container div that fits the size of the player, which contains another canvas div which matches the size of the video, and is centered. Hotspots and the CTA are placed within this canvas div, with position transforms calculated by multiplying the normalized 0-1 positions by the canvas width and height.
 
