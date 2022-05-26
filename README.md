@@ -42,8 +42,6 @@ This extension needs to be [registered](https://amplience.com/docs/development/r
 * URL: [https://shoppable-video.extensions.content.amplience.net](https://shoppable-video.extensions.content.amplience.net)
 * Description: Shoppable Video Extension _(can be left blank, if you wish)_
 
-To use the application the following permissions must be enabled:
-
 Note:
 You can use our deployed version of this extension (builds from the "production" branch) -
 
