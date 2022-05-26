@@ -3,6 +3,10 @@
 :host {
   display: flex;
   width: 100%;
+
+  @include withThemeRoot() {
+    background-color: t($color-ext-editor-1);
+  }
 }
 
 .app-editor {
@@ -10,10 +14,6 @@
     width: 270px;
     display: flex;
     flex-direction: column;
-
-    @include withTheme() {
-      background-color: t($color-ext-editor-1);
-    }
   }
 
   &__timelinecolumn {
@@ -23,15 +23,13 @@
   &__controlrow {
     display: flex;
     height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 
     @include withTheme() {
-      border: 1px solid t($color-ext-control-border);
-    }
-  }
-
-  &__timelinerow {
-    @include withTheme() {
-      border: 1px solid t($color-ext-control-border);
+      border-bottom: 1px solid t($color-ext-control-border);
+      background-color: t($color-ext-editor-1);
     }
   }
 

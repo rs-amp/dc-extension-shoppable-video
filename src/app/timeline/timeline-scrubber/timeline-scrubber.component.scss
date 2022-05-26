@@ -3,6 +3,9 @@
 :host {
   width: 100%;
   cursor: pointer;
+  position: sticky;
+  top: 0px;
+  z-index: 5;
 }
 
 .app-timeline-scrubber {
@@ -10,7 +13,6 @@
     width: 100%;
     height: 10px;
     display: flex;
-    position: relative;
 
     @include withTheme() {
       background-color: t($color-ext-scrubberbg);

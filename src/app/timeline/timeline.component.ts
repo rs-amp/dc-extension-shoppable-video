@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Point } from '../field/model/shoppable-video-data';
 import { EditorService } from '../services/editor.service';
 import { FieldService } from '../services/field.service';
@@ -10,6 +10,8 @@ import { VideoService } from '../services/video.service';
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit, OnDestroy {
+
+  @Input('scrolled') scrolled!: boolean;
 
   rangeOffset = 0;
   rangeWidth = 1;

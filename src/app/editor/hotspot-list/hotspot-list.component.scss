@@ -15,6 +15,17 @@
     color: $color-primary;
     text-decoration: none;
 
+    align-self: baseline;
+    padding: 1px 5px;
+    margin: 9px 5px;
+    border-radius: 15px;
+    position: sticky;
+    bottom: 9px;
+
+    @include withTheme() {
+      background-color: t($color-ext-editor-1);
+    }
+
     &:hover {
       text-decoration: underline !important;
     }

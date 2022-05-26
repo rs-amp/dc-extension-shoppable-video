@@ -1,4 +1,5 @@
 <div class="app-timeline-background__topbar"
+  [ngClass]="{'app-timeline-background__topbar--scrolled': scrolled}"
   (pointerdown)="topGrab($event)"
   (pointermove)="topDrag($event)"
   (pointerup)="topRelease($event)"

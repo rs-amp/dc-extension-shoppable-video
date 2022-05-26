@@ -6,6 +6,7 @@
   [rangeOffset]="rangeOffset"
   [rangeWidth]="rangeWidth"
   [width]="width"
+  [scrolled]="scrolled"
   [style.height]="backgroundHeight + 'px'"
   [style.cursor]="backgroundCursor"
 
@@ -13,21 +14,23 @@
   (pointermove)="backgroundDrag($event)"
   (pointerup)="backgroundRelease($event)"
 ></app-timeline-background>
-<div
-  class="app-timeline__marker"
-  [style.top]="markerPos + 'px'"
-  [style.transform]="getMarkerTranslation()"
-  (pointerdown)="markerGrab($event)"
-  (pointermove)="markerDrag($event)"
-  (pointerup)="markerRelease($event)"
->
-  <svg class="app-timeline__marker__head">
-    <path d="M 0,0 H 14 V 22 L 7,26 L 0,22 Z"></path>
-  </svg>
+<div class="app-timeline__markerclip">
   <div
-    class="app-timeline__marker__line"
-    [style.height]="markerHeight + 'px'"
-  ></div>
+    class="app-timeline__marker"
+    [style.top]="markerPos + 'px'"
+    [style.transform]="getMarkerTranslation()"
+    (pointerdown)="markerGrab($event)"
+    (pointermove)="markerDrag($event)"
+    (pointerup)="markerRelease($event)"
+  >
+    <svg class="app-timeline__marker__head">
+      <path d="M 0,0 H 14 V 22 L 7,26 L 0,22 Z"></path>
+    </svg>
+    <div
+      class="app-timeline__marker__line"
+      [style.height]="markerHeight + 'px'"
+    ></div>
+  </div>
 </div>
 <div
   class="app-timeline__hotspots"

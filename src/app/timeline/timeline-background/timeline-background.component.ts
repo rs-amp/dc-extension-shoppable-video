@@ -29,6 +29,7 @@ export class TimelineBackgroundComponent implements OnInit, OnChanges {
   @Input('rangeOffset') rangeOffset!: number;
   @Input('rangeWidth') rangeWidth!: number;
   @Input('width') width!: number;
+  @Input('scrolled') scrolled!: boolean;
 
   mainLines: TimelineLine[] = [];
   subLines: number[] = [];

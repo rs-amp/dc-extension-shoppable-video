@@ -13,7 +13,7 @@
         <app-error-display class="app-root__error" [ngClass]="{'app-root__error--fullscreen': fullscreen}" *ngIf="videoError"></app-error-display>
       </div>
     </div>
-    <app-editor class="app-root__editor" [ngClass]="{'app-root__editor--inactive': disableEditor}"></app-editor>
+    <app-editor class="app-root__editor" [ngClass]="{'app-root__editor--inactive': disableEditor, 'app-root__editor--fullscreen': fullscreen}"></app-editor>
   </div>
 </ng-container>
 <ng-container *ngIf="vis.active">

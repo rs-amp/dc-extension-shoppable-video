@@ -18,9 +18,15 @@
     height: 16px;
     background-color: white;
     overflow: hidden;
-    position: relative;
+    position: sticky;
+    top: 10px;
+    z-index: 2;
     pointer-events: auto;
     cursor: pointer;
+
+    &--scrolled {
+      z-index: 5;
+    }
   }
 
   &__lines {
