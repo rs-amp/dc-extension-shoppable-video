@@ -231,7 +231,7 @@ export class ExtensionSdkService {
         this.changeVideo();
       }
     } else {
-      listener(await sdkInstance.field.getValue());
+      listener(this.validateData(await sdkInstance.field.getValue()));
     }
   }
 
