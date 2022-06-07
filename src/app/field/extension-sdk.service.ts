@@ -68,7 +68,7 @@ export class ExtensionSdkService {
     return sdk as any as SDKTypeEditor;
   }
 
-  private validateData(data: ShoppableVideoData): ShoppableVideoData {
+  public static validateData(data: ShoppableVideoData): ShoppableVideoData {
     if (data == null) {
       return data;
     }
@@ -90,10 +90,10 @@ export class ExtensionSdkService {
 
   private getValueFromForm(form: any): ShoppableVideoData {
     if (this.activeVideo) {
-      return this.validateData(jp.query(form, this.activeVideo.path)[0]);
+      return ExtensionSdkService.validateData(jp.query(form, this.activeVideo.path)[0]);
     }
 
-    return this.validateData(form[fieldName]);
+    return ExtensionSdkService.validateData(form[fieldName]);
   }
 
   private ensurePathExists(form: any) {
@@ -231,7 +231,7 @@ export class ExtensionSdkService {
         this.changeVideo();
       }
     } else {
-      listener(this.validateData(await sdkInstance.field.getValue()));
+      listener(ExtensionSdkService.validateData(await sdkInstance.field.getValue()));
     }
   }
 

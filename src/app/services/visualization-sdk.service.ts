@@ -4,6 +4,7 @@ import {
   ModelChangeDispose,
   VisualizationSDK,
 } from 'dc-visualization-sdk';
+import { ExtensionSdkService } from '../field/extension-sdk.service';
 import { ShoppableVideoData } from '../field/model/shoppable-video-data';
 
 const fieldName = 'shoppableVideo';
@@ -36,16 +37,18 @@ export class VisualizationSdkService {
     }
   }
 
+  private validateAndSet(model: any): void {
+    this.model = ExtensionSdkService.validateData(model);
+  }
+
   public async getSDK(): Promise<VisualizationSDK> {
     if (this.sdk == null) {
       this.sdk = init();
 
       this.sdk = this.sdk.then(async (sdk) => {
-        this.model = (await sdk.form.get()).content[
-          fieldName
-        ] as ShoppableVideoData;
+        this.validateAndSet((await sdk.form.get()).content[fieldName]);
         this.unsubscribe = sdk.form.changed((model) => {
-          this.model = model.content[fieldName] as ShoppableVideoData;
+          this.validateAndSet(model.content[fieldName]);
           this.changed.emit(this.model);
         });
         return sdk;
