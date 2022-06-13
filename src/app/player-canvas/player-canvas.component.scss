@@ -12,6 +12,7 @@
   &__container {
     position: absolute;
     display: block;
+    box-shadow: rgb(0 0 0 / 33%) 10px 10px 50px;
 
     &--vis {
       pointer-events: none;
