@@ -2,8 +2,15 @@
 
 :host {
   display: flex;
-  height: 32px;
-  border: 1px solid transparent;
+  height: 33px;
+  margin-top: -1px;
+  margin-right: -1px;
+
+  @include withThemeRoot() {
+    border-bottom: 1px solid t($color-ext-control-border);
+    border-top: 1px solid t($color-ext-control-border);
+    border-right: 1px solid t($color-ext-control-border);
+  }
 }
 
 .app-hotspot {

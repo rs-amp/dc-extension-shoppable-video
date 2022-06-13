@@ -33,10 +33,11 @@
 
   &__hotspot {
     &--selected {
-      border-color: $color-primary;
+      z-index: 1;
+      border-right-color: $color-primary !important;
 
       @include withTheme() {
-        background-color: t($color-ext-selectbg);
+        background: linear-gradient(90deg, t($color-ext-selectbg) 98.5%, t($color-ext-selectbg-shadow) 98.7%);
       }
     }
   }

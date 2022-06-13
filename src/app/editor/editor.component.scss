@@ -14,6 +14,10 @@
     width: 270px;
     display: flex;
     flex-direction: column;
+
+    @include withTheme() {
+      border-right: 1px solid t($color-ext-control-border);
+    }
   }
 
   &__timelinecolumn {
