@@ -1,6 +1,6 @@
 <div
   class="app-player-canvas__container"
-  [ngClass]="{'app-player-canvas__container--vis': vis}"
+  [ngClass]="{'app-player-canvas__container--vis': vis, 'app-player-canvas__container--visible': videoReady}"
   #container
   [style.width]="videoWidth + 'px'"
   [style.height]="videoHeight + 'px'"

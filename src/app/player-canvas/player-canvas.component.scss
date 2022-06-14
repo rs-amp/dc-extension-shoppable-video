@@ -13,9 +13,14 @@
     position: absolute;
     display: block;
     box-shadow: rgb(0 0 0 / 33%) 10px 10px 50px;
+    opacity: 0;
 
     &--vis {
       pointer-events: none;
+    }
+
+    &--visible {
+      opacity: 1;
     }
   }
 

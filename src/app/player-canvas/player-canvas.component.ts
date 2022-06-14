@@ -61,6 +61,10 @@ export class PlayerCanvasComponent implements OnInit {
   @Input('vis') vis?: boolean;
   @Input('fullscreen') fullscreen?: boolean;
 
+  get videoReady() {
+    return this.video.videoReady && this.video.videoError === VideoErrorType.None;
+  }
+
   hotspotTransforms: TransformedHotspot[] = [];
   keyframeTransforms: TransformedKeyframe[] = [];
   videoWidth!: number;
