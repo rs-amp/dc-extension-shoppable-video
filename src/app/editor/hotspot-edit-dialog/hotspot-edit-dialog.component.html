@@ -16,25 +16,25 @@
 
   <div class="app-hotspot-edit-dialog__cta" [ngClass]="{'app-hotspot-edit-dialog__cta--hidden': hotspot.cta == null}">
 
-  <mat-form-field *ngIf="!hotspot.cta">
-    <mat-label>Caption</mat-label>
-    <input matInput disabled="true" required />
-  </mat-form-field>
+    <mat-form-field *ngIf="!hotspot.cta">
+      <mat-label>Caption</mat-label>
+      <input matInput disabled="true" required />
+    </mat-form-field>
 
-  <mat-form-field *ngIf="hotspot.cta">
-    <mat-label>Caption</mat-label>
-    <input matInput [(ngModel)]="hotspot.cta.caption" required />
-  </mat-form-field>
+    <mat-form-field *ngIf="hotspot.cta">
+      <mat-label>Caption</mat-label>
+      <input matInput [(ngModel)]="hotspot.cta.caption" required />
+    </mat-form-field>
 
-  <mat-form-field *ngIf="!hotspot.cta">
-    <mat-label>Value</mat-label>
-    <input matInput disabled="true" required />
-  </mat-form-field>
+    <mat-form-field *ngIf="!hotspot.cta">
+      <mat-label>Value</mat-label>
+      <input matInput disabled="true" required />
+    </mat-form-field>
 
-  <mat-form-field *ngIf="hotspot.cta">
-    <mat-label>Value</mat-label>
-    <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
-  </mat-form-field>
+    <mat-form-field *ngIf="hotspot.cta">
+      <mat-label>Value</mat-label>
+      <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
+    </mat-form-field>
 
   </div>
 </div>

@@ -249,10 +249,6 @@ export class VideoService {
 
   parseDataChange(data: ShoppableVideoData): void {
     if (!this.videoEqual(data.video, this.lastVideo)) {
-      if (this.lastVideo != null) {
-        // clear data from the last video.
-        // none yet
-      }
       this.loadImage(data);
       this.lastVideo = data.video;
     }

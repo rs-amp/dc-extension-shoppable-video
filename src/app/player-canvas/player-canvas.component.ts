@@ -1,9 +1,6 @@
-import { ContentObserver } from '@angular/cdk/observers';
 import {
   ApplicationRef,
-  ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
   Input,
   OnInit,

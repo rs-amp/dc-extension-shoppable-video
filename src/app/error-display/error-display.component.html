@@ -1,9 +1,9 @@
-<ng-container *ngIf="type == VideoErrorType.Metadata">
+<ng-container *ngIf="type == VideoErrorType.Publish">
   <div class="app-error-display__title">Could not load Video.</div>
 
   <div class="app-error-display__body">Find the video in Content Hub and publish it.</div>
 </ng-container>
-<ng-container *ngIf="type == VideoErrorType.Publish">
+<ng-container *ngIf="type == VideoErrorType.Metadata">
   <div class="app-error-display__title">Could not load Video Metadata.</div>
 
   <div class="app-error-display__body">You may need to configure your VSE to provide metadata for videos. Please see <a href="https://github.com/rs-amp/dc-extension-shoppable-video/blob/main/docs/CONTENT-HUB-SETUP.md" target="_blank">these instructions</a> for further information.</div>

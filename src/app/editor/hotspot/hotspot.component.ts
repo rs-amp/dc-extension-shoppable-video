@@ -40,10 +40,6 @@ export class HotspotComponent implements OnInit {
     this.editor.openHotspotDialog(this.hotspot);
   }
 
-  removeHotspot(): void {
-    this.commands.runCommand(new RemoveHotspotCommand(this.hotspot));
-  }
-
   getKeyframeNearestNow(): { timepoint: number, exact: boolean } {
     return this.editor.findNearestTimepoint(this.hotspot, this.video.currentTime);
   }

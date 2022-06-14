@@ -4,8 +4,6 @@
 
 	"definitions": {
 		"shoppableVideo": {
-			"title": "Shoppable Video",
-			"description": "A video enriched with timed, animated hotspots that can be used for user interaction.",
 			"type": "object",
 			"properties": {
 				"video": {
@@ -54,7 +52,7 @@
 												},
 												"cta": {
 													"title": "Call-to-action Position",
-													"description": "",
+													"description": "The position of the call to action starting at the given time. If undefined, use the last cta position that was set.",
 													"type": "object",
 													"properties": {
 														"x": {

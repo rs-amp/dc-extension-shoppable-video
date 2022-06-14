@@ -7,7 +7,6 @@ import {
   Point,
   ShoppableVideoCallToAction,
   ShoppableVideoHotspot,
-  ShoppableVideoTimeline,
   ShoppableVideoTimePoint,
 } from '../field/model/shoppable-video-data';
 import { EditorCommandsService } from './editor-commands.service';

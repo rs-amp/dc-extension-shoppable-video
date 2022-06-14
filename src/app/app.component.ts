@@ -11,7 +11,6 @@ import { VisualizationSdkService } from './services/visualization-sdk.service';
 })
 export class AppComponent {
   title = 'Shoppable Video';
-  dark = true;
 
   @HostBinding('class') class = '';
 

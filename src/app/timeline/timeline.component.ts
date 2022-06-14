@@ -1,5 +1,4 @@
-import { Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Point } from '../field/model/shoppable-video-data';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { EditorService } from '../services/editor.service';
 import { FieldService } from '../services/field.service';
 import { VideoService } from '../services/video.service';

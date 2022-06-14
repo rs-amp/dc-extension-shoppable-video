@@ -61,6 +61,7 @@ export class ExtensionSdkService {
 
       return result;
     }
+
     return await this.sdk;
   }
 

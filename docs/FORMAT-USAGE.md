@@ -87,9 +87,9 @@ The `timeline` object contains a `points` array, which contains keyframes repres
 - `t`: This is the time in seconds where this keyframe has been placed.
 - `p`: This is the position of the hotspot when placed. `p.x` and `p.y` contain normalized x and y positions from 0 to 1.
 - `e`: This indicates that the hotspot's visibility ends after this keyframe, until the next keyframe where `e` is `false`. If this is not present, assume the value is false.
-- `cta`: This is the centre position of the CTA button. This only appears at the start of the video, or after a keyframe with `e` as true. `cta.x` and `cta.y` contain normalized x and y positions from 0 to 1.
+- `cta`: This is the centre position of the CTA button. This only appears on the first keyframe, or after a keyframe with `e` as true. `cta.x` and `cta.y` contain normalized x and y positions from 0 to 1.
 
-Note that all (x, y) positions in the format are normalized; varying from 0 to 1. The (0, 0) coordinate is at the top left of the video, while the (1, 1) coordinate is at the bottom left. X and Y are horizontal and vertical coordinates, as you might expect. When using these coordinates for placing elements over a video, you should scale them using the video width and height to get their pixel position.
+Note that all (x, y) positions in the format are normalized; varying from 0 to 1. The (0, 0) coordinate is at the top left of the video, while the (1, 1) coordinate is at the bottom right. X and Y are horizontal and vertical coordinates, as you might expect. When using these coordinates for placing elements over a video, you should scale them using the video width and height to get their pixel position.
 
 ## Drawing Hotspots over a Video
 
