@@ -88,28 +88,13 @@ $button-fab-icon-size-small: 20px;
 
 .mat-fab.amp-fab {
   box-shadow: none !important;
-  //margin: 3px;
-  //width: $button-fab-width !important;
-  //height: $button-fab-height !important;
-  //line-height: $button-fab-height;
   background-color: $color-iron;
 
   mat-icon {
-    //height: $button-fab-icon-size;
-    //width: $button-fab-icon-size;
-    //line-height: $button-fab-icon-size;
     color: $color-white;
     fill: $color-white;
     * {
       fill: $color-white;
-    }
-  }
-
-  &.amp-icon-small {
-    mat-icon {
-      //height: $button-fab-icon-size-small;
-      //width: $button-fab-icon-size-small;
-      //line-height: $button-fab-icon-size-small;
     }
   }
 
