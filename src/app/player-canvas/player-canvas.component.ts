@@ -253,7 +253,7 @@ export class PlayerCanvasComponent implements OnInit {
     for (let i = timeline.length - 1; i >= 0; i--) {
       const point = timeline[i];
 
-      if (point.t <= time && point.cta && point.cta.x && point.cta.y) {
+      if (point.t <= time && point.cta && point.cta.x != null && point.cta.y != null) {
         return point.cta;
       }
     }
@@ -593,7 +593,7 @@ export class PlayerCanvasComponent implements OnInit {
       this.modeDraggedKeypoint(pointer);
     } else if (this.ctaDragIndex !== -1) {
       newCursor = 'grabbing';
-      const position = this.getMouse(pointer);
+      let position = this.getMouse(pointer);
       const hotspot = this.editor.selectedHotspot
 
       if (!hotspot) {
@@ -610,7 +610,16 @@ export class PlayerCanvasComponent implements OnInit {
         // Move the cta by the relative position
         const cta = this.getHotspotCta(hotspot);
 
-        const ctaVisual = { x: cta.x + delta.x, y: cta.y + delta.y };
+        const ctaVisual = {
+          x: Math.max(0, Math.min(1, cta.x + delta.x)),
+          y: Math.max(0, Math.min(1, cta.y + delta.y))
+        };
+
+        // Make sure the relative drag position is retained even when the cta position is clamped.
+        position = {
+          x: (ctaVisual.x - cta.x) + this.ctaDragRelative.x,
+          y: (ctaVisual.y - cta.y) + this.ctaDragRelative.y
+        }
 
         // Locate and update the relevant cta for the current timepoint.
         this.setHotspotCtaVisual(hotspot, ctaVisual);
