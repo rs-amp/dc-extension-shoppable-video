@@ -16,6 +16,10 @@ describe('TimelineBackgroundComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TimelineBackgroundComponent);
     component = fixture.componentInstance;
+    component.rangeOffset = 0;
+    component.rangeWidth = 1;
+    component.width = 500;
+    component.scrolled = false;
     fixture.detectChanges();
   });
 

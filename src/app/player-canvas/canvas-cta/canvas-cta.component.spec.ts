@@ -16,6 +16,11 @@ describe('CanvasCtaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasCtaComponent);
     component = fixture.componentInstance;
+    component.cta = {
+      caption: 'caption',
+      value: 'value'
+    },
+    component.vis = false,
     fixture.detectChanges();
   });
 

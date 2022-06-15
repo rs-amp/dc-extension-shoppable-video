@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CanvasCtaDialogComponent } from './canvas-cta-dialog.component';
 
@@ -8,7 +9,11 @@ describe('CanvasCtaDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CanvasCtaDialogComponent ]
+      declarations: [ CanvasCtaDialogComponent ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: 'given-value'}
+      ]
     })
     .compileComponents();
   });

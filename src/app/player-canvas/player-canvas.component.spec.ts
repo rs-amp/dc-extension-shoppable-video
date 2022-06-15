@@ -16,6 +16,8 @@ describe('PlayerCanvasComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlayerCanvasComponent);
     component = fixture.componentInstance;
+    component.vis = false;
+    component.fullscreen = false;
     fixture.detectChanges();
   });
 

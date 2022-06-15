@@ -16,6 +16,8 @@ describe('CanvasHotspotComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasHotspotComponent);
     component = fixture.componentInstance;
+    component.selected = false,
+    component.ghost = false,
     fixture.detectChanges();
   });
 

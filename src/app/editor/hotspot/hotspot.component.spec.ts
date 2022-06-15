@@ -16,6 +16,11 @@ describe('HotspotComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HotspotComponent);
     component = fixture.componentInstance;
+    component.hotspot = {
+      timeline: { points: [] },
+      target: 'target',
+      selector: '.selector'
+    }
     fixture.detectChanges();
   });
 

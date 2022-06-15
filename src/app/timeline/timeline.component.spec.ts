@@ -16,6 +16,7 @@ describe('TimelineComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TimelineComponent);
     component = fixture.componentInstance;
+    component.scrolled = false;
     fixture.detectChanges();
   });
 

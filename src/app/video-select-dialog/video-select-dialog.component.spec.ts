@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { VideoSelectDialogComponent } from './video-select-dialog.component';
 
@@ -8,7 +9,11 @@ describe('VideoSelectDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VideoSelectDialogComponent ]
+      declarations: [ VideoSelectDialogComponent ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
+      ]
     })
     .compileComponents();
   });
