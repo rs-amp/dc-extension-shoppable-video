@@ -32,7 +32,7 @@ $button-fab-icon-size-small: 20px;
 
 .mat-flat-button {
   border-radius: 3px;
-  padding: 0 $bsu/2;
+  padding: 0 calc($bsu/2);
   transition: all $transition-speed;
 
   &.mat-primary {

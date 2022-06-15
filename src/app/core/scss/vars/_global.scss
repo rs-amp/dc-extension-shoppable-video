@@ -6,7 +6,7 @@ $transition-speed-fast: 0.15s;
 $masthead-height: 40px;
 
 $gutter-size: 15px;
-$card-padding: $bsu / 2;
+$card-padding: calc($bsu / 2);
 
 $workflow-border-radius: 9px;
 $card-border-radius: 3px;
