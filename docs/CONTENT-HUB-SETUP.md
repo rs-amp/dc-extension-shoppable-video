@@ -10,6 +10,8 @@ See [this page](https://amplience.com/docs/contenthub/videotranscodeprofiles.htm
 
 ## Video Metadata
 
-The extension uses the framerate field in the video metadata to drive frame advance controls and operations that round to the nearest frame. You'll need to make sure that this is published with the video so that the editor can access and use it.
+The extension uses the framerate field in the video metadata to drive frame advance controls and operations that round to the nearest frame. You'll need to make sure that this is published with the video so that the editor can access and use it. This metadata schema isn't published by default, so you might need to contact Amplience Support to add it to your account:
 
-Contact Amplience Support for help with adding this metadata schema to videos on your account.
+- Open a support ticket with [Amplience Support](https://support.amplience.com/)
+- Ask for the Video Metadata Schema to be published on your Content Hub account.
+- Republish any videos you want to use with the extension once it is added.
