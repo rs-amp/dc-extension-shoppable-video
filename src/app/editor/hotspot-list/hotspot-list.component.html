@@ -1,0 +1,2 @@
+<app-hotspot *ngFor="let hotspot of field.data.hotspots; trackBy:trackHotspot" [hotspot]="hotspot" (click)="select(hotspot)" [ngClass]="{'app-hotspot-list__hotspot--selected': selected(hotspot)}"></app-hotspot>
+<a class="app-hotspot-list__addhotspot" href="#" (click)="addHotspot($event)">+ Add Hotspot</a>

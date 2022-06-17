@@ -1,0 +1,135 @@
+@import "../../core/core.scss";
+
+:host {
+  position: relative;
+  height: 32px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+@keyframes dash {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: -8px 0px; /* Dash stride */
+  }
+}
+
+.app-timeline-hotspot {
+  &__keyframe {
+    width: 14px;
+    height: 14px;
+    margin: -8px;
+    transform: rotate(45deg);
+    position: absolute;
+    z-index: 4;
+    transition: background-color 0.25s, border-color 0.25s, border-width 0.05s, margin 0.05s;
+    pointer-events: auto;
+
+    @include withTheme() {
+      border: 1px solid t($color-ext-hotspot-line);
+      background-color: t($color-ext-hotspot-fill);
+    }
+
+    &:hover {
+      border-color: $color-primary-lighter;
+      @include withTheme() {
+        background-color: t($color-ext-selectbg);
+      }
+    }
+
+    &--selected {
+      border-width: 2px;
+      margin: -9px;
+      border-color: $color-primary;
+      @include withTheme() {
+        background-color: t($color-ext-selectbg-dark);
+      }
+    }
+  }
+
+  &__line {
+    width: 100px;
+    height: 3px;
+    position: absolute;
+    opacity: 1;
+    pointer-events: auto;
+
+    transition: background-color 0.25s, opacity 0.25s;
+
+    &:hover {
+      height: 5px;
+      margin-top: -1px;
+      margin-bottom: -1px;
+      opacity: 1;
+    }
+
+    &--visible {
+      @include withTheme() {
+        background-color: t($color-ext-hotspot-line);
+      }
+
+      &:hover {
+        background-color: $color-primary-lighter;
+      }
+    }
+
+    &--invisible {
+      @include withTheme() {
+        background-image: linear-gradient(to right, transparent 50%, t($color-ext-hotspot-line) 50%);
+      }
+      background-size: 8px 3px;
+      animation: dash 0.33s linear infinite;
+      opacity: 0;
+    }
+  }
+
+  &__showhide {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    pointer-events: none;
+    z-index: 4;
+
+    mat-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      display: block;
+
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+
+      color: white;
+
+      margin: -12px;
+
+      background-color: $color-primary-lighter;
+      opacity: 0;
+      transform: scale(0.0, 0.0);
+
+      transition: transform 0.33s, opacity 0.33s;
+    }
+
+    &--show {
+      mat-icon {
+        opacity: 1;
+        transform: scale(1.0, 1.0);
+      }
+    }
+  }
+
+  &__dragtooltip {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    pointer-events: none;
+  }
+}

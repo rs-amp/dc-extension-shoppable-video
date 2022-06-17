@@ -1,0 +1,64 @@
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="skipPrevious()"
+  matTooltip="First frame"
+>
+  <mat-icon>skip_previous</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="frameAdvance(-1, true)"
+  (pointerdown)="advanceButtonDown($event, false)"
+  (pointerup)="advanceButtonUp($event, false)"
+  matTooltip="Previous frame"
+>
+  <mat-icon>navigate_before</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="togglePlay()"
+  [ngClass]="{ 'app-player-controls__button--active': !paused }"
+  [matTooltip]="paused ? 'Play' : 'Pause'"
+>
+  <mat-icon>{{ paused ? "play_arrow" : "pause" }}</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="frameAdvance(1, true)"
+  (pointerdown)="advanceButtonDown($event, true)"
+  (pointerup)="advanceButtonUp($event, true)"
+  matTooltip="Next frame"
+>
+  <mat-icon>navigate_next</mat-icon>
+</button>
+<button
+  mat-stroked-button
+  class="app-player-controls__button"
+  (click)="skipNext()"
+  matTooltip="Last frame"
+>
+  <mat-icon>skip_next</mat-icon>
+</button>
+
+<div class="app-player-controls__volume">
+  <mat-icon
+    class="app-player-controls__volumeicon"
+    (click)="mute()"
+    (keypress)="muteKey($event)"
+    tabindex="0"
+    [matTooltip]="muted ? 'Unmute' : 'Mute'"
+    >{{ getVolumeIcon() }}</mat-icon
+  >
+  <mat-slider
+    class="app-player-controls__slider"
+    min="0"
+    max="1"
+    step="0.01"
+    [value]="volume"
+    (input)="setVolume($event.value)"
+  ></mat-slider>
+</div>

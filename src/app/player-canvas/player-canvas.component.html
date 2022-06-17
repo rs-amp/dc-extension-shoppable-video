@@ -1,0 +1,61 @@
+<div
+  class="app-player-canvas__container"
+  [ngClass]="{'app-player-canvas__container--vis': vis, 'app-player-canvas__container--visible': videoReady}"
+  #container
+  [style.width]="videoWidth + 'px'"
+  [style.height]="videoHeight + 'px'"
+  [style.cursor]="cursor"
+  (pointerdown)="pointerDown($event)"
+  (pointermove)="pointerMove($event)"
+  (pointerup)="pointerUp($event)"
+>
+  <ng-container *ngFor="let keyframe of keyframeTransforms; index as i">
+    <div
+      *ngIf="keyframe.line"
+      class="app-player-canvas__keyframeline"
+      [style.transform]="keyframe.line.lineTransform"
+      [style.width]="keyframe.line.width"
+      [style.opacity]="getKeyframeOpacity(i, true)"
+    ></div>
+    <div
+      class="app-player-canvas__keyframe"
+      [style.transform]="keyframe.transform"
+      [style.opacity]="getKeyframeOpacity(i)"
+    ></div>
+  </ng-container>
+  <ng-container *ngFor="let hotspot of hotspotTransforms; index as i; trackBy: trackTransform">
+    <div
+      class="app-player-canvas__ctaline"
+      *ngIf="hotspot.cta"
+      [style.width]="hotspot.cta.width"
+      [style.transform]="hotspot.cta.lineTransform"
+    ></div>
+    <app-canvas-hotspot
+      class="app-player-canvas__hotspot"
+      [selected]="hotspot.selected"
+      [style.transform]="hotspot.transform"
+      [style.display]="hotspot.visible ? 'block' : 'none'"
+    ></app-canvas-hotspot>
+    <app-canvas-cta
+      #ctaElem
+      *ngIf="hotspot.cta"
+      [cta]="hotspot.cta.entity"
+      [vis]="vis"
+      class="app-player-canvas__cta"
+      [style.transform]="hotspot.cta.transform"
+      [style.display]="hotspot.visible ? 'flex' : 'none'"
+      (pointerdown)="ctaDown(ctaElem, i, $event)"
+    ></app-canvas-cta>
+  </ng-container>
+</div>
+<div
+  class="app-player-canvas__tooltip"
+  #tooltip="matTooltip"
+  *ngIf="!vis"
+  [style.width]="videoWidth + 'px'"
+  [style.height]="(videoHeight / 3) + 'px'"
+  [matTooltip]="getHelpTooltip()"
+  matTooltipHideDelay="Infinity"
+  matTooltipPosition="below"
+>
+</div>

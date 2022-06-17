@@ -1,0 +1,59 @@
+@import "../../core/core.scss";
+
+:host {
+  display: flex;
+  height: 33px;
+  margin-top: -1px;
+  margin-right: -1px;
+
+  @include withThemeRoot() {
+    border-bottom: 1px solid t($color-ext-control-border);
+    border-top: 1px solid t($color-ext-control-border);
+    border-right: 1px solid t($color-ext-control-border);
+  }
+}
+
+.app-hotspot {
+  &__name {
+    flex: 1;
+    height: 32px;
+    padding: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 20px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+
+    @include withTheme() {
+      color: t($color-ext-hotspot-icon-bg);
+    }
+
+    button {
+      height: 28px;
+      width: 28px;
+      line-height: 24px;
+      mat-icon {
+        font-size: 20px;
+      }
+    }
+  }
+
+  &__add {
+    @include withTheme() {
+      color: t($color-ext-hotspot-icon);
+    }
+  }
+
+  &__remove {
+    @include withTheme() {
+      color: t($color-ext-hotspot-icon);
+    }
+  }
+}

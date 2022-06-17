@@ -1,0 +1,21 @@
+@import "../../core/core.scss";
+
+:host {
+  display: block;
+  margin: -16px;
+  width: 32px;
+  height: 32px;
+}
+
+.app-canvas-hotspot {
+  &__icon {
+    width: 32px;
+    height: 32px;
+
+    fill: $color-grey;
+
+    &--selected {
+      fill: $color-primary-light;
+    }
+  }
+}

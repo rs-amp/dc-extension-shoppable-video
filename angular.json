@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "dc-extension-shoppable-media": {
+    "dc-extension-shoppable-video": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/dc-extension-shoppable-media",
+            "outputPath": "dist/dc-extension-shoppable-video",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -31,7 +31,20 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "src/styles.scss",
+                "bundleName": "styles"
+              },
+              {
+                "input": "src/amplienceTheme.scss",
+                "bundleName": "theme-light",
+                "inject": false
+              },
+              {
+                "input": "src/amplienceThemeDark.scss",
+                "bundleName": "theme-dark",
+                "inject": false
+              }
             ],
             "scripts": []
           },
@@ -45,8 +58,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [
@@ -72,10 +85,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dc-extension-shoppable-media:build:production"
+              "browserTarget": "dc-extension-shoppable-video:build:production"
             },
             "development": {
-              "browserTarget": "dc-extension-shoppable-media:build:development"
+              "browserTarget": "dc-extension-shoppable-video:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +96,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dc-extension-shoppable-media:build"
+            "browserTarget": "dc-extension-shoppable-video:build"
           }
         },
         "test": {
@@ -99,6 +112,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -107,5 +121,5 @@
       }
     }
   },
-  "defaultProject": "dc-extension-shoppable-media"
+  "defaultProject": "dc-extension-shoppable-video"
 }

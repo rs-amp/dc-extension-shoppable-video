@@ -1,0 +1,75 @@
+@import "../core/core.scss";
+
+:host {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-player-canvas {
+  &__container {
+    position: absolute;
+    display: block;
+    box-shadow: rgb(0 0 0 / 33%) 10px 10px 50px;
+    opacity: 0;
+
+    &--vis {
+      pointer-events: none;
+    }
+
+    &--visible {
+      opacity: 1;
+    }
+  }
+
+  &__tooltip {
+    position: absolute;
+    display: block;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &__hotspot {
+    position: absolute;
+    pointer-events: auto;
+  }
+
+  &__cta {
+    position: absolute;
+    pointer-events: auto;
+  }
+
+  &__ctaline {
+    margin-top: -1px;
+    height: 2px;
+    position: absolute;
+    transform-origin: left;
+
+    background: linear-gradient(to right, transparent 50%, $color-light-grey 50%);
+    background-size: 8px 2px;
+  }
+
+  &__keyframeline {
+    margin-top: -1px;
+    height: 2px;
+    position: absolute;
+    transform-origin: left;
+
+    background: linear-gradient(to right, $color-lighter-grey 50%, $color-dark-grey 50%);
+    background-size: 16px 2px;
+    opacity: 0.75;
+  }
+
+  &__keyframe {
+    width: 10px;
+    height: 10px;
+    border: 1px solid white;
+    margin: -6px;
+    background-color: black;
+    transform: rotate(45deg);
+    position: absolute;
+    opacity: 0.75;
+  }
+}

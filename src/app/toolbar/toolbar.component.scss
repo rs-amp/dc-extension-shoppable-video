@@ -1,0 +1,46 @@
+@import "../core/core.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40px;
+  box-sizing: border-box;
+  padding: 4px;
+
+  @include withThemeRoot() {
+    background-color: t($color-ext-toolbar);
+    border-bottom: 1px solid t($color-ext-control-border);
+  }
+}
+
+.app-toolbar {
+  &__undogroup {
+    display: flex;
+    flex-direction: column;
+    height: 68px;
+    justify-content: space-between;
+  }
+
+  &__topgroup {
+    display: flex;
+    flex-direction: column;
+    height: 102px;
+    justify-content: space-between;
+  }
+
+  &__button {
+    padding: 0;
+    min-width: 32px;
+    height: 32px;
+    line-height: 32px;
+
+    @include withTheme() {
+      background-color: t($color-ext-icon-button);
+    }
+
+    &--active {
+      border-color: $color-primary;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<div class="app-timeline-background__topbar"
+  [ngClass]="{'app-timeline-background__topbar--scrolled': scrolled}"
+  (pointerdown)="topGrab($event)"
+  (pointermove)="topDrag($event)"
+  (pointerup)="topRelease($event)"
+  >
+  <div
+    class="app-timeline-background__title"
+    *ngFor="let line of mainLines; index as i"
+    [style.transform]="getMainTranslation(line)"
+  >{{ line.title }}</div>
+</div>
+<div class="app-timeline-background__lines">
+  <div
+    class="app-timeline-background__line"
+    *ngFor="let line of mainLines; index as i"
+    [style.transform]="getMainTranslation(line)"
+  ></div>
+  <div
+    class="app-timeline-background__subline"
+    *ngFor="let line of subLines; index as i"
+    [style.transform]="getSubTranslation(line)"
+  ></div>
+</div>

@@ -1,0 +1,50 @@
+@import "../core/core.scss";
+
+:host {
+  display: flex;
+  width: 100%;
+
+  @include withThemeRoot() {
+    background-color: t($color-ext-editor-1);
+  }
+}
+
+.app-editor {
+  &__hotspotcolumn {
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+
+    @include withTheme() {
+      border-right: 1px solid t($color-ext-control-border);
+    }
+  }
+
+  &__timelinecolumn {
+    flex: 1;
+  }
+
+  &__controlrow {
+    display: flex;
+    height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    @include withTheme() {
+      border-bottom: 1px solid t($color-ext-control-border);
+      background-color: t($color-ext-editor-1);
+    }
+  }
+
+  &__addhotspot {
+    display: block;
+    margin: 10px;
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<div
+  #bar
+  class="app-timeline-scrubber__bar"
+  (pointerdown)="beginDrag($event)"
+  (pointerup)="endDrag($event)"
+  (pointermove)="moveDrag($event)"
+>
+  <div
+    class="app-timeline-scrubber__progress"
+    [style.width]="progress * 100 + '%'"
+  >
+    <div
+      class="app-timeline-scrubber__progress__handle"
+      [matTooltip]="timestamp"
+      matTooltipPosition="above"
+      (pointerdown)="beginDrag($event)"
+      (pointerup)="endDrag($event)"
+      (pointermove)="moveDrag($event)"
+    ></div>
+  </div>
+
+  <div class="app-timeline-scrubber__rangecontainer">
+    <div
+      class="app-timeline-scrubber__outrange"
+      [style.width]="rangeOffset * 100 + '%'"
+    ></div>
+    <div
+      class="app-timeline-scrubber__range"
+      [style.width]="rangeWidth * 100 + '%'"
+    >
+      <div class="app-timeline-scrubber__start" (pointerdown)="beginRange($event, false)" (pointermove)="moveRange($event, false)" (pointerup)="endRange($event, false)">
+        <svg viewbox="0 0 10 10" class="app-timeline-scrubber__marker">
+          <path d="M 0,0 H 5 L 10,5 L 5,10 H 0 Z"></path>
+        </svg>
+      </div>
+      <div class="app-timeline-scrubber__end" (pointerdown)="beginRange($event, true)" (pointermove)="moveRange($event, true)" (pointerup)="endRange($event, true)">
+        <svg viewbox="0 0 10 10" class="app-timeline-scrubber__marker">
+          <path d="M 10,0 V 10 L 5,10 L 0,5 L 5,0 Z"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="app-timeline-scrubber__outrange app-timeline-scrubber__outrange--fill"></div>
+  </div>
+</div>

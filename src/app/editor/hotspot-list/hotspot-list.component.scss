@@ -1,0 +1,44 @@
+@import "../../core/core.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 98.5%, rgba(0,0,0,0.05) 98.7%);
+}
+
+.app-hotspot-list {
+  &__addhotspot {
+    display: block;
+    margin: 10px;
+    color: $color-primary;
+    text-decoration: none;
+
+    align-self: baseline;
+    padding: 1px 5px;
+    margin: 9px 5px;
+    border-radius: 15px;
+    position: sticky;
+    bottom: 9px;
+
+    @include withTheme() {
+      background-color: t($color-ext-editor-1);
+    }
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+
+  &__hotspot {
+    &--selected {
+      z-index: 1;
+      border-right-color: $color-primary !important;
+
+      @include withTheme() {
+        background: linear-gradient(90deg, t($color-ext-selectbg) 98.5%, t($color-ext-selectbg-shadow) 98.7%);
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Edit Hotspot</h1>
+<div mat-dialog-content class="app-hotspot-edit-dialog__body">
+  <p>Choose a target and selector for this hotspot.</p>
+
+  <mat-form-field>
+    <mat-label>Target</mat-label>
+    <input matInput [(ngModel)]="hotspot.target" cdkFocusInitial />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Selector</mat-label>
+    <input matInput [(ngModel)]="hotspot.selector" />
+  </mat-form-field>
+
+  <mat-slide-toggle [checked]="hotspot.cta != null" (toggleChange)="ctaToggle()">Use Call-To-Action</mat-slide-toggle>
+
+  <div class="app-hotspot-edit-dialog__cta" [ngClass]="{'app-hotspot-edit-dialog__cta--hidden': hotspot.cta == null}">
+
+    <mat-form-field *ngIf="!hotspot.cta">
+      <mat-label>Caption</mat-label>
+      <input matInput disabled="true" required />
+    </mat-form-field>
+
+    <mat-form-field *ngIf="hotspot.cta">
+      <mat-label>Caption</mat-label>
+      <input matInput [(ngModel)]="hotspot.cta.caption" required />
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!hotspot.cta">
+      <mat-label>Value</mat-label>
+      <input matInput disabled="true" required />
+    </mat-form-field>
+
+    <mat-form-field *ngIf="hotspot.cta">
+      <mat-label>Value</mat-label>
+      <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
+    </mat-form-field>
+
+  </div>
+</div>
+<div mat-dialog-actions class="app-hotspot-edit-dialog__actions">
+  <div class="app-hotspot-edit-dialog__buttongroup">
+    <button mat-flat-button (click)="onDelete()" color="warn" *ngIf="!hotspot.isNew">Delete</button>
+  </div>
+
+  <div class="app-hotspot-edit-dialog__buttongroup">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button [mat-dialog-close]="hotspot" color="primary" [disabled]="!canSave">Save</button>
+  </div>
+</div>

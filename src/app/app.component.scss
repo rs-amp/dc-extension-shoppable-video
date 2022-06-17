@@ -1,0 +1,110 @@
+@import "./core/core.scss";
+
+:host {
+  width: 100%;
+  background-color: $color-lightest-grey;
+}
+
+.app-root {
+  &__title {
+    color: #666;
+    font-size: 13px;
+    margin: 5px 0;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    @include withTheme() {
+      color: t($color-ext-text);
+    }
+
+    &--fullscreen {
+      height: 100%;
+    }
+  }
+
+  &__toolbar {
+    transition: margin-left 0.5s;
+    &--hide {
+      margin-left: -40px;
+    }
+  }
+
+  &__videogroup {
+    width: 100%;
+    height: 500px;
+    display: flex;
+
+    &--fullscreen {
+      flex: 1;
+    }
+  }
+
+  &__videofill {
+    @include withTheme() {
+      background-color: t($color-ext-videobg);
+    }
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__video {
+    &--fullscreen {
+      height: 100%;
+      position: absolute;
+    }
+  }
+
+  &__vis {
+    height: 100%;
+    background-color: black;
+  }
+
+  &__canvas {
+    margin-top: -500px;
+
+    &--fullscreen {
+      margin-top: 0px;
+      position: absolute;
+      height: 100%;
+    }
+  }
+
+  &__error {
+    margin-top: -500px;
+
+    &--fullscreen {
+      margin-top: 0px;
+      position: absolute;
+      height: 100%;
+    }
+  }
+
+  &__mode {
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+
+  &__editor {
+    transition: opacity 0.3s;
+
+    &--inactive {
+      opacity: 50%;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    &--fullscreen {
+      max-height: 320px;
+      overflow-y: auto;
+    }
+  }
+}

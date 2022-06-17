@@ -1,0 +1,9 @@
+<div class="app-hotspot__name" [matTooltip]="hotspot.target" matTooltipPosition="above">
+  {{ hotspot.target }}
+</div>
+
+<div class="app-hotspot__buttons">
+  <button mat-icon-button matTooltip="Edit hotspot info" matTooltipPosition="above" (click)="editHotspot()"><mat-icon>edit</mat-icon></button>
+  <button mat-icon-button matTooltip="Add keyframe" matTooltipPosition="above" (click)="addKeyframe()" *ngIf="canAdd()" class="app-hotspot__add"><mat-icon>add_circle</mat-icon></button>
+  <button mat-icon-button matTooltip="Remove keyframe" matTooltipPosition="above" (click)="removeKeyframe()" *ngIf="canRemove()" class="app-hotspot__remove"><mat-icon>remove_circle</mat-icon></button>
+</div>
