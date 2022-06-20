@@ -11,6 +11,6 @@ frontend:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: dist
+    baseDirectory: dist/dc-extension-shoppable-video
     files:
       - '**/*'
