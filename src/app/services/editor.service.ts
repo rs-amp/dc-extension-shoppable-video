@@ -333,7 +333,7 @@ export class EditorService {
     );
     cmd.isNew = callback != null;
     const dialogRef = this.dialog.open(HotspotEditDialogComponent, {
-      width: '500px',
+      width: '1000px',
       data: cmd,
     });
     this.dialogOpen = true;

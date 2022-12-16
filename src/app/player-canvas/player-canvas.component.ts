@@ -28,6 +28,7 @@ import { CanvasCtaComponent } from './canvas-cta/canvas-cta.component';
 
 interface TransformedCta {
   entity: ShoppableVideoCallToAction;
+  hotspot: ShoppableVideoHotspot;
   transform: string;
   lineTransform: string;
   width: string;
@@ -306,6 +307,7 @@ export class PlayerCanvasComponent implements OnInit {
 
         cta = {
           entity: ctaEntity,
+          hotspot,
           transform: ctaTransform,
           lineTransform: transform + ` rotate(${rotate}rad)`,
           width: width + 'px',

@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ShoppableVideoCallToAction } from 'src/app/field/model/shoppable-video-data';
+import { ShoppableVideoCallToAction, ShoppableVideoHotspot } from 'src/app/field/model/shoppable-video-data';
 import { CanvasCtaDialogComponent } from '../canvas-cta-dialog/canvas-cta-dialog.component';
 
 @Component({
@@ -11,7 +11,12 @@ import { CanvasCtaDialogComponent } from '../canvas-cta-dialog/canvas-cta-dialog
 export class CanvasCtaComponent implements OnInit {
 
   @Input() cta!: ShoppableVideoCallToAction;
+  @Input() hotspot!: ShoppableVideoHotspot;
   @Input('vis') vis?: boolean;
+
+  get buttonColor() {
+    return this.hotspot?.data?.color ?? 'white';
+  }
 
   constructor(public ref: ElementRef, private dialog: MatDialog) { }
 

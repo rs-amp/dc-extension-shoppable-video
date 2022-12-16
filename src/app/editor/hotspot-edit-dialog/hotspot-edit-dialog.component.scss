@@ -16,7 +16,7 @@
   &__cta {
     display: flex;
     flex-direction: column;
-    height: 115px;
+    height: 57px;
     transition: height 0.5s, margin 0.5s;
     margin: 5px 10px;
     overflow: hidden;
@@ -26,5 +26,18 @@
       margin-top: 0;
       margin-bottom: 0;
     }
+  }
+
+  &__iframe {
+    border: 0;
+  }
+
+  &__iframe-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin-bottom: 16px;
+    flex-shrink: 1000;
   }
 }

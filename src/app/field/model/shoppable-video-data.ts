@@ -52,6 +52,8 @@ export interface ShoppableVideoHotspot {
   selector: string;
   timeline: ShoppableVideoTimeline;
   cta?: ShoppableVideoCallToAction;
+
+  data?: any;
 }
 
 export interface ShoppableVideoData {

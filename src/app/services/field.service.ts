@@ -18,6 +18,7 @@ export class FieldService {
   fieldUpdated: EventEmitter<ShoppableVideoData> = new EventEmitter();
   editorUpdated: EventEmitter<ShoppableVideoData> = new EventEmitter();
   data: ShoppableVideoData = JSON.parse(JSON.stringify(baseVideo));
+  schema: any;
   stagingEnvironment?: string;
   isEditor = false;
 
@@ -55,6 +56,8 @@ export class FieldService {
         if (this.isEditor) {
           this.data = JSON.parse(JSON.stringify(baseVideo));
           this.updateField();
+        } else {
+          this.schema = sdkInstance.field.schema;
         }
 
         this.calculateExtensionSize();

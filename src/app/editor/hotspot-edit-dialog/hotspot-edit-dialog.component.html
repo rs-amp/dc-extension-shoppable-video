@@ -1,16 +1,24 @@
 <h1 mat-dialog-title>Edit Hotspot</h1>
 <div mat-dialog-content class="app-hotspot-edit-dialog__body">
-  <p>Choose a target and selector for this hotspot.</p>
+  <ng-container *ngIf="!useData">
+    <p>Choose a target and selector for this hotspot.</p>
 
-  <mat-form-field>
-    <mat-label>Target</mat-label>
-    <input matInput [(ngModel)]="hotspot.target" cdkFocusInitial />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Target</mat-label>
+      <input matInput [(ngModel)]="hotspot.target" cdkFocusInitial />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Selector</mat-label>
-    <input matInput [(ngModel)]="hotspot.selector" />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Selector</mat-label>
+      <input matInput [(ngModel)]="hotspot.selector" />
+    </mat-form-field>
+  </ng-container>
+
+  <ng-container *ngIf="useData">
+    <div class="app-hotspot-edit-dialog__iframe-container">
+      <iframe #iframe class="app-hotspot-edit-dialog__iframe"></iframe>
+    </div>
+  </ng-container>
 
   <mat-slide-toggle [checked]="hotspot.cta != null" (toggleChange)="ctaToggle()">Use Call-To-Action</mat-slide-toggle>
 
@@ -26,16 +34,18 @@
       <input matInput [(ngModel)]="hotspot.cta.caption" required />
     </mat-form-field>
 
-    <mat-form-field *ngIf="!hotspot.cta">
-      <mat-label>Value</mat-label>
-      <input matInput disabled="true" required />
-    </mat-form-field>
 
-    <mat-form-field *ngIf="hotspot.cta">
-      <mat-label>Value</mat-label>
-      <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
-    </mat-form-field>
+    <ng-container *ngIf="!useData">
+      <mat-form-field *ngIf="!hotspot.cta">
+        <mat-label>Value</mat-label>
+        <input matInput disabled="true" required />
+      </mat-form-field>
 
+      <mat-form-field *ngIf="hotspot.cta">
+        <mat-label>Value</mat-label>
+        <input matInput *ngIf="hotspot.cta" [(ngModel)]="hotspot.cta.value" required />
+      </mat-form-field>
+    </ng-container>
   </div>
 </div>
 <div mat-dialog-actions class="app-hotspot-edit-dialog__actions">

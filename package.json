@@ -23,6 +23,7 @@
     "@angular/router": "~13.2.0",
     "@types/jsonpath": "^0.2.0",
     "dc-extensions-sdk": "^2.1.0",
+    "dc-extensions-sdk-bridge": "git+https://github.com/rs-amp/dc-extensions-sdk-bridge.git",
     "dc-visualization-sdk": "^1.1.0",
     "jsonpath": "^1.1.1",
     "rxjs": "~7.5.0",

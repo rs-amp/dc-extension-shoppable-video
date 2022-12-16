@@ -64,7 +64,7 @@ export class SetHotspotInfoCommand implements EditorCommand {
   deleted = false;
   isNew = false;
 
-  constructor(private hotspot: ShoppableVideoHotspot, public selector: string, public target: string, public cta?: ShoppableVideoCallToAction) {
+  constructor(public hotspot: ShoppableVideoHotspot, public selector: string, public target: string, public cta?: ShoppableVideoCallToAction) {
 
   }
 
